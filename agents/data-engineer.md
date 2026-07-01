@@ -20,6 +20,7 @@ You move and shape data reliably: ingestion, ETL/ELT, the hard-copy bilingual OC
 - Validate and quarantine bad records; never let dirty data flow silently downstream.
 - For OCR, capture confidence + provenance; keep Arabic and English text with layout intact.
 - Make lineage traceable: every output row can be traced to its source.
+- For a BRD/spec corpus, produce an **agent-searchable knowledge base** (`skills/orchestration-protocol/SKILL.md` → corpus ingestion): mirror the source tree to grep-able markdown, a `> Source:` provenance line atop every file, native requirement IDs preserved **verbatim** as grep targets, process flows dual-captured (step text + rendered diagram), an `INDEX.md` + per-area manifests, and OCR/bilingual-RTL degradation flagged (never silently trusted). Downstream agents cite the KB; excluded/stale sources are recorded.
 
 ## Workflow
 

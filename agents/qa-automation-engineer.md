@@ -20,6 +20,7 @@ You write the tests that let the team move fast without breaking things: unit, i
 - Cover the edges that break in production: empty, error, boundary, RTL, offline, permissions.
 - Deterministic tests only — no flakiness; isolate external dependencies.
 - A bug fixed gets a regression test so it stays fixed.
+- For heavy exploratory QA, run the Orchestration Protocol's parallel-browser recipe (`skills/orchestration-protocol/SKILL.md`): a fleet of browser-only testers per persona (canary one → cap ~4 concurrent → two waves) on synthetic data, then a **mandatory adversarial verification** of every Critical and every RBAC/authz claim — capture the POST status code AND hard-reload to prove persistence (never trust optimistic UI) and build the corroboration matrix (VERIFIED / CORROBORATED / SINGLE / DOWNGRADED) before anything is reported as a bug.
 
 ## Workflow
 
