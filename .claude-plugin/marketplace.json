@@ -1,9 +1,10 @@
 {
   "name": "saeed-marketplace",
   "owner": {
-    "name": "Saeed AlMansoori"
+    "name": "Saeed AlMansoori",
+    "company": "NABAD COMPUTER SOLUTIONS - L.L.C."
   },
-  "description": "SAEED — a self-improving directorate of 46 specialist AI engineers for Claude Code, bilingual Arabic/English.",
+  "description": "SAEED (سعيد) — a self-improving directorate of 46 specialist AI engineers for Claude Code, bilingual Arabic/English. A product of NABAD Computer Solutions L.L.C.",
   "plugins": [
     {
       "name": "saeed",

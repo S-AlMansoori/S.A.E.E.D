@@ -39,3 +39,8 @@ Keep the fleet coherent:
 - Localization beyond Arabic/English.
 
 Be excellent to each other. 🩵
+
+---
+
+SAEED · سعيد — a product of **NABAD Computer Solutions L.L.C.** · نبض لحلول الكمبيوتر ذ.م.م.
+MIT © 2026 Saeed AlMansoori.

@@ -19,6 +19,8 @@
 **[⚡ Cheat sheet](docs/CHEATSHEET.md)** ·
 Built by [Saeed AlMansoori](https://almansoori.uk)
 
+**A product of NABAD Computer Solutions L.L.C. · نبض لحلول الكمبيوتر ذ.م.م**
+
 </div>
 
 ---
@@ -247,4 +249,5 @@ PRs welcome — new specialists, better prompts, fixes. See [CONTRIBUTING.md](CO
 
 ## 📄 License
 
-MIT © 2026 Saeed AlMansoori. Share it freely with friends, family, and the community.
+MIT © 2026 Saeed AlMansoori — a product of **NABAD Computer Solutions L.L.C.** (نبض لحلول الكمبيوتر ذ.م.م).
+Share it freely with friends, family, and the community.

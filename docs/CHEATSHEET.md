@@ -1,4 +1,4 @@
-# SAEED Cheat Sheet · ورقة أوامر ساعد المختصرة
+# SAEED · سعيد — Cheat Sheet · ورقة أوامر سعيد المختصرة
 
 Everything in one place: every command, the runner, the state files, and all 46 specialists you
 can call by name. *(العربية في الأسفل.)*
@@ -190,5 +190,13 @@ scripts/saeed-loop.sh /path/to/your/repo 50 0
 
 > القائمة الكاملة للمتخصصين الـ٤٦ موجودة في الجدول الإنجليزي أعلاه؛ ويمكنك مناداة أيٍّ منهم
 > باسمه مباشرةً.
+
+</div>
+
+---
+
+<div align="center">
+
+**SAEED · سعيد** — a product of **NABAD Computer Solutions L.L.C.** · نبض لحلول الكمبيوتر ذ.م.م
 
 </div>

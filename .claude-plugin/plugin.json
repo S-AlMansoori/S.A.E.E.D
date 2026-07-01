@@ -1,11 +1,12 @@
 {
   "name": "saeed",
   "version": "1.0.0",
-  "description": "SAEED — Self-Advancing Elite Engineering Directorate. A self-improving team of 46 specialist Claude Code subagents spanning architecture, frontend, backend, databases, AI/RAG, security, DevOps, design, QA, and bilingual (Arabic/English) delivery — with a micro-managing boss, a continuous-improvement loop, and the ability to upgrade its own models and roster.",
+  "description": "SAEED (سعيد) — Self-Advancing Elite Engineering Directorate. A self-improving team of 46 specialist Claude Code subagents spanning architecture, frontend, backend, databases, AI/RAG, security, DevOps, design, QA, and bilingual (Arabic/English) delivery — with a micro-managing boss, a continuous-improvement loop, and the ability to upgrade its own models and roster.",
   "author": {
     "name": "Saeed AlMansoori",
     "url": "https://almansoori.uk"
   },
+  "company": "NABAD COMPUTER SOLUTIONS - L.L.C.",
   "repository": "https://github.com/S-AlMansoori/S.A.E.E.D",
   "license": "MIT",
   "keywords": [
