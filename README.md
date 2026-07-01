@@ -36,7 +36,7 @@ It does a few things most agent packs don't:
 
 - 👔 **A micro-managing boss** (`the-boss`) that assigns work, demands evidence, and rejects anything half-done.
 - ♻️ **A continuous-improvement loop** with an honest **convergence** stop — it won't invent busywork.
-- 🧬 **Self-upgrade**: `model-scout` moves the team onto stronger models as they ship; `roster-maintainer` adds/retires agents; `agent-optimizer` sharpens their prompts.
+- 🧬 **Self-upgrade**: `model-scout` moves the team onto stronger models as they ship; `hr-talent-lead` spots capability gaps and `roster-maintainer` adds/retires agents; `agent-optimizer` sharpens their prompts.
 - 🎨 **Absorbed design taste**: an elite **Design Excellence** canon (distilled from `impeccable`, `gpt-taste`, `emil-design-eng`, and more) is baked into every UI agent and enforced by a dedicated `design-reviewer` gate — so the UI never looks AI-generated, without you having to ask.
 - 🧩 **Absorbed delivery discipline**: an **Orchestration Protocol** (distilled from the `claude-sdlc-kit`) runs parallel work in worktree-isolated waves off a shared ticket queue, keeps integration a separate gated run, and does adversarial parallel-browser QA.
 - 📱 **Web + native mobile**: web (React/Next), plus dedicated **native iOS** (Swift/SwiftUI) and **native Android** (Kotlin/Compose) engineers — not just cross-platform.
