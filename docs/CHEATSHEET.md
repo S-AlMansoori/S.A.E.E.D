@@ -1,6 +1,6 @@
 # SAEED · سعيد — Cheat Sheet · ورقة أوامر سعيد المختصرة
 
-Everything in one place: every command, the runner, the state files, and all 46 specialists you
+Everything in one place: every command, the runner, the state files, and all 53 specialists you
 can call by name. *(العربية في الأسفل.)*
 
 ---
@@ -31,10 +31,13 @@ Runs `/saeed:improve` over and over until the team writes `.saeed/CONVERGED` (no
 left), you create `.saeed/STOP`, or it hits the max. Wire it to `cron` or CI for scheduled,
 continuous improvement. ⚠️ It edits files unattended — only run it on a repo under git.
 
-## 🧠 Skill (runs automatically)
+## 🧠 Skills (run automatically)
 
-- **`continuous-improvement`** — the shared protocol the agents follow for the loop, the
-  Definition of Done, and convergence. You don't call it; Claude consults it when improving.
+You don't call these; the agents consult them on the right kind of work.
+
+- **`continuous-improvement`** — the shared protocol for the loop, the Definition of Done, and convergence.
+- **`design-excellence`** — the absorbed elite-design canon (from `impeccable`, `gpt-taste`, `emil-design-eng`, `high-end-visual-design`, `design-taste-frontend`). Every UI agent applies it automatically; `design-reviewer` is its gate.
+- **`orchestration-protocol`** — the absorbed parallel-build & delivery discipline (from the `claude-sdlc-kit`): worktree-isolated waves, a shared ticket queue, integration as a separate gated run, and adversarial parallel-browser QA.
 
 ## 📁 The `.saeed/` folder (the team's shared memory, created in your project)
 
@@ -47,7 +50,7 @@ continuous improvement. ⚠️ It edits files unattended — only run it on a re
 | `CONVERGED` | Appears when there's nothing worthwhile left to improve (with the reasons). |
 | `STOP` | You create this to halt the loop. Delete it to resume. |
 
-## 👥 The 46 specialists — call any of them by name
+## 👥 The 53 specialists — call any of them by name
 
 #### Governance & Meta — the team that runs the team
 
@@ -55,10 +58,12 @@ continuous improvement. ⚠️ It edits files unattended — only run it on a re
 |---|---|---|
 | `the-boss` | opus | you want work assigned, chased, and signed off — no excuses. |
 | `team-orchestrator` | opus | a job has many parts and needs planning + routing. |
-| `roster-maintainer` | opus | the team needs a new agent, or one merged/retired. |
+| `hr-talent-lead` | opus | the project needs a capability no current specialist covers (staffing/hire). |
+| `roster-maintainer` | opus | the team needs a new agent authored, merged, or retired. |
 | `model-scout` | sonnet | you want the team moved onto better/newer AI models. |
 | `continuous-improvement-lead` | opus | you want the project audited for the highest-value fixes. |
 | `agent-optimizer` | opus | an agent is underperforming and its prompt needs sharpening. |
+| `prompt-engineer` | opus | you want a prompt written/refined, or the agents' comms format improved. |
 | `self-eval-critic` | opus | you want an independent check that gains are real (no spin). |
 
 #### Architecture & Product
@@ -73,7 +78,9 @@ continuous improvement. ⚠️ It edits files unattended — only run it on a re
 | Agent (call by name) | Model | Use when… |
 |---|---|---|
 | `frontend-engineer` | sonnet | building or changing web UI (React/Next). |
-| `react-native-engineer` | sonnet | building the mobile app (Expo/React Native). |
+| `react-native-engineer` | sonnet | building a cross-platform mobile app (Expo/React Native). |
+| `ios-engineer` | sonnet | building a native iOS app (Swift/SwiftUI). |
+| `android-engineer` | sonnet | building a native Android app (Kotlin/Jetpack Compose). |
 | `frontend-performance-engineer` | sonnet | the web app is slow (Core Web Vitals, bundle size). |
 | `accessibility-specialist` | sonnet | you need a WCAG accessibility audit and fixes. |
 | `pwa-offline-engineer` | sonnet | you need offline support / installable PWA / service workers. |
@@ -85,6 +92,7 @@ continuous improvement. ⚠️ It edits files unattended — only run it on a re
 | `product-designer` | sonnet | you need user flows, wireframes, and interaction design. |
 | `ui-visual-designer` | opus | you want polished navy/gold visual design and typography. |
 | `design-systems-engineer` | sonnet | you need reusable tokens and a component library. |
+| `design-reviewer` | opus | you want a user-facing change judged against the design-excellence canon (the design gate). |
 | `ux-researcher` | sonnet | you want usability testing or a heuristic evaluation. |
 
 #### Backend
@@ -128,8 +136,10 @@ continuous improvement. ⚠️ It edits files unattended — only run it on a re
 
 | Agent (call by name) | Model | Use when… |
 |---|---|---|
-| `devops-platform-engineer` | sonnet | you need CI/CD pipelines and safe deploys. |
+| `devops-platform-engineer` | sonnet | you need CI/CD pipelines, safe deploys, or a gated integration run. |
 | `cloud-infra-engineer` | sonnet | you need infrastructure-as-code and provisioning. |
+| `network-engineer` | sonnet | you need network topology, segmentation, DNS/TLS, or air-gap isolation. |
+| `ai-systems-engineer` | sonnet | you need Docker, NVIDIA DGX Spark / GPU / CUDA, or local AI tooling (vLLM/Ollama). |
 | `sre-observability-engineer` | sonnet | you need monitoring, SLOs, alerts, incident response. |
 
 #### Quality
@@ -188,7 +198,7 @@ scripts/saeed-loop.sh /path/to/your/repo 50 0
 | `CONVERGED` | يظهر عند انتهاء التحسينات المجدية (مع الأسباب). |
 | `STOP` | تنشئه أنت لإيقاف الحلقة. احذفه للاستئناف. |
 
-> القائمة الكاملة للمتخصصين الـ٤٦ موجودة في الجدول الإنجليزي أعلاه؛ ويمكنك مناداة أيٍّ منهم
+> القائمة الكاملة للمتخصصين الـ٥٣ موجودة في الجدول الإنجليزي أعلاه؛ ويمكنك مناداة أيٍّ منهم
 > باسمه مباشرةً.
 
 </div>

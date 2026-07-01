@@ -11,7 +11,7 @@
 
 ### SAEED in one line
 **SAEED — Self-Advancing Elite Engineering Directorate** — is a complete software engineering
-team you install into Claude Code: **46 specialist AI agents** that design, build, test, secure,
+team you install into Claude Code: **53 specialist AI agents** that design, build, test, secure,
 document, and then keep improving your project on their own, in both **Arabic and English**.
 
 **A product of NABAD Computer Solutions L.L.C.** — *نبض لحلول الكمبيوتر ذ.م.م*.
@@ -28,11 +28,14 @@ document, and then keep improving your project on their own, in both **Arabic an
 - It even **upgrades its own team**: switching to stronger AI models as they ship and
   adding/retiring its own specialists.
 
-### The team (46 specialists)
-Grouped into divisions: Governance (incl. a micro-managing **Boss** that enforces quality),
-Architecture & Product, Frontend, Design, Backend, Data & Databases, AI/ML (incl. RAG for the
-bilingual air-gapped stack), Security, Infrastructure & Ops, Quality, and cross-cutting
-Specialists (Python, TypeScript, docs, i18n, privacy). See the roster in the README.
+### The team (53 specialists)
+Grouped into divisions: Governance (incl. a micro-managing **Boss**, an **HR/staffing lead**, and a **prompt engineer**),
+Architecture & Product, Frontend & Mobile (web plus **native iOS and native Android**), Design
+(incl. a **design-review gate**), Backend, Data & Databases, AI/ML (incl. RAG for the bilingual
+air-gapped stack), Security, Infrastructure & Ops (incl. a **networking** engineer and a **Docker
++ NVIDIA DGX Spark / GPU / AI-tooling** engineer), Quality, and cross-cutting Specialists (Python,
+TypeScript, docs, i18n, privacy). Two skill-sets are baked in and applied automatically: an elite
+**Design Excellence** canon and a parallel **Orchestration Protocol**. See the roster in the README.
 
 ### How much money it could save (UAE, AED)
 
@@ -92,7 +95,7 @@ ask in plain English and the right specialist is chosen automatically.
 
 ### سعيد في سطر واحد
 **سعيد (SAEED) — المديرية الهندسية النخبوية ذاتية التطوّر** — هو فريق برمجي هندسي متكامل
-تُثبّته داخل Claude Code: **٤٦ وكيلاً ذكائياً متخصصاً** يصمّمون ويبنون ويختبرون ويؤمّنون ويوثّقون
+تُثبّته داخل Claude Code: **٥٣ وكيلاً ذكائياً متخصصاً** يصمّمون ويبنون ويختبرون ويؤمّنون ويوثّقون
 مشروعك، ثم يواصلون تحسينه تلقائياً، **بالعربية والإنجليزية معاً**.
 
 **من إنتاج نبض لحلول الكمبيوتر ذ.م.م** — *NABAD Computer Solutions L.L.C.*
@@ -109,11 +112,14 @@ ask in plain English and the right specialist is chosen automatically.
 - بل إنه **يطوّر فريقه ذاتياً**: ينتقل إلى نماذج ذكاء اصطناعي أقوى عند توفّرها، ويضيف أو
   يستبعد متخصصين من صفوفه.
 
-### الفريق (٤٦ متخصصاً)
-موزّعون على أقسام: الحوكمة (وفيها **مدير صارم** يفرض الجودة)، والبنية والمنتج، والواجهات
-الأمامية، والتصميم، والخلفيات، والبيانات وقواعد البيانات، والذكاء الاصطناعي (ويشمل نظام
-الاسترجاع المعزّز RAG للبيئة المعزولة ثنائية اللغة)، والأمن، والبنية التحتية والتشغيل، والجودة،
-ومتخصصون عامّون (بايثون، تايب سكريبت، التوثيق، التعريب، الخصوصية). القائمة الكاملة في ملف
+### الفريق (٥٣ متخصصاً)
+موزّعون على أقسام: الحوكمة (وفيها **مدير صارم** يفرض الجودة، و**قائد موارد بشرية** يوظّف الفريق، و**مهندس مطالبات**)، والبنية والمنتج، والواجهات
+الأمامية والتطبيقات الجوّالة (ويب + تطبيقات **iOS وAndroid الأصيلة**)، والتصميم (وفيه **بوابة
+مراجعة تصميم**)، والخلفيات، والبيانات وقواعد البيانات، والذكاء الاصطناعي (ويشمل نظام الاسترجاع
+المعزّز RAG للبيئة المعزولة ثنائية اللغة)، والأمن، والبنية التحتية والتشغيل (وفيها مهندس
+**شبكات** ومهندس **Docker + أنظمة NVIDIA DGX Spark / GPU وأدوات الذكاء الاصطناعي**)، والجودة،
+ومتخصصون عامّون (بايثون، تايب سكريبت، التوثيق، التعريب، الخصوصية). ومهارتان مُدمجتان تُطبَّقان
+تلقائياً: **معيار التميّز في التصميم** و**بروتوكول التنسيق المتوازي**. القائمة الكاملة في ملف
 README.
 
 ### كم يمكن أن يوفّر من المال (الإمارات، بالدرهم)

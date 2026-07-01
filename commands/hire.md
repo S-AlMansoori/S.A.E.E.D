@@ -16,7 +16,7 @@ Create a `.saeed/` state directory if one doesn't exist, then run the full lifec
 **Phase 2 — Build**
 3. `team-orchestrator` subagent → decompose into a task graph and route each task to the right specialist. Parallelize only disjoint work (different files/modules).
 4. Specialists implement their tasks.
-5. Every change is gated by the `code-reviewer` subagent + `qa-automation-engineer` tests before it's accepted.
+5. Every change is gated by the `code-reviewer` subagent + `qa-automation-engineer` tests before it's accepted; every user-facing change also passes the `design-reviewer` gate (SAEED's Design Excellence canon — anti-AI-slop, states, RTL). UI-touching specialists apply that canon automatically and invoke the `impeccable` / `gpt-taste` / `emil-design-eng` skills when available.
 6. `the-boss` subagent → verify each item against its acceptance criteria, sign off, and record status in `.saeed/queue.md` and `.saeed/state.json`.
 
 **Phase 3 — Improve (this is what makes SAEED self-improving)**

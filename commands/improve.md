@@ -8,10 +8,10 @@ First check stop conditions: if `.saeed/STOP` exists, do nothing and say the loo
 
 Otherwise, for each pass:
 
-1. `continuous-improvement-lead` subagent → audit across correctness, security, performance, accessibility, i18n/RTL, tests, docs, DX, and cost; write the top items (with measurable acceptance criteria) to `.saeed/queue.md`.
+1. `continuous-improvement-lead` subagent → audit across correctness, security, performance, accessibility, i18n/RTL, design excellence (anti-AI-slop craft, per `skills/design-excellence/SKILL.md`), tests, docs, DX, and cost; write the top items (with measurable acceptance criteria) to `.saeed/queue.md`.
 2. `the-boss` subagent → assign each item to the right specialist and hold the Definition of Done.
 3. Specialists implement their items.
-4. `code-reviewer` subagent + `qa-automation-engineer` tests gate every change.
+4. `code-reviewer` subagent + `qa-automation-engineer` tests gate every change; user-facing changes also pass the `design-reviewer` (Design Excellence) gate.
 5. `self-eval-critic` subagent → independently verify the gains, catch regressions, and append a retro to `.saeed/retro.md`.
 6. `the-boss` subagent → update `.saeed/state.json` and give a short standup of what changed.
 
