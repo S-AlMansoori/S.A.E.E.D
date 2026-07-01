@@ -21,17 +21,25 @@ Every managed repo gets a `.saeed/` directory:
 ## The cycle (one iteration)
 
 1. **Stop check** — if `.saeed/STOP` exists, halt. If `.saeed/CONVERGED` exists, halt unless overridden.
-2. **Audit & prioritize** — `continuous-improvement-lead` audits across correctness, security, performance, accessibility, i18n/RTL, tests, docs, DX, cost; writes the top items to `queue.md` with measurable criteria.
+2. **Audit & prioritize** — `continuous-improvement-lead` audits across correctness, security, performance, accessibility, i18n/RTL, **design excellence (anti-AI-slop craft, per `skills/design-excellence/SKILL.md`)**, tests, docs, DX, cost; writes the top items to `queue.md` with measurable criteria.
 3. **Assign** — `the-boss` assigns each item to the owning specialist and holds the Definition of Done.
-4. **Implement** — specialists do the work on disjoint files where parallelized.
-5. **Gate** — `code-reviewer` + `qa-automation-engineer` must pass before an item is accepted.
+4. **Implement** — specialists do the work on disjoint files where parallelized, in worktree-isolated waves per the Orchestration Protocol (`skills/orchestration-protocol/SKILL.md`).
+5. **Gate** — `code-reviewer` + `qa-automation-engineer` must pass before an item is accepted; user-facing items must also pass the `design-reviewer` (design-excellence) gate.
 6. **Verify** — `self-eval-critic` independently confirms gains and catches regressions; writes a retro.
 7. **Record** — `the-boss` updates `state.json` and produces a standup.
 8. **Self-upgrade (periodic)** — every few cycles, run the `/saeed:upgrade` flow (`model-scout`, `agent-optimizer`, `roster-maintainer`).
 
 ## Definition of Done
 
-An item is DONE only when: acceptance criteria met AND reviewed AND tested AND documented AND independently verified. No self-attestation without evidence.
+An item is DONE only when: acceptance criteria met AND reviewed AND tested AND documented AND independently verified. No self-attestation without evidence. For user-facing items, "reviewed" also means the `design-reviewer` gate approved it against the Design Excellence canon (no absolute-ban violations, all states present, RTL correct).
+
+## Design excellence (baked-in house standard)
+
+SAEED has absorbed a body of elite frontend-design skills into `skills/design-excellence/SKILL.md`. Every UI-touching agent applies that canon automatically — no user has to ask — and invokes the deeper `impeccable` / `gpt-taste` / `high-end-visual-design` / `design-taste-frontend` / `emil-design-eng` skills when installed. `design-reviewer` is the gate that enforces it, the design counterpart to `code-reviewer`.
+
+## Parallel execution & integration (baked-in delivery discipline)
+
+SAEED has absorbed the claude-sdlc-kit methodology into `skills/orchestration-protocol/SKILL.md`. Parallel work runs in worktree-isolated **waves** off a shared ticket queue with self-contained targeted briefs and four-state status reports; gates are executable and run by `the-boss`; **branch integration is always a separate, gated run** (owned by `devops-platform-engineer`) with atomic conventional commits; heavy QA uses the adversarial parallel-browser recipe; and BRD corpora are turned into a provenance-tagged, agent-searchable knowledge base before any feature code.
 
 ## Convergence (the honest stop)
 
