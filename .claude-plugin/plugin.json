@@ -1,19 +1,19 @@
 {
   "name": "saeed",
-  "version": "1.3.0",
-  "description": "SAEED (سعيد) — Self-Advancing Elite Engineering Directorate. A self-improving team of 53 specialist Claude Code subagents spanning architecture, web + native iOS/Android, backend, databases, AI/RAG, GPU/AI-systems, networking, security, DevOps, design, QA, and bilingual (Arabic/English) delivery — with a micro-managing boss, an HR lead that staffs the team, a prompt engineer, a continuous-improvement loop, two absorbed skill-sets (an elite Design Excellence canon with its own design-review gate, and a parallel-orchestration/delivery protocol), and the ability to upgrade its own models and roster.",
+  "version": "1.4.0",
+  "description": "SAEED (سعيد) — Self-Advancing Elite Engineering Directorate. A self-improving team of 53 specialist Claude Code subagents spanning architecture, web + native iOS/Android, backend, databases, AI/RAG, GPU/AI-systems, networking, security, DevOps, design, QA, and bilingual (Arabic/English) delivery — with a micro-managing boss, an HR lead that staffs the team, a prompt engineer, a continuous-improvement loop, absorbed skill-sets (an elite Design Excellence canon with its own design-review gate, a parallel-orchestration/delivery protocol, and a capability-first handover doctrine that automates or hands off to Cowork rather than dumping manual chores on the user), and the ability to upgrade its own models and roster.",
   "author": {
     "name": "Saeed AlMansoori",
     "url": "https://almansoori.uk"
   },
   "company": "NABAD COMPUTER SOLUTIONS - L.L.C.",
   "repository": "https://github.com/S-AlMansoori/S.A.E.E.D",
-  "license": "MIT",
+  "license": "LicenseRef-NABAD-NonCommercial-1.0",
   "keywords": [
     "subagents", "multi-agent", "full-stack", "ai", "rag", "security",
     "devops", "bilingual", "arabic", "autonomous", "self-improving",
     "design", "ui-ux", "frontend-design", "design-review",
     "ios", "android", "mobile", "networking", "docker", "nvidia", "gpu", "orchestration",
-    "hr", "staffing", "prompt-engineering"
+    "hr", "staffing", "prompt-engineering", "handover", "automation", "cowork", "non-commercial"
   ]
 }

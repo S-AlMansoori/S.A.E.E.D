@@ -1,7 +1,9 @@
 # Contributing to SAEED
 
-Thanks for helping the directorate grow. This is a community-friendly, MIT-licensed project —
-improvements of every size are welcome.
+Thanks for helping the directorate grow. This is a source-available project under the
+**SAEED Non-Commercial License** (see [LICENSE](LICENSE)) — improvements of every size are welcome.
+By contributing, you agree your contributions are licensed under that same license and that NABAD
+Computer Solutions L.L.C. retains ownership of the project and any proceeds from it.
 
 ## Ground rules for agents
 
@@ -43,4 +45,4 @@ Be excellent to each other. 🩵
 ---
 
 SAEED · سعيد — a product of **NABAD Computer Solutions L.L.C.** · نبض لحلول الكمبيوتر ذ.م.م.
-MIT © 2026 Saeed AlMansoori.
+SAEED Non-Commercial License 1.0 · © 2026 Saeed AlMansoori / NABAD.

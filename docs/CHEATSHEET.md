@@ -38,6 +38,7 @@ You don't call these; the agents consult them on the right kind of work.
 - **`continuous-improvement`** — the shared protocol for the loop, the Definition of Done, and convergence.
 - **`design-excellence`** — the absorbed elite-design canon (from `impeccable`, `gpt-taste`, `emil-design-eng`, `high-end-visual-design`, `design-taste-frontend`). Every UI agent applies it automatically; `design-reviewer` is its gate.
 - **`orchestration-protocol`** — the absorbed parallel-build & delivery discipline (from the `claude-sdlc-kit`): worktree-isolated waves, a shared ticket queue, integration as a separate gated run, and adversarial parallel-browser QA.
+- **`handover-protocol`** — capability-first, manual-last: before any agent asks *you* to do something by hand, it does it in-session, drives it (browser / desktop / a connector), or hands it to **Cowork** as a paste-and-run packet. Only the genuinely unautomatable comes back to you, with the reason and exact steps.
 
 ## 📁 The `.saeed/` folder (the team's shared memory, created in your project)
 

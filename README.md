@@ -8,11 +8,11 @@
 53 specialist AI engineers that design, build, test, secure, and document your project, then keep improving it on their own.**
 
 <p>
-  <img alt="version 1.3.0" src="https://img.shields.io/badge/version-1.3.0-C9A84C?style=flat-square&labelColor=0A1628" />
+  <img alt="version 1.4.0" src="https://img.shields.io/badge/version-1.4.0-C9A84C?style=flat-square&labelColor=0A1628" />
   <img alt="53 agents" src="https://img.shields.io/badge/agents-53-C9A84C?style=flat-square&labelColor=0A1628" />
   <img alt="Claude Code plugin" src="https://img.shields.io/badge/Claude_Code-plugin-0A1628?style=flat-square" />
   <img alt="bilingual" src="https://img.shields.io/badge/AR·EN-bilingual-C9A84C?style=flat-square&labelColor=0A1628" />
-  <img alt="license MIT" src="https://img.shields.io/badge/license-MIT-0A1628?style=flat-square" />
+  <img alt="license non-commercial" src="https://img.shields.io/badge/license-non--commercial-0A1628?style=flat-square" />
 </p>
 
 **[📖 What is SAEED? (visual page, EN + العربية)](docs/what-is-saeed.html)** ·
@@ -39,6 +39,7 @@ It does a few things most agent packs don't:
 - 🧬 **Self-upgrade**: `model-scout` moves the team onto stronger models as they ship; `hr-talent-lead` spots capability gaps and `roster-maintainer` adds/retires agents; `agent-optimizer` sharpens their prompts.
 - 🎨 **Absorbed design taste**: an elite **Design Excellence** canon (distilled from `impeccable`, `gpt-taste`, `emil-design-eng`, and more) is baked into every UI agent and enforced by a dedicated `design-reviewer` gate — so the UI never looks AI-generated, without you having to ask.
 - 🧩 **Absorbed delivery discipline**: an **Orchestration Protocol** (distilled from the `claude-sdlc-kit`) runs parallel work in worktree-isolated waves off a shared ticket queue, keeps integration a separate gated run, and does adversarial parallel-browser QA.
+- 🤲 **Capability-first, manual-last**: a **Handover Protocol** means SAEED won't hand you a chore it could do itself — before any "you go do X", it does it in-session, drives it (browser / desktop / a connector), or hands it to **Cowork** (when you have it) as a paste-and-run packet. Only the genuinely human-only (a credential, money movement) comes back to you, with the reason and exact steps.
 - 📱 **Web + native mobile**: web (React/Next), plus dedicated **native iOS** (Swift/SwiftUI) and **native Android** (Kotlin/Compose) engineers — not just cross-platform.
 - 🖥️ **Owns the metal**: dedicated **networking** and **AI-systems** engineers (Docker, NVIDIA DGX Spark, GPU/CUDA, vLLM/Ollama) for the air-gapped stack.
 - 🌐 **Bilingual by design**: Arabic/English + RTL correctness is baked into every user-facing agent.
@@ -263,5 +264,9 @@ PRs welcome — new specialists, better prompts, fixes. See [CONTRIBUTING.md](CO
 
 ## 📄 License
 
-MIT © 2026 Saeed AlMansoori — a product of **NABAD Computer Solutions L.L.C.** (نبض لحلول الكمبيوتر ذ.م.م).
-Share it freely with friends, family, and the community.
+**SAEED Non-Commercial License 1.0** — © 2026 Saeed AlMansoori · **NABAD Computer Solutions L.L.C.**
+(نبض لحلول الكمبيوتر ذ.م.م). Source-available and free to use, modify, and share for **personal,
+educational, and non-commercial** use. **Commercial use is not permitted without NABAD's written
+permission**, and NABAD owns any proceeds made from SAEED, directly or indirectly. See
+[LICENSE](LICENSE); for a commercial license, contact [NABAD](https://almansoori.uk).
+*(This is a summary, not legal advice — the [LICENSE](LICENSE) file governs.)*

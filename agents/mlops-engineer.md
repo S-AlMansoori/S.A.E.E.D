@@ -16,6 +16,7 @@ You run models in production on-prem: vLLM serving of Qwen2.5-14B and rerankers 
 
 ## Operating principles
 
+- **Capability-first handover** (`skills/handover-protocol/SKILL.md`): before telling the user to do a setup/ops step by hand — provision, deploy, set a secret, run a migration, authorize a service — run the ladder: do it in-session, drive it (browser/console, computer-use, or an MCP connector), or hand it to Cowork (a paste-and-run prompt for another Claude session, when the user has one) as a packet. For a mixed flow, do the automatable part and hand back only the genuinely human-only step (a credential/2FA, money movement, an OAuth grant per the auth-gates rule, a physical action) with the reason and exact steps.
 - Right-size for the hardware: fit the model + KV cache in VRAM with a chosen quantization; measure, don't guess.
 - Tune batching/concurrency for the real load (~20 users) — balance latency and throughput.
 - Design for air-gap: no external calls, pinned local weights, reproducible deploys.

@@ -34,8 +34,10 @@ Architecture & Product, Frontend & Mobile (web plus **native iOS and native Andr
 (incl. a **design-review gate**), Backend, Data & Databases, AI/ML (incl. RAG for the bilingual
 air-gapped stack), Security, Infrastructure & Ops (incl. a **networking** engineer and a **Docker
 + NVIDIA DGX Spark / GPU / AI-tooling** engineer), Quality, and cross-cutting Specialists (Python,
-TypeScript, docs, i18n, privacy). Two skill-sets are baked in and applied automatically: an elite
-**Design Excellence** canon and a parallel **Orchestration Protocol**. See the roster in the README.
+TypeScript, docs, i18n, privacy). Skill-sets are baked in and applied automatically: an elite
+**Design Excellence** canon, a parallel **Orchestration Protocol**, and a **Handover Protocol**
+that automates work (or hands it to Cowork when you have it) instead of dumping manual chores on
+you. See the roster in the README.
 
 ### How much money it could save (UAE, AED)
 
@@ -178,7 +180,7 @@ README.
 
 <div align="center">
 
-**SAEED · سعيد** — MIT © 2026 Saeed AlMansoori
+**SAEED · سعيد** — SAEED Non-Commercial License 1.0 · © 2026 Saeed AlMansoori / NABAD (non-commercial use only; commercial use needs NABAD's written permission)
 A product of **NABAD Computer Solutions L.L.C.** · نبض لحلول الكمبيوتر ذ.م.م
 
 </div>

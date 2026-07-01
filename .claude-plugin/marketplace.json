@@ -4,17 +4,18 @@
     "name": "Saeed AlMansoori",
     "company": "NABAD COMPUTER SOLUTIONS - L.L.C."
   },
-  "description": "SAEED (سعيد) — a self-improving directorate of 53 specialist AI engineers for Claude Code, bilingual Arabic/English, with web + native iOS/Android, networking + GPU/AI-systems, an HR lead that staffs the team, a prompt engineer, and two absorbed skill-sets (an elite Design Excellence canon and a parallel-orchestration/delivery protocol). A product of NABAD Computer Solutions L.L.C.",
+  "description": "SAEED (سعيد) — a self-improving directorate of 53 specialist AI engineers for Claude Code, bilingual Arabic/English, with web + native iOS/Android, networking + GPU/AI-systems, an HR lead that staffs the team, a prompt engineer, and baked-in skill-sets (an elite Design Excellence canon, a parallel-orchestration/delivery protocol, and a capability-first handover doctrine that automates or hands off to Cowork instead of dumping manual chores on you). A product of NABAD Computer Solutions L.L.C.",
   "plugins": [
     {
       "name": "saeed",
       "source": "./",
-      "description": "Self-Advancing Elite Engineering Directorate: 53 specialist subagents + a governance layer (incl. an HR/staffing lead and a prompt engineer), an absorbed Design Excellence canon with a design-review gate, an absorbed parallel-orchestration/delivery protocol, a continuous-improvement loop, and self-upgrade of models and roster.",
+      "description": "Self-Advancing Elite Engineering Directorate: 53 specialist subagents + a governance layer (incl. an HR/staffing lead and a prompt engineer), an absorbed Design Excellence canon with a design-review gate, an absorbed parallel-orchestration/delivery protocol, a capability-first handover doctrine (automate or hand off to Cowork rather than dumping manual chores on the user), a continuous-improvement loop, and self-upgrade of models and roster.",
       "category": "developer-tools",
       "keywords": [
         "subagents", "multi-agent", "ai", "full-stack", "rag",
         "security", "devops", "bilingual", "arabic", "autonomous",
-        "design", "ui-ux", "design-review", "ios", "android", "networking", "docker", "nvidia", "orchestration"
+        "design", "ui-ux", "design-review", "ios", "android", "networking", "docker", "nvidia", "orchestration",
+        "handover", "automation", "cowork", "non-commercial"
       ]
     }
   ]

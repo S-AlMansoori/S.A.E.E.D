@@ -1,21 +1,120 @@
-MIT License
+SAEED Non-Commercial License
+Version 1.0 — 2026
 
-Copyright (c) 2026 Saeed AlMansoori — NABAD COMPUTER SOLUTIONS - L.L.C.
+Copyright (c) 2026 Saeed AlMansoori and NABAD Computer Solutions L.L.C.
+(نبض لحلول الكمبيوتر ذ.م.م) ("NABAD"). All rights reserved.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+SAEED (سعيد) — the Self-Advancing Elite Engineering Directorate — together with
+all files in this repository (the "Software") is made available as
+source-available software for NON-COMMERCIAL USE ONLY, on the terms below. This
+license supersedes and replaces any prior license (including the MIT License)
+for all copies obtained or distributed on or after its effective date.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+If you want to use the Software for any commercial purpose, you must obtain a
+separate written commercial license from NABAD first (see "Commercial licensing"
+below).
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+---------------------------------------------------------------------------
+
+1. DEFINITIONS
+
+  "NABAD" means NABAD Computer Solutions L.L.C. and its successors and assigns,
+  the owner of the Software.
+
+  "You" (or "Your") means the individual or entity exercising rights under this
+  license.
+
+  "Non-Commercial Use" means use that is not primarily intended for or directed
+  toward commercial advantage or monetary compensation — for example personal,
+  private, academic, educational, research, or evaluation use.
+
+  "Commercial Use" means any use that is primarily intended for or directed
+  toward commercial advantage or monetary compensation, including without
+  limitation: using the Software or any derivative to build, provide, or support
+  paid products or services; incorporating it into any product, service, or
+  workflow that is sold, licensed, hosted for a fee, or otherwise monetized;
+  using it in the internal business operations of a for-profit organization; or
+  using it to generate revenue, profit, or other monetary or economic benefit.
+
+  "Proceeds" means any revenue, profit, fee, payment, or other monetary or
+  economic benefit obtained, Directly or Indirectly, from or through the use of
+  the Software.
+
+  "Directly or Indirectly" means whether the benefit arises immediately from the
+  Software or through any intermediate product, service, derivative work, or
+  activity to which the Software contributed.
+
+2. GRANT — NON-COMMERCIAL USE ONLY
+
+  Subject to Your continuous compliance with this license, NABAD grants You a
+  worldwide, royalty-free, non-exclusive, non-transferable, revocable license to
+  use, copy, modify, and create derivative works of the Software, and to share
+  it with others, in each case for Non-Commercial Use only.
+
+3. CONDITIONS
+
+  (a) You must retain, in all copies and substantial portions of the Software,
+      this license, the copyright notice above, and all attribution to SAEED and
+      NABAD.
+  (b) You must distribute any copies or derivative works of the Software under
+      this same license, and You must not impose additional or conflicting
+      terms, or represent the Software as Your own.
+  (c) You must not remove, obscure, or alter any notice of NABAD's ownership.
+
+4. COMMERCIAL USE PROHIBITED
+
+  Commercial Use of the Software is NOT permitted under this license. Any
+  Commercial Use requires a separate, prior, written commercial license from
+  NABAD. Without it, You have no right to make any Commercial Use of the
+  Software.
+
+5. OWNERSHIP OF PROCEEDS
+
+  As between You and NABAD, NABAD owns all Proceeds derived Directly or
+  Indirectly from the use of the Software. If You obtain any Proceeds — whether
+  or not that use was authorized under this license — You hold them in trust for
+  NABAD, must promptly disclose them to NABAD, and must remit them to NABAD on
+  request. NABAD may waive or vary this only by a writing signed by NABAD. This
+  section does not grant You any right to make Commercial Use of the Software;
+  it governs ownership of Proceeds if any arise.
+
+6. RESERVATION OF RIGHTS
+
+  All rights not expressly granted in this license are reserved by NABAD. No
+  rights are granted by implication, estoppel, or otherwise. NABAD retains all
+  right, title, and interest in and to the Software, including all
+  intellectual-property rights.
+
+7. TERMINATION
+
+  This license and all rights granted to You terminate automatically,
+  immediately, and without notice if You breach any of its terms (including any
+  Commercial Use without a NABAD commercial license). On termination You must
+  cease all use of the Software and destroy all copies in Your possession or
+  control. Sections 1, 5, 6, and 8–10 survive termination.
+
+8. NO WARRANTY
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT.
+
+9. LIMITATION OF LIABILITY
+
+  IN NO EVENT SHALL NABAD OR THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES, OR
+  OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING
+  FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+
+10. GOVERNING LAW
+
+  This license is governed by the laws of the United Arab Emirates, without
+  regard to its conflict-of-law rules, and the courts of the United Arab
+  Emirates shall have jurisdiction to the extent permitted by applicable law.
+
+---------------------------------------------------------------------------
+
+Commercial licensing & permissions:
+  NABAD Computer Solutions L.L.C. — https://almansoori.uk
+
+This is a license grant, not legal advice.
