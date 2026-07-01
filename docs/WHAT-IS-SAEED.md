@@ -1,5 +1,8 @@
 # What is SAEED? · ما هو ساعد؟
 
+> 💡 Prefer the **visual version with charts**? Open [`what-is-saeed.html`](what-is-saeed.html)
+> in a browser (or host it on GitHub Pages / almansoori.uk).
+
 *(English first, العربية بعده)*
 
 ---

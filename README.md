@@ -1,144 +1,80 @@
-# SAEED — Self-Advancing Elite Engineering Directorate
+<div align="center">
 
-> **S.A.E.E.D.** · *Self-Advancing Elite Engineering Directorate* — a full, self-improving
-> software team you install into [Claude Code](https://docs.claude.com/en/docs/claude-code/overview).
-> 46 specialist AI subagents across every discipline a modern product needs, plus a
-> governance layer that keeps them honest — and can upgrade **itself**.
+# SAEED · ساعد
 
-Built by [Saeed AlMansoori](https://almansoori.uk). MIT licensed. Fork it, use it, improve it.
+### Self-Advancing Elite Engineering Directorate
+
+**A complete software engineering team you install into [Claude Code](https://docs.claude.com/en/docs/claude-code/overview) —
+46 specialist AI engineers that design, build, test, secure, and document your project, then keep improving it on their own.**
+
+<p>
+  <img alt="version 1.0.0" src="https://img.shields.io/badge/version-1.0.0-C9A84C?style=flat-square&labelColor=0A1628" />
+  <img alt="46 agents" src="https://img.shields.io/badge/agents-46-C9A84C?style=flat-square&labelColor=0A1628" />
+  <img alt="Claude Code plugin" src="https://img.shields.io/badge/Claude_Code-plugin-0A1628?style=flat-square" />
+  <img alt="bilingual" src="https://img.shields.io/badge/AR·EN-bilingual-C9A84C?style=flat-square&labelColor=0A1628" />
+  <img alt="license MIT" src="https://img.shields.io/badge/license-MIT-0A1628?style=flat-square" />
+</p>
+
+**[📖 What is SAEED? (visual page, EN + العربية)](docs/what-is-saeed.html)** ·
+**[⚡ Cheat sheet](docs/CHEATSHEET.md)** ·
+Built by [Saeed AlMansoori](https://almansoori.uk)
+
+</div>
 
 ---
 
 ## What this is
 
-SAEED is a Claude Code **plugin** that bundles a complete engineering org as subagents. You
-hand it a goal or a repo; the team designs, builds, reviews, tests, secures, documents — and
-then keeps improving the project on its own until there's genuinely nothing worthwhile left to
-do (or you tell it to stop).
+You hand SAEED a goal with one command — `/saeed:hire` — and it runs the whole lifecycle:
+plans the architecture, splits the work across the right specialists, writes the code, reviews it,
+tests it, hardens security, and documents everything. Then it **audits its own work and keeps
+improving** until there's nothing worthwhile left to do, or you tell it to stop.
 
-It includes things most agent packs don't:
+It does a few things most agent packs don't:
 
-- **A micro-managing boss** (`the-boss`) that assigns work, demands evidence, and rejects
-  anything half-done.
-- **A continuous-improvement loop** (`continuous-improvement-lead` + `/saeed:improve`) with an
-  honest **convergence** stop condition — it won't invent busywork.
-- **Self-upgrade**: `model-scout` moves the team onto stronger models as they ship;
-  `roster-maintainer` adds/prunes agents; `agent-optimizer` sharpens their prompts.
-- **Bilingual by default**: Arabic/English + RTL correctness is baked into every user-facing
-  agent.
+- 👔 **A micro-managing boss** (`the-boss`) that assigns work, demands evidence, and rejects anything half-done.
+- ♻️ **A continuous-improvement loop** with an honest **convergence** stop — it won't invent busywork.
+- 🧬 **Self-upgrade**: `model-scout` moves the team onto stronger models as they ship; `roster-maintainer` adds/retires agents; `agent-optimizer` sharpens their prompts.
+- 🌐 **Bilingual by design**: Arabic/English + RTL correctness is baked into every user-facing agent.
 
-## The roster (46 agents)
+## 💸 What it saves (UAE, AED)
 
-### Governance & Meta
+To do what SAEED does, a company hires a team. At 2026 UAE mid-market salaries:
 
-| Agent | Model | Role |
-|---|---|---|
-| `the-boss` | opus | Enforce accountability across the team |
-| `team-orchestrator` | opus | The entry point for any multi-step project |
-| `roster-maintainer` | opus | The team itself needs to change |
-| `model-scout` | sonnet | Keep the team on the best available models |
-| `continuous-improvement-lead` | opus | Drive the perpetual improvement loop on a handed-over project |
-| `agent-optimizer` | opus | Improve the SAEED agents themselves |
-| `self-eval-critic` | opus | Independently judge the team's own output quality |
+```text
+Human team — fully loaded   ████████████████████████████████████████  ≈ AED 5,700,000 / yr
+Human team — base salaries  ██████████████████████████████            ≈ AED 4,224,000 / yr
+SAEED (Claude Max 20x)      ▏                                         ≈ AED     8,820 / yr
+                            └───────────────────────────────────────  ~480–650× cheaper (≈0.15% of payroll)
+```
 
-### Leadership & Product
+That last bar really is a hairline — that's the point. Full breakdown, both languages, and nicer
+charts in **[docs/what-is-saeed.html](docs/what-is-saeed.html)**.
+*(Illustrative mid-market figures; SAEED augments you rather than being a literal headcount swap.)*
 
-| Agent | Model | Role |
-|---|---|---|
-| `principal-architect` | opus | MUST BE USED before significant build work for system design |
-| `product-engineer` | sonnet | Turn requirements, BRDs, or rough ideas into buildable specs |
+## 🔄 How the work flows
 
-### Frontend
+```mermaid
+flowchart LR
+    H(["/saeed:hire"]):::cmd --> S["product-engineer<br/>spec"]
+    S --> A["principal-architect<br/>design + ADRs"]
+    A --> O["team-orchestrator<br/>route work"]
+    O --> B["specialists<br/>build"]
+    B --> G{"code-reviewer<br/>+ tests"}
+    G -- pass --> K["the-boss<br/>sign off on evidence"]
+    G -- fail --> B
+    K --> I["continuous-improvement-lead<br/>audit + queue next"]
+    I --> B
+    I -- "nothing worthwhile left" --> C(["CONVERGED"]):::done
+    K -. "you run /saeed:stop" .-> X(["STOP"]):::stop
+    classDef cmd fill:#C9A84C,stroke:#0A1628,color:#0A1628,font-weight:bold;
+    classDef done fill:#0A1628,stroke:#C9A84C,color:#F5F1E6;
+    classDef stop fill:#7a2e2e,stroke:#C9A84C,color:#ffffff;
+```
 
-| Agent | Model | Role |
-|---|---|---|
-| `frontend-engineer` | sonnet | Build and modify web UI |
-| `react-native-engineer` | sonnet | Mobile app work |
-| `frontend-performance-engineer` | sonnet | Diagnose and fix frontend performance |
-| `accessibility-specialist` | sonnet | Audit and fix accessibility |
-| `pwa-offline-engineer` | sonnet | Progressive Web App and offline-first work |
+## 🚀 Install
 
-### Design
-
-| Agent | Model | Role |
-|---|---|---|
-| `product-designer` | sonnet | UX |
-| `ui-visual-designer` | opus | Visual and brand design |
-| `design-systems-engineer` | sonnet | Build and maintain the design system |
-| `ux-researcher` | sonnet | Plan and analyze user research |
-
-### Backend
-
-| Agent | Model | Role |
-|---|---|---|
-| `backend-engineer` | sonnet | Build server-side logic |
-| `api-designer` | sonnet | Design API contracts |
-| `realtime-engineer` | sonnet | Realtime and event-driven features |
-| `edge-serverless-engineer` | sonnet | Edge/serverless work |
-
-### Data & Databases
-
-| Agent | Model | Role |
-|---|---|---|
-| `database-architect` | sonnet | Data modeling and schema |
-| `query-optimization-engineer` | sonnet | Diagnose and fix slow database queries |
-| `vector-search-engineer` | sonnet | Embeddings and vector search |
-| `data-engineer` | sonnet | Data pipelines |
-
-### AI / ML
-
-| Agent | Model | Role |
-|---|---|---|
-| `llm-engineer` | opus | LLM application work |
-| `rag-architect` | opus | Design and improve RAG systems end to end |
-| `ml-engineer` | sonnet | Classical/deep ML |
-| `mlops-engineer` | sonnet | Serve and operate models |
-| `nlp-bilingual-specialist` | sonnet | Arabic/English NLP |
-
-### Security
-
-| Agent | Model | Role |
-|---|---|---|
-| `security-architect` | opus | Security design |
-| `appsec-engineer` | sonnet | Find and fix application vulnerabilities |
-| `devsecops-engineer` | sonnet | Secure the pipeline and runtime |
-| `security-pentester` | sonnet | Validate defenses against the team's OWN systems |
-
-### Infrastructure & Ops
-
-| Agent | Model | Role |
-|---|---|---|
-| `devops-platform-engineer` | sonnet | CI/CD and developer platform |
-| `cloud-infra-engineer` | sonnet | Provision and manage infrastructure as code |
-| `sre-observability-engineer` | sonnet | Reliability and observability |
-
-### Quality
-
-| Agent | Model | Role |
-|---|---|---|
-| `qa-automation-engineer` | sonnet | Write automated tests |
-| `test-architect` | sonnet | Set test strategy |
-| `code-reviewer` | sonnet | MUST BE USED after writing or modifying code |
-
-### Specialists
-
-| Agent | Model | Role |
-|---|---|---|
-| `python-engineer` | sonnet | Python work |
-| `typescript-specialist` | sonnet | Advanced TypeScript |
-| `technical-writer` | sonnet | Documentation |
-| `i18n-localization-engineer` | sonnet | Internationalization/localization |
-| `compliance-privacy-engineer` | sonnet | Data privacy and compliance |
-
-Heavy-reasoning roles (architecture, orchestration, AI/RAG design, security design, the boss)
-run on the top tier; implementers run on the mid tier. `model-scout` re-tiers the fleet when
-better models become available and accessible.
-
----
-
-## Install
-
-Requires the Claude Code CLI. Then, from anywhere:
+Requires the Claude Code CLI.
 
 ```bash
 # 1. Register this repo as a plugin marketplace (local path, or owner/repo once pushed)
@@ -149,87 +85,166 @@ Requires the Claude Code CLI. Then, from anywhere:
 /plugin install saeed@saeed-marketplace
 ```
 
-Restart the session so the agents load. Run `/agents` to see them all.
+Restart the session, then run `/agents` to see all 46.
 
-## Use it
-
-**One command to start** — hand it a project and it does the rest (design → build → test →
-secure → document → improve):
-
-```
-/saeed:hire  <what you want built, or a path to a spec/repo>
-```
-
-**All the commands (plain names, one job each):**
+## 🎛️ Commands
 
 | Command | What it does |
 |---|---|
 | `/saeed:hire <goal>` | Take a project from zero to done, then keep improving it. **Start here.** |
 | `/saeed:improve` | Run improvement passes (audit → fix → verify → repeat). The self-improvement button. |
-| `/saeed:status` | Blunt status report from the Boss. |
-| `/saeed:upgrade` | Team upgrades itself: better models + add/retire its own agents. |
+| `/saeed:status` | A blunt, no-spin status report from the Boss. |
+| `/saeed:upgrade` | The team upgrades itself: better models + add/retire its own agents. |
 | `/saeed:stop` | Halt the autonomous loop. |
 | `/saeed:help` | Show the cheat sheet. |
 
-**Or just ask in plain English or Arabic** — e.g. *"use the rag-architect to design retrieval
-for this corpus"* — and the right specialist is picked automatically.
+Or just **ask in plain English or Arabic** — *"use the rag-architect to design retrieval for this
+corpus"* — and the right specialist is picked automatically.
 
-📄 **New here? Read [What is SAEED?](docs/WHAT-IS-SAEED.md) (English + العربية, with the AED
-cost-savings breakdown) and the [Cheat Sheet](docs/CHEATSHEET.md).**
+## 🤖 Truly autonomous (unattended) mode
 
-## Truly autonomous (unattended) mode
-
-Claude Code subagents run inside a session — they don't self-trigger 24/7. To get genuine
-hands-off operation, point the included runner at a repo. It runs `/saeed:improve` every cycle
-until the improvement lead writes `.saeed/CONVERGED`, you drop a `.saeed/STOP` file, or it hits
-the cycle cap:
+Claude Code subagents run inside a session — they don't self-trigger 24/7. For genuine hands-off
+operation, point the runner at a repo. It runs `/saeed:improve` every cycle until the team writes
+`.saeed/CONVERGED`, you drop a `.saeed/STOP` file, or it hits the cap:
 
 ```bash
-scripts/saeed-loop.sh /path/to/your/project 50 0
-#                       repo                  max_cycles  sleep_seconds
+scripts/saeed-loop.sh /path/to/your/repo 50 0
+#                       repo               max  sleep(sec)
 ```
 
-Wire that to `cron` or CI for scheduled, continuous improvement. **Read the safety section
-first** — unattended mode grants file-editing permission.
+Wire it to `cron` or CI for scheduled improvement. ⚠️ It edits files unattended — only run it on a
+repo under git.
 
-### The `.saeed/` state directory
+### The `.saeed/` folder (the team's shared memory, created in your project)
 
-Each managed repo gets a `.saeed/` folder the team uses as shared memory: `queue.md` (backlog),
-`state.json` (ledger), `retro.md` (learnings), `models.md` (tiering), plus `CONVERGED` / `STOP`
-sentinels. See the `continuous-improvement` skill for the full protocol.
+| File | Holds |
+|---|---|
+| `queue.md` | Backlog: each item's owner, acceptance criteria, status. |
+| `state.json` | Machine-readable ledger + cycle count. |
+| `retro.md` | Retrospectives and learnings. |
+| `models.md` | Which agent runs on which model (+ history). |
+| `CONVERGED` | Appears when nothing worthwhile is left to improve (with reasons). |
+| `STOP` | You create this to halt. Delete it to resume. |
 
----
+## 👥 The roster (46 agents)
 
-## Safety & guardrails (read this)
+Heavy-reasoning roles run on the top tier (Opus); implementers run on the mid tier (Sonnet).
+`model-scout` re-tiers the fleet when better models become available.
 
-This team can edit code and, in the loop, do so repeatedly. It's built with rails, but **you
-own the blast radius**:
+### Governance & Meta
+| Agent | Model | Role |
+|---|---|---|
+| `the-boss` | opus | Enforces accountability — assigns, chases, signs off on evidence |
+| `team-orchestrator` | opus | Decomposes goals and routes work to the right specialist |
+| `roster-maintainer` | opus | Adds, retires, or reshapes the team's own agents |
+| `model-scout` | sonnet | Keeps the team on the best available models |
+| `continuous-improvement-lead` | opus | Drives the improvement loop; decides convergence |
+| `agent-optimizer` | opus | Improves the agents' own prompts |
+| `self-eval-critic` | opus | Independently verifies gains; runs retros (read-only) |
 
-- **Version control everything.** Only run the autonomous loop on a repo with clean git state
-  so you can review and revert.
-- **Self-modification needs approval by default.** `/saeed:upgrade` proposes model/roster
-  changes and waits for you unless you explicitly enable autonomous self-modification.
-- **The team never disables its own review/test/security gates** to make progress, and
-  `self-eval-critic` independently checks that "improvements" are real.
-- **Security is defensive only.** `security-pentester` tests systems *you own*; the security
-  agents will not produce malware or attack third parties.
-- **Convergence is a feature.** The loop is designed to *stop* when returns diminish.
+### Architecture & Product
+| Agent | Model | Role |
+|---|---|---|
+| `principal-architect` | opus | System design, tech choices, and ADRs |
+| `product-engineer` | sonnet | Turns ideas/BRDs into buildable specs |
 
-Nothing here is legal or compliance advice; the `compliance-privacy-engineer` flags issues but
-you should consult qualified counsel for legal questions.
+### Frontend
+| Agent | Model | Role |
+|---|---|---|
+| `frontend-engineer` | sonnet | Builds and modifies web UI (React/Next) |
+| `react-native-engineer` | sonnet | Mobile app work (Expo/React Native) |
+| `frontend-performance-engineer` | sonnet | Diagnoses and fixes frontend performance |
+| `accessibility-specialist` | sonnet | Audits and fixes accessibility (WCAG) |
+| `pwa-offline-engineer` | sonnet | PWA and offline-first work |
 
-## Customize
+### Design
+| Agent | Model | Role |
+|---|---|---|
+| `product-designer` | sonnet | UX flows, wireframes, interaction design |
+| `ui-visual-designer` | opus | Visual and brand design (navy/gold) |
+| `design-systems-engineer` | sonnet | Builds and maintains the design system |
+| `ux-researcher` | sonnet | Plans and analyzes user research |
 
-- Change the tagline/name in `.claude-plugin/plugin.json`.
-- Add or edit agents in `agents/` — or just ask `roster-maintainer` to do it.
-- Adjust model tiers in each agent's `model:` frontmatter — or let `model-scout` manage it.
-- Set your GitHub username/repo in `plugin.json` `repository` and the install commands above
-  (already set to `S-AlMansoori/S.A.E.E.D`).
+### Backend
+| Agent | Model | Role |
+|---|---|---|
+| `backend-engineer` | sonnet | Builds server-side logic |
+| `api-designer` | sonnet | Designs API contracts |
+| `realtime-engineer` | sonnet | Realtime and event-driven features |
+| `edge-serverless-engineer` | sonnet | Edge/serverless (Cloudflare Workers/Pages) |
 
-## Contributing
+### Data & Databases
+| Agent | Model | Role |
+|---|---|---|
+| `database-architect` | sonnet | Data modeling, schema, RLS, migrations |
+| `query-optimization-engineer` | sonnet | Diagnoses and fixes slow queries |
+| `vector-search-engineer` | sonnet | Embeddings + vector search (bilingual) |
+| `data-engineer` | sonnet | Pipelines, ETL, OCR digitization |
 
-PRs welcome — new specialists, better prompts, bug fixes. See [CONTRIBUTING.md](CONTRIBUTING.md).
+### AI / ML
+| Agent | Model | Role |
+|---|---|---|
+| `llm-engineer` | opus | LLM app work (prompts, tools, evals) |
+| `rag-architect` | opus | Designs and improves RAG end-to-end |
+| `ml-engineer` | sonnet | Model selection, fine-tuning, evaluation |
+| `mlops-engineer` | sonnet | Serves/operates models (vLLM on the DGX) |
+| `nlp-bilingual-specialist` | sonnet | Arabic/English NLP correctness |
 
-## License
+### Security
+| Agent | Model | Role |
+|---|---|---|
+| `security-architect` | opus | Threat modeling and authZ/ABAC design |
+| `appsec-engineer` | sonnet | Finds and fixes app vulnerabilities (OWASP) |
+| `devsecops-engineer` | sonnet | Secures the pipeline and runtime |
+| `security-pentester` | sonnet | Tests your OWN systems (defensive only) |
+
+### Infrastructure & Ops
+| Agent | Model | Role |
+|---|---|---|
+| `devops-platform-engineer` | sonnet | CI/CD and the developer platform |
+| `cloud-infra-engineer` | sonnet | Infrastructure as code, provisioning |
+| `sre-observability-engineer` | sonnet | Reliability, SLOs, monitoring, incidents |
+
+### Quality
+| Agent | Model | Role |
+|---|---|---|
+| `qa-automation-engineer` | sonnet | Writes automated tests (unit/integration/E2E) |
+| `test-architect` | sonnet | Sets test strategy and coverage plan |
+| `code-reviewer` | sonnet | Reviews diffs before they're accepted (read-only) |
+
+### Specialists
+| Agent | Model | Role |
+|---|---|---|
+| `python-engineer` | sonnet | Python (FastAPI, async, tooling) |
+| `typescript-specialist` | sonnet | Advanced TypeScript / precise types |
+| `technical-writer` | sonnet | Documentation (bilingual) |
+| `i18n-localization-engineer` | sonnet | RTL layout and locale formatting |
+| `compliance-privacy-engineer` | sonnet | PII, privacy, retention (UAE-aware) |
+
+## 🛡️ Safety & guardrails
+
+This team edits code and, in the loop, does so repeatedly. It's built with rails, but **you own the
+blast radius**:
+
+- **Version-control everything** and only run the loop on a clean git repo so you can review and revert.
+- **Self-modification needs approval by default** — `/saeed:upgrade` proposes model/roster changes and waits for you.
+- **The team never disables its own review/test/security gates**, and `self-eval-critic` independently checks that gains are real.
+- **Security is defensive only.** `security-pentester` tests systems *you own*; the security agents won't produce malware or attack third parties.
+- **Convergence is a feature** — the loop is designed to *stop* when returns diminish.
+
+Nothing here is legal advice; `compliance-privacy-engineer` flags issues, but consult qualified
+counsel for legal questions.
+
+## 🧩 Customize
+
+- Change the tagline in `.claude-plugin/plugin.json`.
+- Add or edit agents in `agents/` — or ask `roster-maintainer` to do it.
+- Adjust model tiers per agent's `model:` frontmatter — or let `model-scout` manage it.
+
+## 🤝 Contributing
+
+PRs welcome — new specialists, better prompts, fixes. See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## 📄 License
 
 MIT © 2026 Saeed AlMansoori. Share it freely with friends, family, and the community.

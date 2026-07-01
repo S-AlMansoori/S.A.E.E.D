@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SAEED — Self-Advancing Elite Engineering Directorate</title>
+<meta name="description" content="SAEED: a self-improving team of 46 specialist AI engineers you install into Claude Code. What it is, and what it would cost to hire the human equivalent in the UAE." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;700&family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --navy:#0A1628; --navy-2:#111f38; --navy-3:#1b2d4d;
+    --gold:#C9A84C; --gold-soft:#e0c982; --gold-deep:#a8862f;
+    --ivory:#F5F1E6; --ivory-2:#efe9d8; --ink:#14213a; --muted:#5c6a86;
+    --line:rgba(201,168,76,.28);
+    --shadow:0 24px 60px -28px rgba(4,10,22,.55);
+    --serif:"Cormorant Garamond",Georgia,serif;
+    --sans:"DM Sans",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    --ar-serif:"Amiri",serif; --ar-sans:"Tajawal",var(--sans);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--ivory);color:var(--ink);font-family:var(--sans);
+    font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased}
+  a{color:var(--gold-deep);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 24px}
+  .eyebrow{font-family:var(--sans);font-weight:700;font-size:.72rem;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--gold-deep)}
+  h2{font-family:var(--serif);font-weight:600;font-size:clamp(2rem,4.4vw,3rem);
+    line-height:1.05;margin:.15em 0 .35em;color:var(--navy)}
+  h3{font-family:var(--serif);font-weight:600;font-size:1.5rem;color:var(--navy);margin:.2em 0 .3em}
+  p{margin:.6em 0}
+  .lead{font-size:1.18rem;color:#33415c}
+  section{padding:76px 0;border-bottom:1px solid rgba(20,33,58,.08)}
+  :focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:3px}
+
+  /* ---------- HERO ---------- */
+  .hero{background:
+      radial-gradient(120% 90% at 82% -10%,rgba(201,168,76,.16),transparent 55%),
+      linear-gradient(180deg,var(--navy) 0%,var(--navy-2) 100%);
+    color:var(--ivory);padding:64px 0 72px;border-bottom:2px solid var(--gold);
+    position:relative;overflow:hidden}
+  .hero:before{content:"";position:absolute;inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
+    background-size:44px 44px;mask-image:radial-gradient(80% 70% at 50% 20%,#000,transparent 75%);
+    pointer-events:none}
+  .hero .wrap{position:relative}
+  .crest{width:96px;height:96px;display:block;margin-bottom:22px}
+  .hero-titles{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 22px}
+  .wordmark{font-family:var(--serif);font-weight:700;letter-spacing:.14em;
+    font-size:clamp(3.1rem,9vw,5.6rem);line-height:.9;color:var(--ivory);margin:0}
+  .wordmark .dot{color:var(--gold)}
+  .wordmark-ar{font-family:var(--ar-serif);font-weight:700;font-size:clamp(2.4rem,7vw,4rem);
+    color:var(--gold-soft)}
+  .expansion{font-family:var(--serif);font-style:italic;font-weight:500;
+    font-size:clamp(1.25rem,3.2vw,1.8rem);color:var(--gold-soft);margin:16px 0 0}
+  .hero-thesis{max-width:60ch;color:#d7ddea;font-size:1.15rem;margin:20px 0 0}
+  .hero-meta{margin-top:28px;display:flex;flex-wrap:wrap;gap:10px}
+  .chip{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;
+    color:var(--gold-soft);border:1px solid var(--line);border-radius:999px;padding:7px 14px}
+  .hero-cta{margin-top:34px;display:flex;flex-wrap:wrap;gap:14px}
+  .btn{font-weight:700;font-size:.95rem;padding:13px 22px;border-radius:10px;display:inline-block}
+  .btn-gold{background:var(--gold);color:var(--navy)}
+  .btn-gold:hover{background:var(--gold-soft);text-decoration:none}
+  .btn-ghost{border:1px solid var(--line);color:var(--ivory)}
+  .btn-ghost:hover{border-color:var(--gold);text-decoration:none}
+  code,.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+  .hero code{background:rgba(255,255,255,.08);border:1px solid var(--line);
+    padding:2px 8px;border-radius:6px;color:var(--gold-soft);font-size:.92em}
+
+  /* ---------- STAT CARDS ---------- */
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:8px 0 6px}
+  .stat{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px 24px;
+    box-shadow:var(--shadow);position:relative}
+  .stat .k{font-family:var(--serif);font-weight:700;font-size:clamp(2.1rem,4.6vw,3rem);
+    line-height:1;color:var(--navy)}
+  .stat .k.gold{color:var(--gold-deep)}
+  .stat .u{font-size:.95rem;color:var(--muted);margin-top:8px}
+  .stat .tag{position:absolute;top:16px;right:18px;font-size:.66rem;letter-spacing:.16em;
+    text-transform:uppercase;font-weight:700;color:var(--gold-deep)}
+
+  /* ---------- COST CHART ---------- */
+  .panel{background:#fff;border:1px solid var(--line);border-radius:18px;padding:30px 30px 24px;
+    box-shadow:var(--shadow)}
+  .costrow{margin:26px 0}
+  .costrow .top{display:flex;justify-content:space-between;align-items:baseline;
+    font-size:.95rem;margin-bottom:8px}
+  .costrow .cat{font-weight:700;letter-spacing:.02em;color:var(--navy)}
+  .costrow .val{font-family:var(--serif);font-weight:700;font-size:1.2rem;color:var(--navy)}
+  .track{height:30px;background:var(--ivory-2);border-radius:8px;overflow:hidden;position:relative}
+  .fill{height:100%;border-radius:8px;transform-origin:left;animation:grow 1.1s cubic-bezier(.2,.7,.2,1) both}
+  .fill.loaded{background:linear-gradient(90deg,var(--navy),var(--navy-3))}
+  .fill.base{background:linear-gradient(90deg,#33456b,#4a5f8c)}
+  .saeed-line{position:relative;height:64px;margin-top:10px}
+  .saeed-line .sliver{position:absolute;left:0;top:14px;width:3px;height:30px;background:var(--gold);
+    border-radius:2px;box-shadow:0 0 0 4px rgba(201,168,76,.18)}
+  .saeed-line .lead{position:absolute;left:3px;top:0;width:2px;height:14px;background:var(--gold-deep)}
+  .saeed-line .callout{position:absolute;left:14px;top:2px;background:var(--navy);color:var(--ivory);
+    border:1px solid var(--gold);border-radius:9px;padding:8px 13px;font-size:.9rem;max-width:340px}
+  .saeed-line .callout b{color:var(--gold-soft);font-family:var(--serif);font-size:1.1rem}
+  .axis{display:flex;justify-content:space-between;color:var(--muted);font-size:.78rem;
+    border-top:1px dashed rgba(20,33,58,.2);padding-top:8px;margin-top:6px}
+  .note{font-size:.86rem;color:var(--muted);margin-top:14px}
+  .honest{background:var(--ivory-2);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;
+    padding:14px 18px;font-size:.9rem;color:#3d4a63;margin-top:18px}
+
+  /* ---------- TWO-UP (roster + donut) ---------- */
+  .grid2{display:grid;grid-template-columns:1.35fr .9fr;gap:26px;align-items:start}
+  .bars .bar{display:grid;grid-template-columns:118px 1fr 30px;align-items:center;gap:12px;margin:11px 0}
+  .bars .name{font-size:.85rem;font-weight:500;color:var(--navy);text-align:right}
+  .bars .btrack{height:16px;background:var(--ivory-2);border-radius:6px;overflow:hidden}
+  .bars .bfill{display:block;height:100%;background:linear-gradient(90deg,var(--gold-deep),var(--gold));
+    border-radius:6px;animation:grow 1s ease both}
+  .bars .num{font-family:var(--serif);font-weight:700;color:var(--navy)}
+  .donut-wrap{text-align:center}
+  .legend{display:flex;flex-direction:column;gap:10px;margin-top:14px;font-size:.9rem}
+  .legend .row{display:flex;align-items:center;gap:10px;justify-content:center}
+  .sw{width:14px;height:14px;border-radius:4px;display:inline-block}
+
+  /* ---------- LIFECYCLE STEPPER ---------- */
+  .steps{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;counter-reset:s;margin-top:10px}
+  .step{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px 18px;position:relative}
+  .step:before{counter-increment:s;content:"0" counter(s);font-family:var(--serif);font-weight:700;
+    font-size:1.5rem;color:var(--gold);display:block;margin-bottom:6px}
+  .step h4{margin:.1em 0 .3em;font-size:1rem;color:var(--navy)}
+  .step p{font-size:.85rem;color:var(--muted);margin:0}
+  .loopback{display:flex;align-items:center;gap:12px;margin-top:18px;color:var(--navy);
+    font-size:.95rem;background:var(--ivory-2);border-radius:12px;padding:14px 18px}
+  .loopback .arc{color:var(--gold-deep);font-size:1.4rem}
+
+  /* ---------- HOW TO START ---------- */
+  .cmd{background:var(--navy);color:var(--ivory);border-radius:14px;padding:22px 24px;
+    box-shadow:var(--shadow);border:1px solid var(--gold)}
+  .cmd .line{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:1rem;color:var(--gold-soft)}
+  .cmd .c{color:#7fa7ff}
+  table.cmds{width:100%;border-collapse:collapse;margin-top:8px}
+  table.cmds td{padding:11px 8px;border-bottom:1px solid rgba(20,33,58,.1);vertical-align:top;font-size:.95rem}
+  table.cmds td:first-child{white-space:nowrap}
+  table.cmds .mono{color:var(--gold-deep);font-weight:600}
+
+  /* ---------- ARABIC ---------- */
+  .ar{direction:rtl;text-align:right;font-family:var(--ar-sans);background:var(--navy);color:var(--ivory)}
+  .ar h2{color:var(--ivory);font-family:var(--ar-serif)}
+  .ar h3{color:var(--gold-soft);font-family:var(--ar-serif)}
+  .ar .eyebrow{color:var(--gold-soft)}
+  .ar .lead{color:#d7ddea}
+  .ar .panel{background:var(--navy-2);border-color:var(--line);color:var(--ivory)}
+  .ar .costrow .cat,.ar .costrow .val{color:var(--ivory)}
+  .ar .track,.ar .bars .btrack{background:rgba(255,255,255,.08)}
+  .ar .stat{background:var(--navy-2);border-color:var(--line)}
+  .ar .stat .k{color:var(--ivory)} .ar .stat .k.gold{color:var(--gold-soft)}
+  .ar .honest{background:rgba(255,255,255,.05);color:#cfd6e6}
+  .ar .num,.ar .bars .name{color:var(--ivory)}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--navy);color:#aeb8cc;padding:46px 0;text-align:center;border-top:2px solid var(--gold)}
+  footer .crest{margin:0 auto 16px}
+  footer a{color:var(--gold-soft)}
+
+  @keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  @media (max-width:820px){
+    .stats{grid-template-columns:1fr}
+    .grid2{grid-template-columns:1fr}
+    .steps{grid-template-columns:1fr 1fr}
+    section{padding:56px 0}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+
+<!-- ===================== HERO ===================== -->
+<header class="hero">
+  <div class="wrap">
+    <svg class="crest" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+      <circle cx="50" cy="50" r="46" stroke="#C9A84C" stroke-width="1.5"/>
+      <circle cx="50" cy="50" r="39" stroke="#C9A84C" stroke-width=".6" opacity=".55"/>
+      <path d="M50 12 l3.2 6.5 L60 12.5" stroke="#C9A84C" stroke-width="1.2"/>
+      <text x="50" y="63" text-anchor="middle" font-family="Cormorant Garamond,serif" font-weight="700" font-size="42" fill="#C9A84C">S</text>
+      <path d="M28 74 q22 12 44 0" stroke="#C9A84C" stroke-width="1" fill="none" opacity=".8"/>
+      <circle cx="50" cy="50" r="46" stroke="#C9A84C" stroke-width=".4" stroke-dasharray="2 4" opacity=".5"/>
+    </svg>
+
+    <div class="hero-titles">
+      <h1 class="wordmark">SAEED<span class="dot">.</span></h1>
+      <span class="wordmark-ar">ساعد</span>
+    </div>
+    <p class="expansion">Self-Advancing Elite Engineering Directorate</p>
+    <p class="hero-thesis">A complete software engineering team you install into Claude Code —
+      <strong style="color:#fff">46 specialist AI engineers</strong> that design, build, test,
+      secure, and document your project, then keep improving it on their own. Bilingual, by design.</p>
+
+    <div class="hero-meta">
+      <span class="chip">Est. 2026</span>
+      <span class="chip">46 Agents</span>
+      <span class="chip">Claude Code Plugin</span>
+      <span class="chip">Arabic · English</span>
+      <span class="chip">MIT Licensed</span>
+    </div>
+
+    <div class="hero-cta">
+      <a class="btn btn-gold" href="#cost">See the cost comparison ↓</a>
+      <a class="btn btn-ghost" href="#start">How to start</a>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== WHAT IT IS ===================== -->
+<section id="what">
+  <div class="wrap">
+    <span class="eyebrow">What it is</span>
+    <h2>An engineering department, in one command.</h2>
+    <p class="lead">You hand SAEED a goal with <code>/saeed:hire</code>. It plans the architecture,
+      splits the work across the right specialists, writes the code, reviews it, tests it, hardens
+      security, and documents everything — then audits its own work and keeps improving until there's
+      nothing worthwhile left to do, or you tell it to stop.</p>
+    <p style="color:var(--muted);max-width:66ch">It even upgrades <em>itself</em>: moving to stronger
+      AI models as they ship, and adding or retiring its own specialists. There's a micro-managing
+      “Boss” agent whose whole job is to make sure every other agent actually did the work — to
+      standard, with evidence.</p>
+    <p style="font-size:.95rem;color:var(--muted)"><strong>The name:</strong> SAEED is the author's
+      name (سعيد, “happy”) and also echoes <strong>ساعِد</strong> — Arabic for <em>helper</em>. A team
+      named after him, built to help you.</p>
+  </div>
+</section>
+
+<!-- ===================== COST ===================== -->
+<section id="cost" style="background:var(--ivory-2)">
+  <div class="wrap">
+    <span class="eyebrow">The economics · UAE · AED</span>
+    <h2>What it would cost to hire the humans.</h2>
+    <p class="lead" style="max-width:70ch">To do what SAEED does, a company hires a team. Here's a lean,
+      realistic one at 2026 UAE mid-market salaries — against the cost of simply running SAEED.</p>
+
+    <div class="stats" style="margin-top:26px">
+      <div class="stat"><span class="tag">Human team</span>
+        <div class="k">AED 5.7M</div><div class="u">per year, fully loaded (14 people + overheads)</div></div>
+      <div class="stat"><span class="tag">SAEED</span>
+        <div class="k gold">AED 8.8K</div><div class="u">per year (Claude Max 20x subscription)</div></div>
+      <div class="stat"><span class="tag">The gap</span>
+        <div class="k gold">≈ 480–650×</div><div class="u">cheaper · about 0.15% of payroll</div></div>
+    </div>
+
+    <div class="panel" style="margin-top:30px">
+      <h3 style="margin-top:0">Annual cost, to scale</h3>
+      <div class="costrow">
+        <div class="top"><span class="cat">Human team — fully loaded</span><span class="val">≈ AED 5,700,000</span></div>
+        <div class="track"><div class="fill loaded" style="width:100%"></div></div>
+      </div>
+      <div class="costrow">
+        <div class="top"><span class="cat">Human team — base salaries only</span><span class="val">≈ AED 4,224,000</span></div>
+        <div class="track"><div class="fill base" style="width:74.1%"></div></div>
+      </div>
+      <div class="costrow">
+        <div class="top"><span class="cat">SAEED — running cost</span><span class="val" style="color:var(--gold-deep)">≈ AED 8,820</span></div>
+        <div class="saeed-line">
+          <div class="sliver"></div><div class="lead"></div>
+          <div class="callout">That gold hairline is SAEED — <b>≈ AED 8,800/yr</b>. At true scale it's
+            about <b>one pixel</b> next to the team's bar. That's the point.</div>
+        </div>
+      </div>
+      <div class="axis"><span>AED 0</span><span>AED 2.85M</span><span>AED 5.7M / year</span></div>
+      <div class="honest"><strong>Kept honest:</strong> these are illustrative mid-market 2026 figures —
+        real salaries vary by company, seniority, and sector (fintech &amp; AI pay premiums). SAEED
+        <em>augments</em> you: you set direction and review the work. Treat this as the cost of the
+        <em>capability</em> it puts in your hands, not a literal one-to-one headcount swap.</div>
+    </div>
+
+    <details style="margin-top:22px">
+      <summary style="cursor:pointer;font-weight:700;color:var(--navy)">See the 14-role breakdown</summary>
+      <div class="panel" style="margin-top:14px">
+        <div class="bars" id="rolebars"></div>
+        <p class="note">Monthly base pay, AED. Total ≈ AED 352,000/month → ≈ AED 4.22M/year base;
+          ≈ AED 5.7M/year once housing, visas, insurance, gratuity, recruitment &amp; equipment (+~35%) are added.</p>
+      </div>
+    </details>
+    <p class="note">Sources: 2026 UAE salary data (Glassdoor, PayScale, levels.fyi, UAE tech salary
+      reports). Claude pricing per claude.com/pricing, 2026. AED at the USD peg (~3.6725).</p>
+  </div>
+</section>
+
+<!-- ===================== THE ORG ===================== -->
+<section id="org">
+  <div class="wrap">
+    <span class="eyebrow">The directorate</span>
+    <h2>46 specialists, organised like a real org.</h2>
+    <p class="lead" style="max-width:68ch">A governance layer that runs the team, and eleven divisions
+      that do the work — with the heavy, expensive models used only where judgement is needed.</p>
+
+    <div class="grid2" style="margin-top:26px">
+      <div class="panel">
+        <h3 style="margin-top:0">Specialists per division</h3>
+        <div class="bars" id="divbars"></div>
+      </div>
+      <div class="panel donut-wrap">
+        <h3 style="margin-top:0">Model mix</h3>
+        <svg viewBox="0 0 200 200" width="190" height="190" role="img" aria-label="24% top-tier, 76% mid-tier">
+          <circle cx="100" cy="100" r="80" fill="none" stroke="#1b2d4d" stroke-width="26"/>
+          <circle cx="100" cy="100" r="80" fill="none" stroke="#C9A84C" stroke-width="26"
+            stroke-dasharray="120.6 502.6" transform="rotate(-90 100 100)" stroke-linecap="butt"/>
+          <text x="100" y="94" text-anchor="middle" font-family="Cormorant Garamond,serif" font-weight="700" font-size="34" fill="#0A1628">46</text>
+          <text x="100" y="116" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" fill="#5c6a86">agents</text>
+        </svg>
+        <div class="legend">
+          <div class="row"><span class="sw" style="background:#C9A84C"></span> 11 top-tier (Opus) · 24%</div>
+          <div class="row"><span class="sw" style="background:#1b2d4d"></span> 35 mid-tier (Sonnet) · 76%</div>
+        </div>
+        <p class="note" style="text-align:center">Premium reasoning only where it earns its cost —
+          architecture, security, AI design, and the Boss.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== LIFECYCLE ===================== -->
+<section id="how" style="background:var(--ivory-2)">
+  <div class="wrap">
+    <span class="eyebrow">How the work flows</span>
+    <h2>From brief to done — then better, on its own.</h2>
+    <div class="steps">
+      <div class="step"><h4>Specify</h4><p>The brief becomes user stories with testable acceptance criteria.</p></div>
+      <div class="step"><h4>Design</h4><p>Architecture, decisions, and interface contracts are set.</p></div>
+      <div class="step"><h4>Build</h4><p>Specialists implement; work is routed to the right expert.</p></div>
+      <div class="step"><h4>Gate</h4><p>Every change passes review + tests. The Boss signs off on evidence.</p></div>
+      <div class="step"><h4>Improve</h4><p>The team audits its own work and fixes the highest-value things.</p></div>
+    </div>
+    <div class="loopback"><span class="arc">↻</span>
+      <span><strong>Improve</strong> repeats every cycle until the team declares the project
+      <strong>converged</strong> (nothing worthwhile left) — or you run <code>/saeed:stop</code>.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== START ===================== -->
+<section id="start">
+  <div class="wrap">
+    <span class="eyebrow">Get started</span>
+    <h2>One command to begin.</h2>
+    <div class="cmd" style="margin:18px 0 26px">
+      <div class="line"><span class="c">/saeed:hire</span> build me a bilingual loyalty app with an admin dashboard</div>
+    </div>
+    <table class="cmds">
+      <tr><td><span class="mono">/saeed:hire</span></td><td>Take a project from zero to done, then keep improving it. <strong>Start here.</strong></td></tr>
+      <tr><td><span class="mono">/saeed:improve</span></td><td>Run improvement passes — audit, fix the highest-value things, verify, repeat.</td></tr>
+      <tr><td><span class="mono">/saeed:status</span></td><td>A blunt, no-spin status report from the Boss.</td></tr>
+      <tr><td><span class="mono">/saeed:upgrade</span></td><td>The team upgrades itself: better models, and add/retire its own agents.</td></tr>
+      <tr><td><span class="mono">/saeed:stop</span></td><td>Halt the autonomous loop.</td></tr>
+      <tr><td><span class="mono">/saeed:help</span></td><td>Show the cheat sheet.</td></tr>
+    </table>
+    <p style="margin-top:22px">You don't have to use commands — just ask in plain English or Arabic and
+      the right specialist is chosen for you. Full reference in the
+      <a href="CHEATSHEET.md">cheat sheet</a> and <a href="../README.md">README</a>.</p>
+  </div>
+</section>
+
+<!-- ===================== ARABIC ===================== -->
+<section class="ar" id="ar">
+  <div class="wrap">
+    <span class="eyebrow">بالعربية · نظرة سريعة</span>
+    <h2>ما هو ساعد؟</h2>
+    <p class="lead" style="max-width:70ch">«ساعد» فريقٌ هندسي برمجي متكامل تُثبّته داخل Claude Code:
+      <strong style="color:#fff">٤٦ وكيلاً ذكائياً متخصصاً</strong> يصمّمون ويبنون ويختبرون ويؤمّنون
+      ويوثّقون مشروعك، ثم يواصلون تحسينه تلقائياً — بالعربية والإنجليزية معاً. تبدأ بأمرٍ واحد:
+      <code style="background:rgba(255,255,255,.08);padding:2px 8px;border-radius:6px;color:#e0c982">/saeed:hire</code>.</p>
+
+    <div class="stats" style="margin-top:24px">
+      <div class="stat"><span class="tag">فريق بشري</span><div class="k">٥٫٧ مليون</div><div class="u">درهم سنوياً (١٤ شخصاً بالتكاليف الكاملة)</div></div>
+      <div class="stat"><span class="tag">ساعد</span><div class="k gold">٨٬٨٠٠</div><div class="u">درهم سنوياً (اشتراك Claude Max 20x)</div></div>
+      <div class="stat"><span class="tag">الفرق</span><div class="k gold">≈ ٤٨٠–٦٥٠×</div><div class="u">أرخص · نحو ٠٫١٥٪ من الرواتب</div></div>
+    </div>
+
+    <div class="panel" style="margin-top:26px">
+      <div class="costrow">
+        <div class="top"><span class="cat">فريق بشري — بالتكاليف الكاملة</span><span class="val">≈ ٥٬٧٠٠٬٠٠٠ درهم</span></div>
+        <div class="track"><div class="fill loaded" style="width:100%"></div></div>
+      </div>
+      <div class="costrow">
+        <div class="top"><span class="cat">ساعد — تكلفة التشغيل</span><span class="val" style="color:#e0c982">≈ ٨٬٨٢٠ درهم</span></div>
+        <div class="track"><div class="fill" style="width:.5%;background:#C9A84C;min-width:4px"></div></div>
+      </div>
+      <div class="honest">أرقامٌ تقريبية لمتوسط السوق الإماراتي ٢٠٢٦؛ والرواتب الفعلية تتفاوت. «ساعد»
+        يعزّز عملك — فأنت من يحدّد الاتجاه ويراجع النتائج. القائمة الكاملة للأوامر في
+        <a href="CHEATSHEET.md">ورقة الأوامر</a>.</div>
+    </div>
+    <p style="margin-top:22px;color:#d7ddea">طرافة الاسم: <strong>SAEED</strong> اسم صاحب المشروع
+      (سعيد)، وقريبٌ من كلمة <strong>ساعِد</strong> — أي المُعين. فريقٌ يحمل اسمه، ومهمته أن يساعدك.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <svg class="crest" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+      <circle cx="50" cy="50" r="46" stroke="#C9A84C" stroke-width="1.5"/>
+      <text x="50" y="63" text-anchor="middle" font-family="Cormorant Garamond,serif" font-weight="700" font-size="42" fill="#C9A84C">S</text>
+    </svg>
+    <p style="font-family:var(--serif);font-size:1.3rem;color:var(--ivory);margin:0">SAEED · ساعد</p>
+    <p style="margin:.4em 0 0">Self-Advancing Elite Engineering Directorate</p>
+    <p style="margin:.6em 0 0;font-size:.9rem">Built by <a href="https://almansoori.uk">Saeed AlMansoori</a>
+      · MIT Licensed · Share it freely.</p>
+  </div>
+</footer>
+
+<script>
+  // Division data (name, count) — sorted desc
+  var divs = [
+    ["Governance",7],["AI / ML",5],["Frontend",5],["Specialists",5],
+    ["Design",4],["Backend",4],["Data",4],["Security",4],
+    ["Infra & Ops",3],["Quality",3],["Arch & Product",2]
+  ];
+  var max = 7, db = document.getElementById('divbars');
+  divs.forEach(function(d){
+    var row=document.createElement('div'); row.className='bar';
+    row.innerHTML='<span class="name">'+d[0]+'</span>'+
+      '<span class="btrack"><span class="bfill" style="width:'+(d[1]/max*100).toFixed(1)+'%"></span></span>'+
+      '<span class="num">'+d[1]+'</span>';
+    db.appendChild(row);
+  });
+
+  // Role salary breakdown (role, AED/month)
+  var roles = [
+    ["Principal Architect",40000],["Delivery Manager (Boss)",30000],["Senior Full-Stack",28000],
+    ["AI / ML + RAG",32000],["Security Engineer",28000],["DevOps / Platform",26000],
+    ["Backend Engineer",24000],["Data Engineer",24000],["DB / Cloud Infra",24000],
+    ["Frontend Engineer",22000],["Mobile Engineer",22000],["Product / UI Designer",20000],
+    ["QA Automation",18000],["Technical Writer",14000]
+  ];
+  var rmax=40000, rb=document.getElementById('rolebars');
+  roles.forEach(function(r){
+    var row=document.createElement('div'); row.className='bar';
+    row.innerHTML='<span class="name" style="width:150px">'+r[0]+'</span>'+
+      '<span class="btrack"><span class="bfill" style="width:'+(r[1]/rmax*100).toFixed(1)+'%"></span></span>'+
+      '<span class="num" style="font-size:.9rem;white-space:nowrap">'+(r[1]/1000)+'k</span>';
+    row.style.gridTemplateColumns='150px 1fr 40px';
+    rb.appendChild(row);
+  });
+</script>
+</body>
+</html>

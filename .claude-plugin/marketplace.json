@@ -1,14 +1,19 @@
 {
   "name": "saeed-marketplace",
   "owner": {
-    "name": "Saeed AlMansoori",
-    "url": "https://almansoori.uk"
+    "name": "Saeed AlMansoori"
   },
+  "description": "SAEED — a self-improving directorate of 46 specialist AI engineers for Claude Code, bilingual Arabic/English.",
   "plugins": [
     {
       "name": "saeed",
       "source": "./",
-      "description": "Self-Advancing Elite Engineering Directorate: 46 specialist subagents + governance layer, a continuous-improvement loop, and self-upgrade of models and roster."
+      "description": "Self-Advancing Elite Engineering Directorate: 46 specialist subagents + a governance layer, a continuous-improvement loop, and self-upgrade of models and roster.",
+      "category": "developer-tools",
+      "keywords": [
+        "subagents", "multi-agent", "ai", "full-stack", "rag",
+        "security", "devops", "bilingual", "arabic", "autonomous"
+      ]
     }
   ]
 }
