@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'SAEED: pass complete. Run /saeed:improve to keep improving, /saeed:status for a report, /saeed:help for all commands, or /saeed:stop to halt.'"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+# SAEED per-project runtime state (created in target repos, not here)
+.saeed/
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+node_modules/
+__pycache__/
+*.log

@@ -1,0 +1,14 @@
+{
+  "name": "saeed-marketplace",
+  "owner": {
+    "name": "Saeed AlMansoori",
+    "url": "https://almansoori.uk"
+  },
+  "plugins": [
+    {
+      "name": "saeed",
+      "source": "./",
+      "description": "Self-Advancing Elite Engineering Directorate: 46 specialist subagents + governance layer, a continuous-improvement loop, and self-upgrade of models and roster."
+    }
+  ]
+}
