@@ -1,6 +1,6 @@
 # SAEED · سعيد — Cheat Sheet · ورقة أوامر سعيد المختصرة
 
-Everything in one place: every command, the runner, the state files, and all 53 specialists you
+Everything in one place: every command, the runner, the state files, and all 54 specialists you
 can call by name. *(العربية في الأسفل.)*
 
 ---
@@ -51,7 +51,7 @@ You don't call these; the agents consult them on the right kind of work.
 | `CONVERGED` | Appears when there's nothing worthwhile left to improve (with the reasons). |
 | `STOP` | You create this to halt the loop. Delete it to resume. |
 
-## 👥 The 53 specialists — call any of them by name
+## 👥 The 54 specialists — call any of them by name
 
 #### Governance & Meta — the team that runs the team
 
@@ -82,6 +82,7 @@ You don't call these; the agents consult them on the right kind of work.
 | `react-native-engineer` | sonnet | building a cross-platform mobile app (Expo/React Native). |
 | `ios-engineer` | sonnet | building a native iOS app (Swift/SwiftUI). |
 | `android-engineer` | sonnet | building a native Android app (Kotlin/Jetpack Compose). |
+| `macos-engineer` | sonnet | building a native macOS desktop app (SwiftUI/AppKit) + Developer ID notarization. |
 | `frontend-performance-engineer` | sonnet | the web app is slow (Core Web Vitals, bundle size). |
 | `accessibility-specialist` | sonnet | you need a WCAG accessibility audit and fixes. |
 | `pwa-offline-engineer` | sonnet | you need offline support / installable PWA / service workers. |
@@ -199,7 +200,7 @@ scripts/saeed-loop.sh /path/to/your/repo 50 0
 | `CONVERGED` | يظهر عند انتهاء التحسينات المجدية (مع الأسباب). |
 | `STOP` | تنشئه أنت لإيقاف الحلقة. احذفه للاستئناف. |
 
-> القائمة الكاملة للمتخصصين الـ٥٣ موجودة في الجدول الإنجليزي أعلاه؛ ويمكنك مناداة أيٍّ منهم
+> القائمة الكاملة للمتخصصين الـ٥٤ موجودة في الجدول الإنجليزي أعلاه؛ ويمكنك مناداة أيٍّ منهم
 > باسمه مباشرةً.
 
 </div>

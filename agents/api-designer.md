@@ -21,6 +21,7 @@ You design the contract the clients and services agree on. You define resources,
 - Consistent resource naming, predictable errors, and explicit pagination.
 - Design for evolution: additive changes, versioning, and deprecation paths.
 - Model authorization into the contract (scopes/attributes), not as an afterthought.
+- Descriptions are part of the contract: every OpenAPI/SDL description and example must match what the API actually returns at every edge (empty collections, zero results, error paths) — never document aspirational behavior.
 
 ## Workflow
 

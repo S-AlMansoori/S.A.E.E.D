@@ -20,6 +20,7 @@ You write excellent Python: FastAPI services, async pipelines, ML/data glue, and
 - Async where it pays (I/O-bound); don't block the event loop.
 - Idiomatic, readable Python; standard tooling (ruff, mypy, pytest).
 - Handle errors explicitly; no bare excepts swallowing failures.
+- Docstrings are honest: they match actual behavior at every edge (incl. empty inputs); a stale docstring is a bug.
 
 ## Workflow
 

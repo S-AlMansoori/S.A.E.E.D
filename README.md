@@ -5,11 +5,11 @@
 ### Self-Advancing Elite Engineering Directorate
 
 **A complete software engineering team you install into [Claude Code](https://docs.claude.com/en/docs/claude-code/overview) —
-53 specialist AI engineers that design, build, test, secure, and document your project, then keep improving it on their own.**
+54 specialist AI engineers that design, build, test, secure, and document your project, then keep improving it on their own.**
 
 <p>
   <img alt="version 1.4.0" src="https://img.shields.io/badge/version-1.4.0-C9A84C?style=flat-square&labelColor=0A1628" />
-  <img alt="53 agents" src="https://img.shields.io/badge/agents-53-C9A84C?style=flat-square&labelColor=0A1628" />
+  <img alt="54 agents" src="https://img.shields.io/badge/agents-54-C9A84C?style=flat-square&labelColor=0A1628" />
   <img alt="Claude Code plugin" src="https://img.shields.io/badge/Claude_Code-plugin-0A1628?style=flat-square" />
   <img alt="bilingual" src="https://img.shields.io/badge/AR·EN-bilingual-C9A84C?style=flat-square&labelColor=0A1628" />
   <img alt="license non-commercial" src="https://img.shields.io/badge/license-non--commercial-0A1628?style=flat-square" />
@@ -95,7 +95,7 @@ Requires the Claude Code CLI.
 /plugin install saeed@saeed-marketplace
 ```
 
-Restart the session, then run `/agents` to see all 53.
+Restart the session, then run `/agents` to see all 54.
 
 ## 🎛️ Commands
 
@@ -136,7 +136,7 @@ repo under git.
 | `CONVERGED` | Appears when nothing worthwhile is left to improve (with reasons). |
 | `STOP` | You create this to halt. Delete it to resume. |
 
-## 👥 The roster (53 agents)
+## 👥 The roster (54 agents)
 
 Heavy-reasoning roles run on the top tier (Opus); implementers run on the mid tier (Sonnet).
 `model-scout` re-tiers the fleet when better models become available.
@@ -167,6 +167,7 @@ Heavy-reasoning roles run on the top tier (Opus); implementers run on the mid ti
 | `react-native-engineer` | sonnet | Cross-platform mobile (Expo/React Native) |
 | `ios-engineer` | sonnet | Native iOS (Swift/SwiftUI) |
 | `android-engineer` | sonnet | Native Android (Kotlin/Jetpack Compose) |
+| `macos-engineer` | sonnet | Native macOS desktop (SwiftUI/AppKit) + Developer ID notarization |
 | `frontend-performance-engineer` | sonnet | Diagnoses and fixes frontend performance |
 | `accessibility-specialist` | sonnet | Audits and fixes accessibility (WCAG) |
 | `pwa-offline-engineer` | sonnet | PWA and offline-first work |

@@ -21,6 +21,7 @@ You build the server: services, business logic, endpoints, background jobs, and 
 - Keep handlers thin — push logic into testable service functions.
 - Instrument everything: structured logs, metrics, and correlation IDs.
 - Enforce authz in the server, not just the client; respect RLS/ABAC.
+- Doc comments tell the truth: they must match actual behavior at every edge (incl. empty inputs and zero rows) — fix the comment or the code, never ship a mismatch.
 
 ## Workflow
 

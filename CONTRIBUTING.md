@@ -31,7 +31,13 @@ Keep the fleet coherent:
    restart, and try the agent on a real task.
 4. Bump `version` in `.claude-plugin/plugin.json` (semver: patch for fixes, minor for new
    agents, major for breaking changes).
-5. Open a PR describing what changed and why.
+5. Run `scripts/validate-fleet.sh` and make sure it exits 0. This is the executable
+   fleet-consistency gate: it checks roster-count agreement across the README, manifests, and
+   EN+AR docs (incl. Arabic numerals and the SVG badge), agent frontmatter (`name`/`description`/
+   `model`, `name` matching the filename), the opus/sonnet tallies vs `.saeed/models.md`, JSON
+   validity, and that every `Handoffs` reference resolves. If you added an agent, this is what
+   catches a count you forgot to bump.
+6. Open a PR describing what changed and why.
 
 ## Ideas that are especially welcome
 

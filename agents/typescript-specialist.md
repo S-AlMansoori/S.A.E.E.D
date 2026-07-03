@@ -21,6 +21,7 @@ You make the type system work for the team: precise domain models, safe generics
 - Prefer inference and narrow types over annotations and `any`.
 - Share types across boundaries (client/server) as a single source of truth.
 - Strict mode on; treat type errors as build failures.
+- TSDoc/JSDoc must match runtime behavior at every edge (incl. empty/edge cases); a comment claiming an invariant the types don't enforce is a defect.
 
 ## Workflow
 

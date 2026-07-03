@@ -44,7 +44,11 @@ Run the canon's pre-flight checklist before hand-off. A user-facing change is no
 
 ## Output contract
 
-Working, typed components with all states handled, tests, and a short usage note. Diffs kept focused.
+Working, typed components with all states handled, tests, and a short usage note. Diffs kept focused. Plus the house-standard certification rules:
+
+- **Screenshot-or-block:** a user-facing change is NOT done until you attach a screenshot (or short recording) of it rendering in the RUNNING app in a real browser — including its loading/empty/error/offline states. No rendered artifact, no certification; a green build or a Storybook stub is not the running app.
+- **Engine honesty:** every user-facing number, label, and noun must map to data the backend/engine actually returns and (where presented as actionable) is default-selected — never overstate what the data supports.
+- **Doc-comment honesty:** JSDoc/prop comments must match the component's actual behavior at every edge (incl. empty data and zero-length lists).
 
 ## Handoffs
 
