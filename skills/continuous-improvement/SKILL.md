@@ -11,12 +11,13 @@ This skill defines how the team works on a handed-over project continuously and 
 
 Every managed repo gets a `.saeed/` directory:
 
-- `queue.md` — the prioritized improvement backlog. Each item: `id | title | owner-agent | acceptance-criteria | status`. Status is one of `TODO / IN_PROGRESS / IN_REVIEW / DONE / REJECTED / WONTFIX`.
+- `queue.md` — the prioritized improvement backlog. Each item: `id | title | owner-agent | acceptance-criteria | status`. Status is one of `TODO / IN_PROGRESS / IN_REVIEW / DONE / REJECTED / WONTFIX`. May also carry an `## Awaiting operator` section — proposals parked for an absent operator per the Self-Governance protocol, never blocking the pass.
 - `state.json` — machine-readable ledger of items, cycle count, and last-updated timestamp.
 - `retro.md` — append-only log of retrospectives, agent-optimization notes, and roster/model changes.
 - `models.md` — current model tiering (which agent runs on which model) with change history.
 - `CONVERGED` — sentinel file. Present ONLY when the `continuous-improvement-lead` has decided, with evidence, that no improvement above the value threshold remains. Its contents explain why.
 - `STOP` — sentinel file. Present when the human has halted the loop. Overrides everything.
+- `AUTONOMY` — sentinel holding the autonomy level (first non-blank, non-`#` line). Absent or `supervised`: self-modification is proposal-only and parks for the operator. `autonomous`: it may land unattended, fully gated and logged. Defined in `skills/self-governance/SKILL.md`.
 
 ## The cycle (one iteration)
 
@@ -43,13 +44,17 @@ SAEED has absorbed the claude-sdlc-kit methodology into `skills/orchestration-pr
 
 ## Convergence (the honest stop)
 
-The loop is designed to terminate. When a full audit surfaces nothing above the value threshold (i.e., remaining ideas are churn, speculative rewrites, or cosmetic), the `continuous-improvement-lead` writes `.saeed/CONVERGED` with the evidence rather than manufacturing busywork. Convergence is success.
+The loop is designed to terminate. When a full audit surfaces nothing above the value threshold (i.e., remaining ideas are churn, speculative rewrites, or cosmetic), the `continuous-improvement-lead` writes `.saeed/CONVERGED` with the evidence — and with concrete reopen triggers — rather than manufacturing busywork. Convergence is success.
+
+## Stewardship (after convergence)
+
+Converged is not dead. A converged project stays alive through lightweight **steward passes** (`scripts/saeed-steward.sh`, meant for cron, or a headless `/saeed:improve`): re-run the executable gates, check the written reopen triggers, sweep model/dependency currency periodically, append a one-line heartbeat to `retro.md`, and reopen only when a trigger fires or a gate goes red. Full semantics, plus decision rights, precedence/tie-breaking, operator-absent defaults, and the disaster-recovery runbook, live in `skills/self-governance/SKILL.md` — the loop never deadlocks waiting for an absent operator.
 
 ## Human overrides
 
 - Drop a `.saeed/STOP` file (or run `/saeed:stop`) to halt immediately, mid-cycle.
 - Delete `CONVERGED` and run `/saeed:improve` to resume with new goals.
-- Self-modification of the team (roster/model changes) requires human approval unless autonomous self-modification is explicitly enabled by the operator.
+- Self-modification of the team (roster/model changes) requires human approval unless `.saeed/AUTONOMY` is set to `autonomous` (see `skills/self-governance/SKILL.md`); in supervised mode with no operator present, proposals park under `## Awaiting operator` instead of blocking.
 
 ## Safety rails
 

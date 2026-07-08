@@ -31,6 +31,12 @@ Runs `/saeed:improve` over and over until the team writes `.saeed/CONVERGED` (no
 left), you create `.saeed/STOP`, or it hits the max. Wire it to `cron` or CI for scheduled,
 continuous improvement. ⚠️ It edits files unattended — only run it on a repo under git.
 
+Once `CONVERGED` appears, switch to the **stewardship heartbeat** to keep the project alive
+forever: `scripts/saeed-steward.sh /path/to/your/repo` on cron (weekly). It re-checks the gates
+and the reopen triggers, and wakes the full loop only when one fires. Anything needing your
+approval while you're away parks under `## Awaiting operator` in `.saeed/queue.md` — the team
+never deadlocks waiting for you.
+
 ## 🧠 Skills (run automatically)
 
 You don't call these; the agents consult them on the right kind of work.
@@ -39,6 +45,7 @@ You don't call these; the agents consult them on the right kind of work.
 - **`design-excellence`** — the absorbed elite-design canon (from `impeccable`, `gpt-taste`, `emil-design-eng`, `high-end-visual-design`, `design-taste-frontend`). Every UI agent applies it automatically; `design-reviewer` is its gate.
 - **`orchestration-protocol`** — the absorbed parallel-build & delivery discipline (from the `claude-sdlc-kit`): worktree-isolated waves, a shared ticket queue, integration as a separate gated run, and adversarial parallel-browser QA.
 - **`handover-protocol`** — capability-first, manual-last: before any agent asks *you* to do something by hand, it does it in-session, drives it (browser / desktop / a connector), or hands it to **Cowork** as a paste-and-run packet. Only the genuinely unautomatable comes back to you, with the reason and exact steps.
+- **`self-governance`** — the succession doctrine: decision rights + tie-breaking (the stricter verdict wins), autonomy levels (`.saeed/AUTONOMY`), operator-absent defaults (park, never deadlock), post-convergence stewardship, and disaster recovery. Written by the retiring lead so the team runs without one — the letter is in [docs/SUCCESSION.md](SUCCESSION.md).
 
 ## 📁 The `.saeed/` folder (the team's shared memory, created in your project)
 
@@ -48,8 +55,9 @@ You don't call these; the agents consult them on the right kind of work.
 | `state.json` | Machine-readable ledger + cycle count. |
 | `retro.md` | Retrospectives and what the team learned. |
 | `models.md` | Which agent runs on which model (and change history). |
-| `CONVERGED` | Appears when there's nothing worthwhile left to improve (with the reasons). |
+| `CONVERGED` | Appears when there's nothing worthwhile left to improve (with the reasons + reopen triggers). |
 | `STOP` | You create this to halt the loop. Delete it to resume. |
+| `AUTONOMY` | Autonomy level: absent/`supervised` = self-modification waits for (or parks for) you; `autonomous` = the team lands it unattended, gated + logged. |
 
 ## 👥 The 54 specialists — call any of them by name
 
@@ -189,6 +197,11 @@ scripts/saeed-loop.sh /path/to/your/repo 50 0
 التحسين)، أو تُنشئ `.saeed/STOP`، أو يبلغ الحدّ الأقصى. اربطه بـ cron أو CI للتحسين المجدول
 المستمر. ⚠️ يعدّل الملفات تلقائياً — شغّله فقط على مستودع خاضع لـ git.
 
+وبعد ظهور `CONVERGED`، انتقل إلى **نبض الوصاية** لإبقاء المشروع حيّاً إلى الأبد:
+`scripts/saeed-steward.sh /path/to/your/repo` عبر cron (أسبوعياً). يعيد فحص البوابات
+ومحفّزات إعادة الفتح، ولا يوقظ الحلقة الكاملة إلا عند انطلاق أحدها. وما يحتاج موافقتك أثناء
+غيابك يُركَن تحت «`Awaiting operator ##`» في `queue.md` — فالفريق لا يتعطّل بانتظارك أبداً.
+
 ### 📁 مجلد `.saeed/` (ذاكرة الفريق المشتركة داخل مشروعك)
 
 | الملف | محتواه |
@@ -197,8 +210,9 @@ scripts/saeed-loop.sh /path/to/your/repo 50 0
 | `state.json` | سجلّ رقمي + عدّاد الجولات. |
 | `retro.md` | مراجعات وما تعلّمه الفريق. |
 | `models.md` | أيّ وكيل يعمل على أيّ نموذج (وسجلّ التغييرات). |
-| `CONVERGED` | يظهر عند انتهاء التحسينات المجدية (مع الأسباب). |
+| `CONVERGED` | يظهر عند انتهاء التحسينات المجدية (مع الأسباب ومحفّزات إعادة الفتح). |
 | `STOP` | تنشئه أنت لإيقاف الحلقة. احذفه للاستئناف. |
+| `AUTONOMY` | مستوى الاستقلالية: غائب/`supervised` = تعديل الفريق لنفسه ينتظر موافقتك (أو يُركَن لحين عودتك)؛ `autonomous` = يُنفَّذ تلقائياً عبر البوابات ومع التسجيل. |
 
 > القائمة الكاملة للمتخصصين الـ٥٤ موجودة في الجدول الإنجليزي أعلاه؛ ويمكنك مناداة أيٍّ منهم
 > باسمه مباشرةً.

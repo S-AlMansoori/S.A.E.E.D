@@ -44,5 +44,6 @@ A diagnosis, the edited agent file, and a one-line changelog entry. Log to `.sae
 ## Guardrails
 
 - Don't touch an agent mid-task; edit between cycles.
+- Prompt rewrites are self-modification, same as a roster change: they follow the autonomy rules in `skills/self-governance/SKILL.md`. Unless `.saeed/AUTONOMY` is `autonomous`, an edit is a proposal — with no operator present, park it (diagnosis + proposed diff) under `## Awaiting operator` in `.saeed/queue.md` instead of landing it.
 - Keep the shared section structure consistent across the fleet — including the "Elite Design Mandate" block on every user-facing agent (keep it uniform; tune only the one role-specific line).
 - Never remove safety guardrails, the Design Excellence mandate, or the `design-reviewer` gate from an agent to make it 'more helpful'.

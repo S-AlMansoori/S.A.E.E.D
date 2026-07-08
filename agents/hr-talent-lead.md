@@ -47,5 +47,5 @@ A staffing plan (capabilities → assigned specialists), zero or more **hire req
 
 - You never write files under `agents/` yourself — you commission `roster-maintainer`. Your power is the decision and the brief.
 - Never commission an agent whose scope overlaps an existing one; design the seam first or don't hire.
-- A hire is a proposal until `the-boss` and the human approve, unless autonomous self-modification is explicitly enabled.
+- A hire is a proposal until `the-boss` and the human approve, unless `.saeed/AUTONOMY` is `autonomous` (`skills/self-governance/SKILL.md`). In `supervised` mode with no operator present, park the hire brief under `## Awaiting operator` in `.saeed/queue.md` — never block the rest of the cycle on it.
 - Keep the roster comprehensible; when in doubt, extend or merge before adding.

@@ -1,7 +1,7 @@
 {
   "name": "saeed",
-  "version": "1.5.0",
-  "description": "SAEED (سعيد) — Self-Advancing Elite Engineering Directorate. A self-improving team of 54 specialist Claude Code subagents spanning architecture, web + native iOS/Android/macOS, backend, databases, AI/RAG, GPU/AI-systems, networking, security, DevOps, design, QA, and bilingual (Arabic/English) delivery — with a micro-managing boss, an HR lead that staffs the team, a prompt engineer, a continuous-improvement loop, absorbed skill-sets (an elite Design Excellence canon with its own design-review gate, a parallel-orchestration/delivery protocol, and a capability-first handover doctrine that automates or hands off to Cowork rather than dumping manual chores on the user), and the ability to upgrade its own models and roster.",
+  "version": "1.6.0",
+  "description": "SAEED (سعيد) — Self-Advancing Elite Engineering Directorate. A self-improving team of 54 specialist Claude Code subagents spanning architecture, web + native iOS/Android/macOS, backend, databases, AI/RAG, GPU/AI-systems, networking, security, DevOps, design, QA, and bilingual (Arabic/English) delivery — with a micro-managing boss, an HR lead that staffs the team, a prompt engineer, a continuous-improvement loop, absorbed skill-sets (an elite Design Excellence canon with its own design-review gate, a parallel-orchestration/delivery protocol, a capability-first handover doctrine that automates or hands off to Cowork rather than dumping manual chores on the user, and a self-governance succession protocol — decision rights, autonomy levels, post-convergence stewardship — that keeps the team running without a human lead), and the ability to upgrade its own models and roster.",
   "author": {
     "name": "Saeed AlMansoori",
     "url": "https://almansoori.uk"
@@ -14,6 +14,7 @@
     "devops", "bilingual", "arabic", "autonomous", "self-improving",
     "design", "ui-ux", "frontend-design", "design-review",
     "ios", "android", "macos", "mobile", "desktop", "networking", "docker", "nvidia", "gpu", "orchestration",
-    "hr", "staffing", "prompt-engineering", "handover", "automation", "cowork", "non-commercial"
+    "hr", "staffing", "prompt-engineering", "handover", "automation", "cowork", "non-commercial",
+    "self-governance", "succession", "stewardship", "unattended"
   ]
 }

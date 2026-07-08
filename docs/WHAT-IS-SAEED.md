@@ -35,9 +35,11 @@ Architecture & Product, Frontend & Mobile (web plus **native iOS, Android, and m
 air-gapped stack), Security, Infrastructure & Ops (incl. a **networking** engineer and a **Docker
 + NVIDIA DGX Spark / GPU / AI-tooling** engineer), Quality, and cross-cutting Specialists (Python,
 TypeScript, docs, i18n, privacy). Skill-sets are baked in and applied automatically: an elite
-**Design Excellence** canon, a parallel **Orchestration Protocol**, and a **Handover Protocol**
+**Design Excellence** canon, a parallel **Orchestration Protocol**, a **Handover Protocol**
 that automates work (or hands it to Cowork when you have it) instead of dumping manual chores on
-you. See the roster in the README.
+you, and a **Self-Governance protocol** — the retiring lead's succession doctrine — that lets the
+team decide, recover, and keep a finished project alive without a human lead. See the roster in
+the README.
 
 ### How much money it could save (UAE, AED)
 
@@ -120,10 +122,11 @@ ask in plain English and the right specialist is chosen automatically.
 مراجعة تصميم**)، والخلفيات، والبيانات وقواعد البيانات، والذكاء الاصطناعي (ويشمل نظام الاسترجاع
 المعزّز RAG للبيئة المعزولة ثنائية اللغة)، والأمن، والبنية التحتية والتشغيل (وفيها مهندس
 **شبكات** ومهندس **Docker + أنظمة NVIDIA DGX Spark / GPU وأدوات الذكاء الاصطناعي**)، والجودة،
-ومتخصصون عامّون (بايثون، تايب سكريبت، التوثيق، التعريب، الخصوصية). وثلاث مهارات مُدمجة تُطبَّق
+ومتخصصون عامّون (بايثون، تايب سكريبت، التوثيق، التعريب، الخصوصية). وأربع مهارات مُدمجة تُطبَّق
 تلقائياً: **معيار التميّز في التصميم**، و**بروتوكول التنسيق المتوازي**، و**بروتوكول التسليم** الذي
-يؤتمت العمل (أو يُسلّمه إلى Cowork عند توفّره) بدل تكديس المهام اليدوية عليك. القائمة الكاملة في ملف
-README.
+يؤتمت العمل (أو يُسلّمه إلى Cowork عند توفّره) بدل تكديس المهام اليدوية عليك، و**بروتوكول الحوكمة
+الذاتية** — عقيدة الخلافة التي تركها القائد المتقاعد — ليقرّر الفريق ويتعافى ويُبقي المشروع
+المكتمل حيّاً دون قائد بشري. القائمة الكاملة في ملف README.
 
 ### كم يمكن أن يوفّر من المال (الإمارات، بالدرهم)
 

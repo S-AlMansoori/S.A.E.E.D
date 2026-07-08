@@ -8,7 +8,7 @@
 54 specialist AI engineers that design, build, test, secure, and document your project, then keep improving it on their own.**
 
 <p>
-  <img alt="version 1.5.0" src="https://img.shields.io/badge/version-1.5.0-C9A84C?style=flat-square&labelColor=0A1628" />
+  <img alt="version 1.6.0" src="https://img.shields.io/badge/version-1.6.0-C9A84C?style=flat-square&labelColor=0A1628" />
   <img alt="54 agents" src="https://img.shields.io/badge/agents-54-C9A84C?style=flat-square&labelColor=0A1628" />
   <img alt="Claude Code plugin" src="https://img.shields.io/badge/Claude_Code-plugin-0A1628?style=flat-square" />
   <img alt="bilingual" src="https://img.shields.io/badge/AR·EN-bilingual-C9A84C?style=flat-square&labelColor=0A1628" />
@@ -36,6 +36,7 @@ It does a few things most agent packs don't:
 
 - 👔 **A micro-managing boss** (`the-boss`) that assigns work, demands evidence, and rejects anything half-done.
 - ♻️ **A continuous-improvement loop** with an honest **convergence** stop — it won't invent busywork.
+- 🧭 **Runs without a lead**: a **Self-Governance protocol** (decision rights, tie-breaking, autonomy levels, operator-absent defaults, disaster recovery) plus a stewardship heartbeat (`scripts/saeed-steward.sh` on cron) keep the team un-deadlocked with nobody watching and keep a *finished* project alive forever. The retiring lead's handover lives in [docs/SUCCESSION.md](docs/SUCCESSION.md).
 - 🧬 **Self-upgrade**: `model-scout` moves the team onto stronger models as they ship; `hr-talent-lead` spots capability gaps and `roster-maintainer` adds/retires agents; `agent-optimizer` sharpens their prompts.
 - 🎨 **Absorbed design taste**: an elite **Design Excellence** canon (distilled from `impeccable`, `gpt-taste`, `emil-design-eng`, and more) is baked into every UI agent and enforced by a dedicated `design-reviewer` gate — so the UI never looks AI-generated, without you having to ask.
 - 🧩 **Absorbed delivery discipline**: an **Orchestration Protocol** (distilled from the `claude-sdlc-kit`) runs parallel work in worktree-isolated waves off a shared ticket queue, keeps integration a separate gated run, and does adversarial parallel-browser QA.
@@ -125,6 +126,22 @@ scripts/saeed-loop.sh /path/to/your/repo 50 0
 Wire it to `cron` or CI for scheduled improvement. ⚠️ It edits files unattended — only run it on a
 repo under git.
 
+When the team writes `.saeed/CONVERGED`, the loop stops — that's success, not death. To keep a
+converged repo alive indefinitely, cron the **stewardship heartbeat** instead:
+
+```bash
+scripts/saeed-steward.sh /path/to/your/repo   # weekly is the sane default
+```
+
+It re-runs the executable gates, checks the reopen triggers written into `CONVERGED`, and wakes
+the full loop only when one fires or a gate goes red. Approvals it can't get are parked under
+`## Awaiting operator` in `.saeed/queue.md` — an unattended pass never deadlocks (see
+`skills/self-governance/SKILL.md`).
+
+**If you only ever schedule one thing, schedule the steward** — it handles both cases (it runs a
+normal improvement pass on a not-yet-converged repo and a heartbeat once converged), so you can't
+be caught by the loop going silent the day it converges.
+
 ### The `.saeed/` folder (the team's shared memory, created in your project)
 
 | File | Holds |
@@ -133,8 +150,9 @@ repo under git.
 | `state.json` | Machine-readable ledger + cycle count. |
 | `retro.md` | Retrospectives and learnings. |
 | `models.md` | Which agent runs on which model (+ history). |
-| `CONVERGED` | Appears when nothing worthwhile is left to improve (with reasons). |
+| `CONVERGED` | Appears when nothing worthwhile is left to improve (with reasons + reopen triggers). |
 | `STOP` | You create this to halt. Delete it to resume. |
+| `AUTONOMY` | Autonomy level. Absent/`supervised`: self-modification parks for your approval; `autonomous`: the team may land it unattended (gated, logged, reversible). |
 
 ## 👥 The roster (54 agents)
 
@@ -245,7 +263,7 @@ This team edits code and, in the loop, does so repeatedly. It's built with rails
 blast radius**:
 
 - **Version-control everything** and only run the loop on a clean git repo so you can review and revert.
-- **Self-modification needs approval by default** — `/saeed:upgrade` proposes model/roster changes and waits for you.
+- **Self-modification needs approval by default** — `/saeed:upgrade` proposes model/roster changes and waits for you (or parks them under `## Awaiting operator` if you're away). Set `.saeed/AUTONOMY` to `autonomous` only if you want those changes landed unattended — still gated, logged, and reversible.
 - **The team never disables its own review/test/security gates**, and `self-eval-critic` independently checks that gains are real.
 - **Security is defensive only.** `security-pentester` tests systems *you own*; the security agents won't produce malware or attack third parties.
 - **Convergence is a feature** — the loop is designed to *stop* when returns diminish.

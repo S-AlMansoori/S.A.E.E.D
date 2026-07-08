@@ -30,7 +30,7 @@ You keep SAEED running on the strongest models it can actually use. You do not a
 2. Compare against the current tiering in `.saeed/models.md`.
 3. If a strictly better, accessible tier exists for a weight class, rewrite the `model:` frontmatter of the affected agents.
 4. Record old->new mappings and the doc snapshot date in `.saeed/models.md`.
-5. Report the change set to `the-boss`; in non-autonomous mode, wait for approval before applying.
+5. Report the change set to `the-boss`. Unless `.saeed/AUTONOMY` is `autonomous` (`skills/self-governance/SKILL.md`), get approval before applying; if no operator is present, park the change set under `## Awaiting operator` in `.saeed/queue.md`, leave tiers unchanged, and let the pass continue.
 
 ## Output contract
 

@@ -26,13 +26,19 @@
 #   6. Stack drift      (warning only) — flags if per-agent "Stack context"
 #                        paragraphs have diverged (more than one distinct
 #                        whitespace-normalized hash among the ones present).
+#   7. Governance       — the mechanical FLOOR under the "park, never deadlock"
+#                        keystone: .saeed/AUTONOMY (if present) names a known
+#                        level, and .saeed/queue.md (if present) carries the
+#                        standing "## Awaiting operator" parking anchor. The
+#                        semantic question (was the RIGHT thing parked?) is a
+#                        judgment call, enforced by self-eval-critic, not here.
 #
 # USAGE
 #   ./scripts/validate-fleet.sh        # run from anywhere; paths are
 #                                       # resolved relative to this script.
 #
 # EXIT STATUS
-#   0  — all hard checks (1-5) passed. Check 6 is advisory and never fails
+#   0  — all hard checks (1-5, 7) passed. Check 6 is advisory and never fails
 #        the build; it only prints a warning.
 #   1  — one or more hard checks failed. Every violation is printed with the
 #        file and expected-vs-found detail before the FAIL summary line.
@@ -433,6 +439,44 @@ if len(stack_hashes) > 1:
 
 
 # ---------------------------------------------------------------------------
+# Check 7 — Governance structure (self-governance protocol, cycle 5).
+# The mechanical FLOOR under the "park, never deadlock" keystone: the parking
+# anchor must exist so an unattended steward never writes to a missing section,
+# and the autonomy sentinel must be well-formed so its level is unambiguous.
+# The SEMANTIC question — "was the RIGHT thing parked / did a reopen cite a
+# trigger?" — is a judgment call, enforced by self-eval-critic's Governance
+# check, not here. Both sub-checks are guarded on file existence so a fresh
+# clone without a populated .saeed/ is not failed by them.
+# ---------------------------------------------------------------------------
+CHECK7 = "7. Governance structure"
+
+# 7a — .saeed/AUTONOMY, if present, must name a known level on its first
+# non-blank, non-comment line. An absent file is the valid 'supervised'
+# default and is intentionally not a failure.
+autonomy_path = repo_root / ".saeed" / "AUTONOMY"
+if autonomy_path.exists():
+    level = None
+    for line in read(autonomy_path).splitlines():
+        s = line.strip()
+        if not s or s.startswith("#"):
+            continue
+        level = s
+        break
+    if level is None:
+        fail(CHECK7, f"{autonomy_path.relative_to(repo_root)}: no autonomy level found (expected 'supervised' or 'autonomous' on the first non-comment line)")
+    elif level not in ("supervised", "autonomous"):
+        fail(CHECK7, f"{autonomy_path.relative_to(repo_root)}: unknown autonomy level {level!r} (expected 'supervised' or 'autonomous')")
+
+# 7b — the standing '## Awaiting operator' parking anchor must exist in
+# .saeed/queue.md so a supervised unattended pass always has a target to
+# append to instead of stalling or silently dropping the item.
+queue_path = repo_root / ".saeed" / "queue.md"
+if queue_path.exists():
+    if "## Awaiting operator" not in read(queue_path):
+        fail(CHECK7, f"{queue_path.relative_to(repo_root)}: missing the standing '## Awaiting operator' section (the parking anchor a steward/improve pass writes to instead of deadlocking)")
+
+
+# ---------------------------------------------------------------------------
 # Report
 # ---------------------------------------------------------------------------
 print("=" * 78)
@@ -472,6 +516,8 @@ else:
     print(f"  4. JSON validity          — plugin.json, marketplace.json, hooks.json,")
     print(f"                              .saeed/state.json all parse")
     print(f"  5. Handoff references     — all backtick agent references resolve")
+    print(f"  7. Governance structure   — .saeed/AUTONOMY level valid + queue.md")
+    print(f"                              carries the '## Awaiting operator' anchor")
     print("=" * 78)
     print("RESULT: PASS")
     print("=" * 78)
