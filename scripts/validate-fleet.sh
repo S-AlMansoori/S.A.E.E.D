@@ -32,6 +32,20 @@
 #                        standing "## Awaiting operator" parking anchor. The
 #                        semantic question (was the RIGHT thing parked?) is a
 #                        judgment call, enforced by self-eval-critic, not here.
+#   8. Hook contract     — every ${CLAUDE_PLUGIN_ROOT} script referenced by
+#                        hooks/hooks.json exists, and the guardrail hooks are
+#                        smoke-tested with real payloads: bypass attempts must
+#                        exit 2 (block), benign ones 0, and the session brief
+#                        must emit valid SessionStart JSON. (SU-20, absorbed
+#                        from ECC's tested-hooks practice.)
+#   9. Frontmatter (cmd/skill) — every commands/*.md has a description; every
+#                        skills/*/SKILL.md has name (matching its directory)
+#                        and a single-line description. (Absorbed from ECC's
+#                        validate-commands / validate-skills CI gates.)
+#
+# NOTE on .saeed/: it is per-project runtime state and gitignored, so a fresh
+# clone (and CI) has none. Checks that read .saeed/state.json or models.md are
+# therefore conditional on the file existing — present-but-stale still fails.
 #
 # USAGE
 #   ./scripts/validate-fleet.sh        # run from anywhere; paths are
@@ -77,6 +91,7 @@ from typing import Optional
 repo_root = Path(sys.argv[1]).resolve()
 violations = []   # list of (check_label, detail) -> causes FAIL
 warnings = []      # list of str -> printed but does not fail the build
+notes = []         # list of str -> informational (e.g. skipped optional checks)
 
 
 def fail(check, detail):
@@ -85,6 +100,10 @@ def fail(check, detail):
 
 def warn(msg):
     warnings.append(msg)
+
+
+def note(msg):
+    notes.append(msg)
 
 
 # ---------------------------------------------------------------------------
@@ -234,9 +253,13 @@ check_regex_matches_N(
     str(N),
 )
 
-# .saeed/state.json roster_agents
+# .saeed/state.json roster_agents — OPTIONAL: .saeed/ is per-project runtime
+# state and gitignored, so a fresh clone / CI checkout legitimately has none.
+# When the file exists (a maintainer's working copy), drift still fails hard.
 state_json_path = repo_root / ".saeed" / "state.json"
-state_text = require_file(state_json_path, CHECK1)
+state_text = read(state_json_path) if state_json_path.exists() else None
+if state_text is None:
+    note(".saeed/state.json absent (gitignored runtime state) — roster_agents drift check skipped")
 if state_text is not None:
     try:
         state = json.loads(state_text)
@@ -312,8 +335,11 @@ for f in agent_files:
     else:
         other_models.append((f.relative_to(repo_root), model_val))
 
+# OPTIONAL for the same reason as .saeed/state.json above.
 models_md_path = repo_root / ".saeed" / "models.md"
-models_text = require_file(models_md_path, CHECK3)
+models_text = read(models_md_path) if models_md_path.exists() else None
+if models_text is None:
+    note(".saeed/models.md absent (gitignored runtime state) — model-tally drift check skipped")
 if models_text is not None:
     opus_m = re.search(r"Opus \((\d+)\)", models_text)
     sonnet_m = re.search(r"Sonnet \((\d+)\)", models_text)
@@ -371,8 +397,10 @@ json_files = [
     repo_root / ".claude-plugin" / "plugin.json",
     repo_root / ".claude-plugin" / "marketplace.json",
     repo_root / "hooks" / "hooks.json",
-    repo_root / ".saeed" / "state.json",
 ]
+# Runtime state is validated only when present (gitignored on a fresh clone).
+if (repo_root / ".saeed" / "state.json").exists():
+    json_files.append(repo_root / ".saeed" / "state.json")
 
 for jf in json_files:
     text = require_file(jf, CHECK4)
@@ -477,12 +505,164 @@ if queue_path.exists():
 
 
 # ---------------------------------------------------------------------------
+# Check 8 — Hook contract (SU-20, absorbed from ECC's tested-hooks practice).
+# Every ${CLAUDE_PLUGIN_ROOT} script referenced by hooks/hooks.json must exist,
+# and the guardrail hooks must actually behave: known-bad payloads exit 2
+# (block) and known-good payloads exit 0 (allow). ECC's lesson: an untested
+# hook is a hook that silently fails open forever.
+# ---------------------------------------------------------------------------
+CHECK8 = "8. Hook contract"
+
+import subprocess
+import tempfile
+
+hooks_json_path = repo_root / "hooks" / "hooks.json"
+hook_scripts = set()
+try:
+    hooks_cfg = json.loads(read(hooks_json_path))
+    for event, entries in (hooks_cfg.get("hooks") or {}).items():
+        for entry in entries:
+            for h in entry.get("hooks", []):
+                cmd = h.get("command", "")
+                for m in re.finditer(r"\$\{CLAUDE_PLUGIN_ROOT\}(/[^\s\"']+)", cmd):
+                    rel = m.group(1).lstrip("/")
+                    hook_scripts.add(rel)
+                    if not (repo_root / rel).exists():
+                        fail(CHECK8, f"hooks/hooks.json: referenced script {rel} does not exist")
+except (OSError, json.JSONDecodeError):
+    fail(CHECK8, "hooks/hooks.json missing or unparseable (also reported by JSON validity)")
+
+
+def run_hook(script_rel, payload, cwd=None):
+    """Pipe payload into a hook script; return its exit code (None on error)."""
+    try:
+        proc = subprocess.run(
+            ["bash", str(repo_root / script_rel)],
+            input=payload.encode("utf-8"),
+            capture_output=True,
+            timeout=30,
+            cwd=cwd or repo_root,
+        )
+        return proc.returncode
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+
+
+def expect_hook(script_rel, payload, expected_rc, label, cwd=None):
+    if not (repo_root / script_rel).exists():
+        return  # existence failure already recorded above
+    rc = run_hook(script_rel, payload, cwd=cwd)
+    if rc != expected_rc:
+        fail(CHECK8, f"{script_rel}: {label} — expected exit {expected_rc}, got {rc}")
+
+
+GUARD_GIT = "hooks/guard-git-bypass.sh"
+expect_hook(GUARD_GIT, '{"tool_input":{"command":"git commit --no-verify -m \\"x\\""}}', 2,
+            "must BLOCK `git commit --no-verify`")
+expect_hook(GUARD_GIT, '{"tool_input":{"command":"git push --no-verify origin main"}}', 2,
+            "must BLOCK `git push --no-verify`")
+expect_hook(GUARD_GIT, '{"tool_input":{"command":"git -c core.hooksPath=/dev/null commit -m hi"}}', 2,
+            "must BLOCK core.hooksPath override")
+expect_hook(GUARD_GIT, '{"tool_input":{"command":"git commit -m \\"docs: mention --no-verify rule\\""}}', 0,
+            "must ALLOW --no-verify inside a quoted message")
+expect_hook(GUARD_GIT, '{"tool_input":{"command":"git status && ls"}}', 0,
+            "must ALLOW ordinary commands")
+expect_hook(GUARD_GIT, "not json", 0, "must fail OPEN on unparseable input")
+
+GUARD_CFG = "hooks/guard-config-protection.sh"
+with tempfile.TemporaryDirectory() as td:
+    existing = Path(td) / ".eslintrc.json"
+    existing.write_text("{}", encoding="utf-8")
+    expect_hook(GUARD_CFG, json.dumps({"tool_input": {"file_path": str(existing)}}), 2,
+                "must BLOCK edits to an existing lint config")
+    expect_hook(GUARD_CFG, json.dumps({"tool_input": {"file_path": str(Path(td) / "new" / "biome.json")}}), 0,
+                "must ALLOW first-time creation of a lint config")
+    expect_hook(GUARD_CFG, json.dumps({"tool_input": {"file_path": str(Path(td) / "src.ts")}}), 0,
+                "must ALLOW ordinary files")
+
+BRIEF = "hooks/session-brief.sh"
+with tempfile.TemporaryDirectory() as td:
+    proj = Path(td) / "proj"
+    (proj / ".saeed").mkdir(parents=True)
+    (proj / ".saeed" / "queue.md").write_text(
+        "- T1 | x | TODO\n\n## Awaiting operator\n- parked\n", encoding="utf-8")
+    if (repo_root / BRIEF).exists():
+        try:
+            proc = subprocess.run(["bash", str(repo_root / BRIEF)], input=b"{}",
+                                  capture_output=True, timeout=30, cwd=proj)
+            if proc.returncode != 0:
+                fail(CHECK8, f"{BRIEF}: expected exit 0 with a .saeed/ dir, got {proc.returncode}")
+            else:
+                out = json.loads(proc.stdout.decode("utf-8"))
+                ctx = out["hookSpecificOutput"]["additionalContext"]
+                if "SAEED session brief" not in ctx or out["hookSpecificOutput"]["hookEventName"] != "SessionStart":
+                    fail(CHECK8, f"{BRIEF}: SessionStart JSON present but malformed")
+        except (OSError, subprocess.TimeoutExpired, json.JSONDecodeError, KeyError) as e:
+            fail(CHECK8, f"{BRIEF}: brief output not valid SessionStart JSON ({e})")
+        # Without .saeed/ it must stay silent (exit 0, empty stdout).
+        proc = subprocess.run(["bash", str(repo_root / BRIEF)], input=b"{}",
+                              capture_output=True, timeout=30, cwd=td)
+        if proc.returncode != 0 or proc.stdout.strip():
+            fail(CHECK8, f"{BRIEF}: must be silent (exit 0, no stdout) when no .saeed/ exists")
+
+
+# ---------------------------------------------------------------------------
+# Check 9 — Command & skill frontmatter (absorbed from ECC's validate-commands
+# / validate-skills CI gates, scaled to this repo).
+# ---------------------------------------------------------------------------
+CHECK9 = "9. Command & skill frontmatter"
+
+commands_dir = repo_root / "commands"
+command_files = sorted(commands_dir.glob("*.md"))
+if not command_files:
+    fail(CHECK9, "no commands/*.md files found")
+for f in command_files:
+    text = read(f)
+    m = FRONTMATTER_RE.match(text)
+    if not m:
+        fail(CHECK9, f"{f.relative_to(repo_root)}: no YAML frontmatter block")
+        continue
+    if not re.search(r"^description:\s*\S", m.group(1), re.M):
+        fail(CHECK9, f"{f.relative_to(repo_root)}: missing 'description:' in frontmatter")
+
+skills_dir = repo_root / "skills"
+skill_dirs = sorted(p for p in skills_dir.iterdir() if p.is_dir())
+if not skill_dirs:
+    fail(CHECK9, "no skills/*/ directories found")
+for d in skill_dirs:
+    skill_md = d / "SKILL.md"
+    if not skill_md.exists() or not read(skill_md).strip():
+        fail(CHECK9, f"skills/{d.name}/SKILL.md missing or empty")
+        continue
+    text = read(skill_md)
+    m = FRONTMATTER_RE.match(text)
+    if not m:
+        fail(CHECK9, f"skills/{d.name}/SKILL.md: no YAML frontmatter block")
+        continue
+    fm = m.group(1)
+    name_m = re.search(r"^name:\s*(\S+)\s*$", fm, re.M)
+    if not name_m:
+        fail(CHECK9, f"skills/{d.name}/SKILL.md: missing 'name:' in frontmatter")
+    elif name_m.group(1) != d.name:
+        fail(CHECK9, f"skills/{d.name}/SKILL.md: name {name_m.group(1)!r} != directory name {d.name!r}")
+    desc_m = re.search(r"^description:\s*(\S.*)$", fm, re.M)
+    if not desc_m:
+        fail(CHECK9, f"skills/{d.name}/SKILL.md: missing 'description:' in frontmatter")
+    elif desc_m.group(1).strip().startswith("|"):
+        # ECC lesson: literal block scalars preserve newlines and break
+        # flat-table renderers keyed off the description.
+        fail(CHECK9, f"skills/{d.name}/SKILL.md: description uses a literal block scalar ('|') — use a single line or folded scalar")
+
+
+# ---------------------------------------------------------------------------
 # Report
 # ---------------------------------------------------------------------------
 print("=" * 78)
 print(f"SU-19 fleet validation — derived N = {N} agents (agents/*.md)")
 print("=" * 78)
 
+for n_msg in notes:
+    print(f"NOTE: {n_msg}")
 for w in warnings:
     print(f"WARNING: {w}")
 
@@ -518,6 +698,11 @@ else:
     print(f"  5. Handoff references     — all backtick agent references resolve")
     print(f"  7. Governance structure   — .saeed/AUTONOMY level valid + queue.md")
     print(f"                              carries the '## Awaiting operator' anchor")
+    print(f"  8. Hook contract          — hooks.json scripts exist; guardrails block")
+    print(f"                              bypass payloads and allow benign ones;")
+    print(f"                              session brief emits valid SessionStart JSON")
+    print(f"  9. Cmd/skill frontmatter  — {len(command_files)} commands have description;")
+    print(f"                              {len(skill_dirs)} skills have matching name + description")
     print("=" * 78)
     print("RESULT: PASS")
     print("=" * 78)

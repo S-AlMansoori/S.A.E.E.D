@@ -8,7 +8,7 @@
 54 specialist AI engineers that design, build, test, secure, and document your project, then keep improving it on their own.**
 
 <p>
-  <img alt="version 1.6.0" src="https://img.shields.io/badge/version-1.6.0-C9A84C?style=flat-square&labelColor=0A1628" />
+  <img alt="version 1.7.0" src="https://img.shields.io/badge/version-1.7.0-C9A84C?style=flat-square&labelColor=0A1628" />
   <img alt="54 agents" src="https://img.shields.io/badge/agents-54-C9A84C?style=flat-square&labelColor=0A1628" />
   <img alt="Claude Code plugin" src="https://img.shields.io/badge/Claude_Code-plugin-0A1628?style=flat-square" />
   <img alt="bilingual" src="https://img.shields.io/badge/AR·EN-bilingual-C9A84C?style=flat-square&labelColor=0A1628" />
@@ -40,6 +40,7 @@ It does a few things most agent packs don't:
 - 🧬 **Self-upgrade**: `model-scout` moves the team onto stronger models as they ship; `hr-talent-lead` spots capability gaps and `roster-maintainer` adds/retires agents; `agent-optimizer` sharpens their prompts.
 - 🎨 **Absorbed design taste**: an elite **Design Excellence** canon (distilled from `impeccable`, `gpt-taste`, `emil-design-eng`, and more) is baked into every UI agent and enforced by a dedicated `design-reviewer` gate — so the UI never looks AI-generated, without you having to ask.
 - 🧩 **Absorbed delivery discipline**: an **Orchestration Protocol** (distilled from the `claude-sdlc-kit`) runs parallel work in worktree-isolated waves off a shared ticket queue, keeps integration a separate gated run, and does adversarial parallel-browser QA.
+- 🔬 **Absorbed evidence discipline**: a **Verification Protocol**, **Context Discipline**, and **Agentic Security** canon (distilled from [Everything Claude Code](https://github.com/affaan-m/ECC)) — ordered executable gates ending in a READY/NOT READY verdict (`/saeed:verify`), strategic compaction + confidence-scored instincts, and a defend-the-team threat model — plus **guardrail hooks** that mechanically block git-gate bypasses and lint-config weakening, smoke-tested in CI.
 - 🤲 **Capability-first, manual-last**: a **Handover Protocol** means SAEED won't hand you a chore it could do itself — before any "you go do X", it does it in-session, drives it (browser / desktop / a connector), or hands it to **Cowork** (when you have it) as a paste-and-run packet. Only the genuinely human-only (a credential, money movement) comes back to you, with the reason and exact steps.
 - 📱 **Web + native mobile**: web (React/Next), plus dedicated **native iOS** (Swift/SwiftUI) and **native Android** (Kotlin/Compose) engineers — not just cross-platform.
 - 🖥️ **Owns the metal**: dedicated **networking** and **AI-systems** engineers (Docker, NVIDIA DGX Spark, GPU/CUDA, vLLM/Ollama) for the air-gapped stack.
@@ -104,6 +105,7 @@ Restart the session, then run `/agents` to see all 54.
 |---|---|
 | `/saeed:hire <goal>` | Take a project from zero to done, then keep improving it. **Start here.** |
 | `/saeed:improve` | Run improvement passes (audit → fix → verify → repeat). The self-improvement button. |
+| `/saeed:verify` | Run the Verification Protocol gates and get an evidence-backed READY / NOT READY report. |
 | `/saeed:status` | A blunt, no-spin status report from the Boss. |
 | `/saeed:upgrade` | The team upgrades itself: better models + add/retire its own agents. |
 | `/saeed:stop` | Halt the autonomous loop. |
@@ -149,6 +151,7 @@ be caught by the loop going silent the day it converges.
 | `queue.md` | Backlog: each item's owner, acceptance criteria, status. |
 | `state.json` | Machine-readable ledger + cycle count. |
 | `retro.md` | Retrospectives and learnings. |
+| `instincts.md` | Confidence-scored, atomic learnings (trigger → action) per the Context Discipline canon. |
 | `models.md` | Which agent runs on which model (+ history). |
 | `CONVERGED` | Appears when nothing worthwhile is left to improve (with reasons + reopen triggers). |
 | `STOP` | You create this to halt. Delete it to resume. |
@@ -264,7 +267,7 @@ blast radius**:
 
 - **Version-control everything** and only run the loop on a clean git repo so you can review and revert.
 - **Self-modification needs approval by default** — `/saeed:upgrade` proposes model/roster changes and waits for you (or parks them under `## Awaiting operator` if you're away). Set `.saeed/AUTONOMY` to `autonomous` only if you want those changes landed unattended — still gated, logged, and reversible.
-- **The team never disables its own review/test/security gates**, and `self-eval-critic` independently checks that gains are real.
+- **The team never disables its own review/test/security gates**, and `self-eval-critic` independently checks that gains are real. Guardrail hooks make the git half of that mechanical: `--no-verify` / `core.hooksPath` bypasses and lint-config weakening are blocked at the tool level (see `hooks/` and [SECURITY.md](SECURITY.md)).
 - **Security is defensive only.** `security-pentester` tests systems *you own*; the security agents won't produce malware or attack third parties.
 - **Convergence is a feature** — the loop is designed to *stop* when returns diminish.
 

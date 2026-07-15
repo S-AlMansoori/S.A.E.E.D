@@ -1,0 +1,28 @@
+# Fleet validation CI — runs the same executable gate contributors run
+# locally (scripts/validate-fleet.sh) on every push and pull request.
+#
+# Hardening follows the practices absorbed from the ECC audit:
+#   - top-level read-only permissions (this workflow never writes)
+#   - persist-credentials: false (no token left on disk for later steps)
+#   - action pinned to a full commit SHA, not a movable tag
+# The gate itself needs only bash + python3 stdlib — no installs, no network.
+name: validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-fleet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Run the fleet validation gate
+        run: ./scripts/validate-fleet.sh

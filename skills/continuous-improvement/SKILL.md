@@ -15,6 +15,7 @@ Every managed repo gets a `.saeed/` directory:
 - `state.json` — machine-readable ledger of items, cycle count, and last-updated timestamp.
 - `retro.md` — append-only log of retrospectives, agent-optimization notes, and roster/model changes.
 - `models.md` — current model tiering (which agent runs on which model) with change history.
+- `instincts.md` — confidence-scored, atomic learnings (one trigger + one action each) per `skills/context-discipline/SKILL.md`; high-confidence instincts are candidates for promotion into the plugin via `/saeed:upgrade`.
 - `CONVERGED` — sentinel file. Present ONLY when the `continuous-improvement-lead` has decided, with evidence, that no improvement above the value threshold remains. Its contents explain why.
 - `STOP` — sentinel file. Present when the human has halted the loop. Overrides everything.
 - `AUTONOMY` — sentinel holding the autonomy level (first non-blank, non-`#` line). Absent or `supervised`: self-modification is proposal-only and parks for the operator. `autonomous`: it may land unattended, fully gated and logged. Defined in `skills/self-governance/SKILL.md`.
@@ -25,7 +26,7 @@ Every managed repo gets a `.saeed/` directory:
 2. **Audit & prioritize** — `continuous-improvement-lead` audits across correctness, security, performance, accessibility, i18n/RTL, **design excellence (anti-AI-slop craft, per `skills/design-excellence/SKILL.md`)**, tests, docs, DX, cost; writes the top items to `queue.md` with measurable criteria.
 3. **Assign** — `the-boss` assigns each item to the owning specialist and holds the Definition of Done.
 4. **Implement** — specialists do the work on disjoint files where parallelized, in worktree-isolated waves per the Orchestration Protocol (`skills/orchestration-protocol/SKILL.md`).
-5. **Gate** — `code-reviewer` + `qa-automation-engineer` must pass before an item is accepted; user-facing items must also pass the `design-reviewer` (design-excellence) gate.
+5. **Gate** — `code-reviewer` + `qa-automation-engineer` must pass before an item is accepted; user-facing items must also pass the `design-reviewer` (design-excellence) gate. Gates run per the Verification Protocol (`skills/verification-protocol/SKILL.md`): ordered, executable, ending in a READY/NOT READY report.
 6. **Verify** — `self-eval-critic` independently confirms gains and catches regressions; writes a retro.
 7. **Record** — `the-boss` updates `state.json` and produces a standup.
 8. **Self-upgrade (periodic)** — every few cycles, run the `/saeed:upgrade` flow (`model-scout`, `agent-optimizer`, `roster-maintainer`).

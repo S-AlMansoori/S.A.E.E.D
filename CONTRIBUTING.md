@@ -35,9 +35,33 @@ Keep the fleet coherent:
    fleet-consistency gate: it checks roster-count agreement across the README, manifests, and
    EN+AR docs (incl. Arabic numerals and the SVG badge), agent frontmatter (`name`/`description`/
    `model`, `name` matching the filename), the opus/sonnet tallies vs `.saeed/models.md`, JSON
-   validity, and that every `Handoffs` reference resolves. If you added an agent, this is what
-   catches a count you forgot to bump.
-6. Open a PR describing what changed and why.
+   validity, that every `Handoffs` reference resolves, the hook contract (guardrail hooks must
+   block bypass payloads and pass benign ones — smoke-tested with real stdin), and command/skill
+   frontmatter. If you added an agent, this is what catches a count you forgot to bump. CI
+   (`.github/workflows/validate.yml`) runs the same gate on every push and PR.
+6. Update `CHANGELOG.md` (Keep-a-Changelog style, under the new version).
+7. Open a PR describing what changed and why.
+
+## Manifest gotchas (hard-won, don't re-learn them)
+
+Claude Code's plugin validator has undocumented sharp edges (surfaced by the ECC project's
+schema notes and confirmed by their regression history):
+
+- **Never add an `agents` or `hooks` key to `.claude-plugin/plugin.json`.** `agents/*.md` and
+  `hooks/hooks.json` are auto-discovered by convention; declaring them again is rejected
+  (`agents: Invalid input`) or errors as a duplicate hooks file.
+- `commands`/`skills`, if declared, must be **arrays** — a bare string is rejected.
+- `version` is required; without it the install fails silently.
+
+## Ground rules for hooks
+
+Hooks in `hooks/` are guardrails, so they are held to the gate standard themselves:
+
+- Pure `bash` + `python3` stdlib — no npm/pip installs, no network.
+- **Fail open** (exit 0) on unparseable input or missing interpreter — a broken guardrail must
+  never brick every tool call. Block with exit 2 and a reason on stderr.
+- Every blocking behavior gets a smoke test in `scripts/validate-fleet.sh` check 8 — an
+  untested hook is a hook that silently fails open forever.
 
 ## Ideas that are especially welcome
 

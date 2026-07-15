@@ -11,6 +11,7 @@ can call by name. *(العربية في الأسفل.)*
 |---|---|---|
 | `/saeed:hire <goal or spec>` | **The big one.** Takes a project from zero to done — design → build → test → secure → document — then keeps improving it. | Starting almost anything. Your default. |
 | `/saeed:improve` | Runs improvement passes: audit → fix the highest-value things → verify → repeat. **The self-improvement button.** | Any time you want the project to get better. |
+| `/saeed:verify` | Runs the Verification Protocol: the ordered gates (build → types → lint → tests → security → diff) and an evidence-backed **READY / NOT READY** report. | Before a merge, a handover, or whenever you want proof instead of promises. |
 | `/saeed:status` | A blunt, no-spin status report from the Boss (done / in-progress / blocked / rejected + what's next). | Before a review, or when unsure where things stand. |
 | `/saeed:upgrade` | The team upgrades **itself**: moves to better AI models and adds/improves/retires its own agents. | Every so often, or when a stronger model ships. |
 | `/saeed:stop` | Halts the autonomous loop (creates a `.saeed/STOP` file). | To pause hands-off work. Resume by deleting the file. |
@@ -46,6 +47,9 @@ You don't call these; the agents consult them on the right kind of work.
 - **`orchestration-protocol`** — the absorbed parallel-build & delivery discipline (from the `claude-sdlc-kit`): worktree-isolated waves, a shared ticket queue, integration as a separate gated run, and adversarial parallel-browser QA.
 - **`handover-protocol`** — capability-first, manual-last: before any agent asks *you* to do something by hand, it does it in-session, drives it (browser / desktop / a connector), or hands it to **Cowork** as a paste-and-run packet. Only the genuinely unautomatable comes back to you, with the reason and exact steps.
 - **`self-governance`** — the succession doctrine: decision rights + tie-breaking (the stricter verdict wins), autonomy levels (`.saeed/AUTONOMY`), operator-absent defaults (park, never deadlock), post-convergence stewardship, and disaster recovery. Written by the retiring lead so the team runs without one — the letter is in [docs/SUCCESSION.md](SUCCESSION.md).
+- **`verification-protocol`** — the absorbed evidence canon (from the `ECC` / Everything Claude Code methodology): ordered executable gates, the RED-gate TDD rule, pass@k vs pass^k eval thresholds, and the anti-noise review doctrine. `/saeed:verify` is its button.
+- **`context-discipline`** — the absorbed memory & attention canon (from `ECC`): compact at phase boundaries, write-before-compact, confidence-scored instincts in `.saeed/instincts.md`, model routing, and subagent context negotiation.
+- **`agentic-security`** — the absorbed defend-the-team canon (from `ECC`'s security guide): the prompt-defense baseline, the lethal-trifecta rule for unattended runs, deny-rules and bot identity, and the secrets response protocol. The plugin's guardrail hooks (`hooks/`) are its mechanical floor.
 
 ## 📁 The `.saeed/` folder (the team's shared memory, created in your project)
 
@@ -179,6 +183,7 @@ You don't call these; the agents consult them on the right kind of work.
 |---|---|---|
 | `/saeed:hire <الهدف>` | **الأمر الأهم.** يأخذ المشروع من الصفر إلى الاكتمال — تصميم ← بناء ← اختبار ← تأمين ← توثيق — ثم يواصل تحسينه. | لبدء أي مشروع تقريباً. أمرك الافتراضي. |
 | `/saeed:improve` | ينفّذ جولات تحسين: تدقيق ← إصلاح الأعلى قيمة ← تحقّق ← تكرار. **زرّ التحسين الذاتي.** | كلما أردت تحسين المشروع. |
+| `/saeed:verify` | ينفّذ بروتوكول التحقق: البوابات المرتّبة (بناء ← أنواع ← فحص ← اختبارات ← أمان ← مراجعة) وتقرير مدعوم بالأدلة بحكم **جاهز / غير جاهز**. | قبل الدمج أو التسليم، أو عندما تريد دليلاً لا وعوداً. |
 | `/saeed:status` | تقرير حالة صريح من «المدير» (منجز / قيد التنفيذ / متوقف / مرفوض + التالي). | قبل المراجعة أو عند الحاجة لمعرفة الوضع. |
 | `/saeed:upgrade` | الفريق يطوّر **نفسه**: ينتقل لنماذج أقوى ويضيف/يحسّن/يستبعد وكلاءه. | من حينٍ لآخر أو عند صدور نموذج أقوى. |
 | `/saeed:stop` | يوقف الحلقة التلقائية (ينشئ ملف `.saeed/STOP`). | لإيقاف العمل التلقائي مؤقتاً. |

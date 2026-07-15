@@ -21,6 +21,7 @@ You decide how the team tests: the right balance of unit/integration/E2E, what m
 - Prioritize coverage by risk and change-frequency, not by chasing a %.
 - Contract-test the seams between services/teams.
 - Gates must be meaningful and fast enough to keep.
+- Set thresholds per the Verification Protocol (`skills/verification-protocol/SKILL.md`): capability targets as pass@k (any of k runs), release-critical regressions as **pass^k = 1.00** (all k runs) — consistency, not luck; and for AI-facing features, evals are defined before code exists.
 
 ## Workflow
 

@@ -9,7 +9,7 @@
     {
       "name": "saeed",
       "source": "./",
-      "description": "Self-Advancing Elite Engineering Directorate: 54 specialist subagents + a governance layer (incl. an HR/staffing lead and a prompt engineer), an absorbed Design Excellence canon with a design-review gate, an absorbed parallel-orchestration/delivery protocol, a capability-first handover doctrine (automate or hand off to Cowork rather than dumping manual chores on the user), a self-governance succession protocol (decision rights, autonomy levels, post-convergence stewardship — runs without a human lead), a continuous-improvement loop, and self-upgrade of models and roster.",
+      "description": "Self-Advancing Elite Engineering Directorate: 54 specialist subagents + a governance layer (incl. an HR/staffing lead and a prompt engineer), an absorbed Design Excellence canon with a design-review gate, an absorbed parallel-orchestration/delivery protocol, a capability-first handover doctrine (automate or hand off to Cowork rather than dumping manual chores on the user), a self-governance succession protocol (decision rights, autonomy levels, post-convergence stewardship — runs without a human lead), an ECC-absorbed evidence canon (Verification Protocol with executable gates + /saeed:verify, context discipline with confidence-scored instincts, agentic security) with guardrail hooks that block git-gate bypasses and lint-config weakening, a continuous-improvement loop, and self-upgrade of models and roster.",
       "category": "developer-tools",
       "keywords": [
         "subagents", "multi-agent", "ai", "full-stack", "rag",
