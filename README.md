@@ -8,7 +8,7 @@
 54 specialist AI engineers that design, build, test, secure, and document your project, then keep improving it on their own.**
 
 <p>
-  <img alt="version 1.8.0" src="https://img.shields.io/badge/version-1.8.0-C9A84C?style=flat-square&labelColor=0A1628" />
+  <img alt="version 1.9.0" src="https://img.shields.io/badge/version-1.9.0-C9A84C?style=flat-square&labelColor=0A1628" />
   <img alt="54 agents" src="https://img.shields.io/badge/agents-54-C9A84C?style=flat-square&labelColor=0A1628" />
   <img alt="Claude Code plugin" src="https://img.shields.io/badge/Claude_Code-plugin-0A1628?style=flat-square" />
   <img alt="bilingual" src="https://img.shields.io/badge/AR·EN-bilingual-C9A84C?style=flat-square&labelColor=0A1628" />
@@ -27,9 +27,11 @@ Built by [Saeed AlMansoori](https://almansoori.uk)
 
 ## What this is
 
-You hand SAEED a goal with one command — `/saeed:hire` — and it runs the whole lifecycle:
-plans the architecture, splits the work across the right specialists, writes the code, reviews it,
-tests it, hardens security, and documents everything. Then it **audits its own work and keeps
+You hand SAEED a goal with one command — `/saeed:hire` — and it runs the whole lifecycle,
+A to Z: takes in the goal (or a spec corpus, or an existing repo), writes the spec and the
+architecture, designs the UX and the threat model, splits the work across the right specialists,
+writes the code, reviews it, tests it, hardens security, documents everything, and **delivers
+against an evidence-backed READY verdict**. Then it **audits its own work and keeps
 improving** until there's nothing worthwhile left to do, or you tell it to stop.
 
 It does a few things most agent packs don't:
@@ -66,14 +68,17 @@ charts in **[docs/what-is-saeed.html](docs/what-is-saeed.html)**.
 
 ```mermaid
 flowchart LR
-    H(["/saeed:hire"]):::cmd --> S["product-engineer<br/>spec"]
-    S --> A["principal-architect<br/>design + ADRs"]
+    H(["/saeed:hire"]):::cmd --> S["product-engineer<br/>intake + spec"]
+    S --> A["principal-architect<br/>design + ADRs + threat model"]
     A --> O["team-orchestrator<br/>route work"]
     O --> B["specialists<br/>build (worktree waves)"]
-    B --> G{"code-reviewer + design-reviewer<br/>+ tests"}
+    B --> G{"code-reviewer + design-reviewer<br/>+ tests (+ appsec)"}
     G -- pass --> K["the-boss<br/>sign off on evidence"]
     G -- fail --> B
-    K --> I["continuous-improvement-lead<br/>audit + queue next"]
+    K --> V{"harden & verify<br/>pentest + /saeed:verify"}
+    V -- READY --> D["deliver<br/>(handover ladder)"]
+    V -- NOT READY --> B
+    D --> I["continuous-improvement-lead<br/>audit + queue next"]
     I --> B
     I -- "nothing worthwhile left" --> C(["CONVERGED"]):::done
     I -. "every few cycles (you approve)" .-> U["model-scout · roster-maintainer<br/>agent-optimizer · hr-talent-lead<br/>self-upgrade"]:::meta

@@ -20,9 +20,10 @@ document, and then keep improving your project on their own, in both **Arabic an
 > Arabic for *"assist / helper."* A team named after him, that helps you.
 
 ### What it actually does
-- You hand it a goal or a repo with one command: **`/saeed:hire`**.
-- It plans the architecture, splits the work across the right specialists, writes the code,
-  reviews it, tests it, hardens the security, and documents it.
+- You hand it a goal, a spec, or a repo with one command: **`/saeed:hire`**.
+- It takes in the goal, writes the spec, designs the UX, architecture, and threat model, splits
+  the work across the right specialists, writes the code, reviews it, tests it, hardens the
+  security, documents it, and delivers against an evidence-backed **READY** verdict.
 - Then it **improves itself and your project continuously** — auditing for the highest-value
   fixes and applying them — until there's genuinely nothing worthwhile left to do, or you say stop.
 - It even **upgrades its own team**: switching to stronger AI models as they ship and
@@ -37,8 +38,11 @@ air-gapped stack), Security, Infrastructure & Ops (incl. a **networking** engine
 TypeScript, docs, i18n, privacy). Skill-sets are baked in and applied automatically: an elite
 **Design Excellence** canon, a parallel **Orchestration Protocol**, a **Handover Protocol**
 that automates work (or hands it to Cowork when you have it) instead of dumping manual chores on
-you, and a **Self-Governance protocol** — the retiring lead's succession doctrine — that lets the
-team decide, recover, and keep a finished project alive without a human lead. See the roster in
+you, a **Self-Governance protocol** — the retiring lead's succession doctrine — that lets the
+team decide, recover, and keep a finished project alive without a human lead, an absorbed
+evidence canon (a **Verification Protocol** with executable gates and READY / NOT READY verdicts,
+**Context Discipline** for memory and model routing, and **Agentic Security** defending the team
+itself), and an **Attribution** convention that signs every deliverable. See the roster in
 the README.
 
 ### How much money it could save (UAE, AED)
@@ -108,9 +112,10 @@ ask in plain English and the right specialist is chosen automatically.
 > المُعين والمساعد. فريقٌ يحمل اسمه، ومهمته أن يساعدك.
 
 ### ماذا يفعل فعلياً
-- تُسلّمه هدفاً أو مستودعاً بأمر واحد: **`/saeed:hire`**.
-- يخطّط البنية، ويوزّع العمل على المتخصصين المناسبين، ويكتب الشيفرة، ويراجعها، ويختبرها،
-  ويعزّز الأمن، ويوثّقها.
+- تُسلّمه هدفاً أو مواصفات أو مستودعاً بأمر واحد: **`/saeed:hire`**.
+- يستلم الهدف، ويكتب المواصفات، ويصمّم تجربة الاستخدام والبنية ونموذج التهديدات، ويوزّع
+  العمل على المتخصصين المناسبين، ويكتب الشيفرة، ويراجعها، ويختبرها، ويعزّز الأمن،
+  ويوثّقها، ثم يسلّم المشروع بحكم **جاهز** مدعوم بالأدلة.
 - ثم **يحسّن نفسه ومشروعك باستمرار** — يدقّق بحثاً عن أعلى التحسينات قيمةً ويطبّقها — حتى
   لا يبقى تحسينٌ ذو قيمة، أو حتى تطلب منه التوقّف.
 - بل إنه **يطوّر فريقه ذاتياً**: ينتقل إلى نماذج ذكاء اصطناعي أقوى عند توفّرها، ويضيف أو
@@ -122,11 +127,13 @@ ask in plain English and the right specialist is chosen automatically.
 مراجعة تصميم**)، والخلفيات، والبيانات وقواعد البيانات، والذكاء الاصطناعي (ويشمل نظام الاسترجاع
 المعزّز RAG للبيئة المعزولة ثنائية اللغة)، والأمن، والبنية التحتية والتشغيل (وفيها مهندس
 **شبكات** ومهندس **Docker + أنظمة NVIDIA DGX Spark / GPU وأدوات الذكاء الاصطناعي**)، والجودة،
-ومتخصصون عامّون (بايثون، تايب سكريبت، التوثيق، التعريب، الخصوصية). وأربع مهارات مُدمجة تُطبَّق
+ومتخصصون عامّون (بايثون، تايب سكريبت، التوثيق، التعريب، الخصوصية). ومهارات مُدمجة تُطبَّق
 تلقائياً: **معيار التميّز في التصميم**، و**بروتوكول التنسيق المتوازي**، و**بروتوكول التسليم** الذي
 يؤتمت العمل (أو يُسلّمه إلى Cowork عند توفّره) بدل تكديس المهام اليدوية عليك، و**بروتوكول الحوكمة
 الذاتية** — عقيدة الخلافة التي تركها القائد المتقاعد — ليقرّر الفريق ويتعافى ويُبقي المشروع
-المكتمل حيّاً دون قائد بشري. القائمة الكاملة في ملف README.
+المكتمل حيّاً دون قائد بشري، وقانون أدلةٍ مُستوعَب (**بروتوكول التحقق** ببوابات تنفيذية وحكم
+**جاهز / غير جاهز**، و**انضباط السياق** للذاكرة وتوجيه النماذج، و**الأمن الوكيلي** الذي يحمي
+الفريق نفسه)، و**عُرف الإسناد** الذي يوقّع كل تسليم. القائمة الكاملة في ملف README.
 
 ### كم يمكن أن يوفّر من المال (الإمارات، بالدرهم)
 

@@ -6,6 +6,49 @@ semver (patch = fixes, minor = new agents/skills/commands, major = breaking).
 The version of record is `version` in `.claude-plugin/plugin.json`.
 *(Sections before 1.7.0 are backfilled from commit history and are coarser.)*
 
+## 1.9.0 - 2026-07-15
+
+### Changed
+- **`/saeed:hire` rewritten as the A-to-Z operational lifecycle runbook** —
+  five gated phases, each with named owners and an explicit exit line:
+  **Phase 0 Intake** (project-root fixing, sentinel checks, *unconditional*
+  disaster-recovery entry, existing-repo takeover assessment, BRD/spec-corpus
+  ingestion before any feature code, staffing check), **Phase 1 Spec & design**
+  (stories + compliance criteria, UX flows/IA before architecture,
+  architecture + ADRs + security threat model, test strategy incl.
+  non-functional targets and AI-feature evals), **Phase 2 Build**
+  (waves/worktrees/ticket queue, RED-gate TDD, standing CI + docs + SRE
+  readiness tasks, review/design/appsec gates, secrets response, sign-off only
+  on `VERDICT: READY` independently confirmed, integration as a separate run),
+  **Phase 3 Harden, verify & deliver** (conditional pentest with a real
+  failure path, `/saeed:verify`, handover-ladder deployment with unauthorized
+  deploys parked, and a checkable **DELIVERED** definition: READY verdict +
+  signed criteria + no open blockers + docs + attribution), **Phase 4
+  Improve** (default 3-pass session budget replacing "a sensible number",
+  `/saeed:upgrade` cadence). A phase pointer is written to `.saeed/state.json`
+  at every transition so crash-resume works; the pause protocol separates
+  mid-lifecycle resume (`/saeed:hire`) from post-delivery loops
+  (`saeed-loop.sh`, lethal-trifecta-scoped). All nine skills are wired in.
+  Verified by a 4-auditor workflow plus 3 adversarial lenses (all findings
+  fixed; the ops lens's two high findings — unanchored project root,
+  unwritable resume pointer — drove the v2 tightening).
+- Docs brought into lockstep (EN + AR): the hire lifecycle chain in
+  `help.md` / CHEATSHEET, README "What this is" + flow diagram (intake, threat
+  model, harden & verify, deliver stages), WHAT-IS "what it actually does".
+
+### Fixed
+- **`.saeed/` ledger reconciled with reality**: cycles 6-7 (v1.7.0, v1.8.0)
+  ran via a cloud branch and never updated the ledger — `state.json` still
+  said v1.6.0 / cycle 5 / 5 skills and lacked the `facilitated_by` field its
+  own v1.8.0 attribution convention mandates. Reconstructed from git +
+  CHANGELOG per the disaster-recovery rule; queue/retro now record the
+  missing cycles. A version-parity check for `validate-fleet.sh` is queued
+  (the stale-state class escaped the gate across two releases).
+- Doc rot from the unpulled cycles: WHAT-IS-SAEED skills list (EN + AR) named
+  only 4 of the 9 absorbed canons (hardcoded count dropped to stop the drift);
+  `what-is-saeed.html` commands table was missing `/saeed:verify`;
+  `instincts.md` was absent from the `.saeed/` folder tables (EN + AR).
+
 ## 1.8.0 - 2026-07-15
 
 ### Added

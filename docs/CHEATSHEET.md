@@ -9,7 +9,7 @@ can call by name. *(العربية في الأسفل.)*
 
 | Command | What it does | When to use it |
 |---|---|---|
-| `/saeed:hire <goal or spec>` | **The big one.** Takes a project from zero to done — design → build → test → secure → document — then keeps improving it. | Starting almost anything. Your default. |
+| `/saeed:hire <goal or spec>` | **The big one.** Takes a project from zero to done — intake → spec & design → build → harden & verify → deliver — then keeps improving it. | Starting almost anything. Your default. |
 | `/saeed:improve` | Runs improvement passes: audit → fix the highest-value things → verify → repeat. **The self-improvement button.** | Any time you want the project to get better. |
 | `/saeed:verify` | Runs the Verification Protocol: the ordered gates (build → types → lint → tests → security → diff) and an evidence-backed **READY / NOT READY** report. | Before a merge, a handover, or whenever you want proof instead of promises. |
 | `/saeed:status` | A blunt, no-spin status report from the Boss (done / in-progress / blocked / rejected + what's next). | Before a review, or when unsure where things stand. |
@@ -59,6 +59,7 @@ You don't call these; the agents consult them on the right kind of work.
 | `queue.md` | The backlog: each item's owner, acceptance criteria, and status. |
 | `state.json` | Machine-readable ledger + cycle count. |
 | `retro.md` | Retrospectives and what the team learned. |
+| `instincts.md` | Confidence-scored lessons the team keeps (trigger → action), pruned or promoted over time. |
 | `models.md` | Which agent runs on which model (and change history). |
 | `CONVERGED` | Appears when there's nothing worthwhile left to improve (with the reasons + reopen triggers). |
 | `STOP` | You create this to halt the loop. Delete it to resume. |
@@ -182,7 +183,7 @@ You don't call these; the agents consult them on the right kind of work.
 
 | الأمر | ماذا يفعل | متى تستخدمه |
 |---|---|---|
-| `/saeed:hire <الهدف>` | **الأمر الأهم.** يأخذ المشروع من الصفر إلى الاكتمال — تصميم ← بناء ← اختبار ← تأمين ← توثيق — ثم يواصل تحسينه. | لبدء أي مشروع تقريباً. أمرك الافتراضي. |
+| `/saeed:hire <الهدف>` | **الأمر الأهم.** يأخذ المشروع من الصفر إلى الاكتمال — استلام ← مواصفات وتصميم ← بناء ← تحصين وتحقّق ← تسليم — ثم يواصل تحسينه. | لبدء أي مشروع تقريباً. أمرك الافتراضي. |
 | `/saeed:improve` | ينفّذ جولات تحسين: تدقيق ← إصلاح الأعلى قيمة ← تحقّق ← تكرار. **زرّ التحسين الذاتي.** | كلما أردت تحسين المشروع. |
 | `/saeed:verify` | ينفّذ بروتوكول التحقق: البوابات المرتّبة (بناء ← أنواع ← فحص ← اختبارات ← أمان ← مراجعة) وتقرير مدعوم بالأدلة بحكم **جاهز / غير جاهز**. | قبل الدمج أو التسليم، أو عندما تريد دليلاً لا وعوداً. |
 | `/saeed:status` | تقرير حالة صريح من «المدير» (منجز / قيد التنفيذ / متوقف / مرفوض + التالي). | قبل المراجعة أو عند الحاجة لمعرفة الوضع. |
@@ -215,6 +216,7 @@ scripts/saeed-loop.sh /path/to/your/repo 50 0
 | `queue.md` | قائمة المهام: المالك، ومعايير القبول، والحالة. |
 | `state.json` | سجلّ رقمي + عدّاد الجولات. |
 | `retro.md` | مراجعات وما تعلّمه الفريق. |
+| `instincts.md` | دروس بدرجة ثقة يحتفظ بها الفريق (محفّز ← إجراء)، تُشذَّب أو تُرقَّى مع الوقت. |
 | `models.md` | أيّ وكيل يعمل على أيّ نموذج (وسجلّ التغييرات). |
 | `CONVERGED` | يظهر عند انتهاء التحسينات المجدية (مع الأسباب ومحفّزات إعادة الفتح). |
 | `STOP` | تنشئه أنت لإيقاف الحلقة. احذفه للاستئناف. |

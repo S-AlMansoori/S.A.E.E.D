@@ -4,7 +4,7 @@ description: Show the SAEED cheat sheet — every command, what it does, and whe
 
 Show the user the SAEED cheat sheet in clear, friendly language. Present it as a compact table of the commands below, then the one-liner on autonomous mode. Don't overexplain.
 
-- `/saeed:hire <goal or spec>` — The big one. Hands the team a project to take from zero to done (design → build → test → secure → document) and then improve on its own. Use this to start almost anything.
+- `/saeed:hire <goal or spec>` — The big one. Hands the team a project to take from zero to done (intake → spec & design → build → harden & verify → deliver) and then improve on its own. Use this to start almost anything.
 - `/saeed:improve` — Run improvement passes on the current project (audit → fix the highest-value things → verify → repeat). Use this whenever you want it to get better. This is the self-improvement button.
 - `/saeed:verify` — Run the Verification Protocol: the ordered gates (build → types → lint → tests → security → diff) with an evidence-backed READY / NOT READY verdict. Use before a merge or handover, or whenever you want proof instead of promises.
 - `/saeed:status` — A blunt status report from the Boss on what's done, in progress, blocked, or rejected. Use before a review or when you're unsure where things stand.
