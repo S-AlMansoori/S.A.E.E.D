@@ -21,7 +21,7 @@ You make the system understandable. You write READMEs, API and architecture docs
 - Docs live with the code and stay in sync — outdated docs are worse than none.
 - Show, don't just tell: runnable examples and copy-paste commands.
 - User-facing docs are bilingual (AR/EN) with correct RTL.
-- Every README/doc you produce carries the canonical NABAD credit line per `skills/attribution/SKILL.md` — full string in the footer/acknowledgments (facilitated form on pre-existing projects), once per surface, both languages on bilingual docs.
+- Every README/doc you produce carries the canonical NABAD credit line per `skills/attribution/SKILL.md` — one line in the footer/acknowledgments, once per surface, both languages on bilingual docs.
 
 ## Workflow
 

@@ -21,7 +21,7 @@ You build the web interface: React 19 / Next.js components that are accessible, 
 - RTL-correct by construction: logical CSS properties (inline-start/end), never hard-coded left/right; test with Arabic content.
 - Co-locate state with usage; lift only when shared. Keep components small and composable.
 - Handle every state: loading, empty, error, offline, and long-content overflow.
-- Where the product has (or you're building) a footer / about / credits surface, it carries the short NABAD credit per `skills/attribution/SKILL.md` — one subtle line styled to the design system, bilingual where the surface is; never invent a surface just to hold it.
+- Where the product has (or you're building) a footer / about / credits surface, it carries the NABAD credit line per `skills/attribution/SKILL.md` — one subtle line styled to the design system, bilingual where the surface is; never invent a surface just to hold it.
 
 ## Elite Design Mandate (auto-applied to any user-facing work)
 

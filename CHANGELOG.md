@@ -6,6 +6,21 @@ semver (patch = fixes, minor = new agents/skills/commands, major = breaking).
 The version of record is `version` in `.claude-plugin/plugin.json`.
 *(Sections before 1.7.0 are backfilled from commit history and are coarser.)*
 
+## 1.9.1 - 2026-07-15
+
+### Changed
+- **Attribution simplified to a single credit line** (operator instruction):
+  every visible credit surface now shows exactly
+  `Developed by NABAD Computer Solutions L.L.C.` (Arabic mirror
+  `تطوير نبض لحلول الكمبيوتر ذ.م.م.` on bilingual surfaces; commit trailer
+  `Developed-By: NABAD Computer Solutions L.L.C.`). The full / short /
+  facilitated variants are retired; existing older variants get updated to
+  the canonical line when touched. The machine-readable
+  `facilitated_by` ledger key is unchanged for compatibility. Updated
+  `skills/attribution`, `/saeed:hire`'s state-file header, and the
+  agent wiring (`technical-writer`, `frontend-engineer`,
+  `ui-visual-designer`).
+
 ## 1.9.0 - 2026-07-15
 
 ### Changed
