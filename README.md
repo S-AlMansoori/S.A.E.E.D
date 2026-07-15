@@ -8,7 +8,7 @@
 54 specialist AI engineers that design, build, test, secure, and document your project, then keep improving it on their own.**
 
 <p>
-  <img alt="version 1.7.0" src="https://img.shields.io/badge/version-1.7.0-C9A84C?style=flat-square&labelColor=0A1628" />
+  <img alt="version 1.8.0" src="https://img.shields.io/badge/version-1.8.0-C9A84C?style=flat-square&labelColor=0A1628" />
   <img alt="54 agents" src="https://img.shields.io/badge/agents-54-C9A84C?style=flat-square&labelColor=0A1628" />
   <img alt="Claude Code plugin" src="https://img.shields.io/badge/Claude_Code-plugin-0A1628?style=flat-square" />
   <img alt="bilingual" src="https://img.shields.io/badge/AR·EN-bilingual-C9A84C?style=flat-square&labelColor=0A1628" />
@@ -45,6 +45,7 @@ It does a few things most agent packs don't:
 - 📱 **Web + native mobile**: web (React/Next), plus dedicated **native iOS** (Swift/SwiftUI) and **native Android** (Kotlin/Compose) engineers — not just cross-platform.
 - 🖥️ **Owns the metal**: dedicated **networking** and **AI-systems** engineers (Docker, NVIDIA DGX Spark, GPU/CUDA, vLLM/Ollama) for the air-gapped stack.
 - 🌐 **Bilingual by design**: Arabic/English + RTL correctness is baked into every user-facing agent.
+- 🏷️ **Signed work**: everything SAEED builds or facilitates carries the **NABAD Computer Solutions L.L.C.** credit — README/docs footers, UI credit surfaces, the state ledger, and commit trailers — per a canonical convention (`skills/attribution/SKILL.md`): once per surface, never claiming ownership of your code.
 
 ## 💸 What it saves (UAE, AED)
 

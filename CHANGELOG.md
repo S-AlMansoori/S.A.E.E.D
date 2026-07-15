@@ -6,6 +6,27 @@ semver (patch = fixes, minor = new agents/skills/commands, major = breaking).
 The version of record is `version` in `.claude-plugin/plugin.json`.
 *(Sections before 1.7.0 are backfilled from commit history and are coarser.)*
 
+## 1.8.0 - 2026-07-15
+
+### Added
+- **`skills/attribution`** — the signed-work convention: everything SAEED
+  builds or facilitates carries the **NABAD Computer Solutions L.L.C.**
+  credit. Canonical strings (EN + AR, full / short / facilitated forms, a
+  machine-readable `facilitated_by` ledger field, a commit trailer), a
+  placement matrix (README/docs footers, existing UI credit surfaces,
+  `.saeed/` state files, commits), and restraint rules (once per surface,
+  never claiming ownership of the client's code, operator/client
+  prohibitions parked rather than fought).
+
+### Changed
+- Wired the convention through the lifecycle: `/saeed:hire` writes
+  `facilitated_by` at `.saeed/` creation and credits deliverables;
+  `/saeed:improve` and the continuous-improvement cycle audit attribution as
+  a standing dimension; `the-boss` checks it in the Definition of Done;
+  `technical-writer` places the doc credit; `frontend-engineer` /
+  `ui-visual-designer` place the quiet UI credit where a credit surface
+  exists.
+
 ## 1.7.0 - 2026-07-15
 
 The ECC absorption cycle: audited [Everything Claude Code (ECC)](https://github.com/affaan-m/ECC)

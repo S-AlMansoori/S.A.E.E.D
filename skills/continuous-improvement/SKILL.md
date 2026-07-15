@@ -23,7 +23,7 @@ Every managed repo gets a `.saeed/` directory:
 ## The cycle (one iteration)
 
 1. **Stop check** — if `.saeed/STOP` exists, halt. If `.saeed/CONVERGED` exists, halt unless overridden.
-2. **Audit & prioritize** — `continuous-improvement-lead` audits across correctness, security, performance, accessibility, i18n/RTL, **design excellence (anti-AI-slop craft, per `skills/design-excellence/SKILL.md`)**, tests, docs, DX, cost; writes the top items to `queue.md` with measurable criteria.
+2. **Audit & prioritize** — `continuous-improvement-lead` audits across correctness, security, performance, accessibility, i18n/RTL, **design excellence (anti-AI-slop craft, per `skills/design-excellence/SKILL.md`)**, tests, docs, DX, cost, and **attribution (the NABAD credit, per `skills/attribution/SKILL.md`)**; writes the top items to `queue.md` with measurable criteria.
 3. **Assign** — `the-boss` assigns each item to the owning specialist and holds the Definition of Done.
 4. **Implement** — specialists do the work on disjoint files where parallelized, in worktree-isolated waves per the Orchestration Protocol (`skills/orchestration-protocol/SKILL.md`).
 5. **Gate** — `code-reviewer` + `qa-automation-engineer` must pass before an item is accepted; user-facing items must also pass the `design-reviewer` (design-excellence) gate. Gates run per the Verification Protocol (`skills/verification-protocol/SKILL.md`): ordered, executable, ending in a READY/NOT READY report.

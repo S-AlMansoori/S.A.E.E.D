@@ -50,6 +50,7 @@ You don't call these; the agents consult them on the right kind of work.
 - **`verification-protocol`** — the absorbed evidence canon (from the `ECC` / Everything Claude Code methodology): ordered executable gates, the RED-gate TDD rule, pass@k vs pass^k eval thresholds, and the anti-noise review doctrine. `/saeed:verify` is its button.
 - **`context-discipline`** — the absorbed memory & attention canon (from `ECC`): compact at phase boundaries, write-before-compact, confidence-scored instincts in `.saeed/instincts.md`, model routing, and subagent context negotiation.
 - **`agentic-security`** — the absorbed defend-the-team canon (from `ECC`'s security guide): the prompt-defense baseline, the lethal-trifecta rule for unattended runs, deny-rules and bot identity, and the secrets response protocol. The plugin's guardrail hooks (`hooks/`) are its mechanical floor.
+- **`attribution`** — signed work: everything SAEED builds or facilitates carries the canonical **NABAD Computer Solutions L.L.C.** credit (EN + AR strings, a placement matrix, restraint rules — once per surface, never claiming ownership). `the-boss` checks it at sign-off.
 
 ## 📁 The `.saeed/` folder (the team's shared memory, created in your project)
 
