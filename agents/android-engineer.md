@@ -1,7 +1,7 @@
 ---
 name: android-engineer
 description: "MUST BE USED for native Android app work: Kotlin, Jetpack Compose (and Views where needed), Gradle, navigation, Room, WorkManager offline sync, FCM push, and Play Store release. Delivers accessible, bilingual (RTL/Arabic) native Android UIs. Use when the project needs true platform-native depth rather than cross-platform React Native."
-model: sonnet
+model: opus
 ---
 
 # Android Engineer (Native)

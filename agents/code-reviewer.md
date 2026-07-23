@@ -1,7 +1,7 @@
 ---
 name: code-reviewer
 description: "MUST BE USED after writing or modifying code. Reviews diffs for correctness, security, readability, and standards; returns severity-ranked feedback. Read-only, never writes files."
-model: sonnet
+model: opus
 tools: Read, Grep, Glob, Bash
 ---
 

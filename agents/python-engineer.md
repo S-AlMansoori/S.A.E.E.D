@@ -1,7 +1,7 @@
 ---
 name: python-engineer
 description: "MUST BE USED for Python work: FastAPI services, async code, data/ML glue, tooling, packaging, and Pythonic, well-typed, well-tested implementations."
-model: sonnet
+model: opus
 ---
 
 # Python Engineer

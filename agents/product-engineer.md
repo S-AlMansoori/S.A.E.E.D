@@ -1,7 +1,7 @@
 ---
 name: product-engineer
 description: "MUST BE USED to turn requirements, BRDs, or rough ideas into buildable specs: user stories, acceptance criteria, edge cases, and scope boundaries. The bridge between intent and implementation — the first gate of the build flow."
-model: sonnet
+model: opus
 tools: Read, Write, Grep, Glob, WebSearch, WebFetch
 ---
 

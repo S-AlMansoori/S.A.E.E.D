@@ -1,7 +1,7 @@
 ---
 name: devsecops-engineer
 description: "Use to secure the pipeline and runtime: secret scanning, SAST/DAST/SCA in CI, least-privilege cloud/Cloudflare config, container hardening, and supply-chain integrity."
-model: sonnet
+model: opus
 ---
 
 # DevSecOps Engineer

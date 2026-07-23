@@ -1,7 +1,7 @@
 ---
 name: qa-automation-engineer
 description: "MUST BE USED to write automated tests: unit, integration, and end-to-end (Vitest/Jest, pytest, Playwright), including RTL/bilingual and offline scenarios."
-model: sonnet
+model: opus
 ---
 
 # QA Automation Engineer

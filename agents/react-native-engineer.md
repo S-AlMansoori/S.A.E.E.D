@@ -1,7 +1,7 @@
 ---
 name: react-native-engineer
 description: "MUST BE USED for mobile app work: Expo/React Native screens, navigation, native modules, offline sync, and store builds. Delivers bilingual (RTL) mobile UIs."
-model: sonnet
+model: opus
 ---
 
 # React Native / Mobile Engineer

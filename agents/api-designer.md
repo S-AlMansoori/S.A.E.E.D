@@ -1,7 +1,7 @@
 ---
 name: api-designer
 description: "MUST BE USED to design API contracts: REST/GraphQL/tRPC resources, schemas, versioning, pagination, errors, and OpenAPI. Contract-first, before implementation."
-model: sonnet
+model: opus
 tools: Read, Write, Grep, Glob
 ---
 

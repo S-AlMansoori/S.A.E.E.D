@@ -1,7 +1,7 @@
 ---
 name: hr-talent-lead
 description: "MUST BE USED for team staffing and workforce planning (the HR function): assess a project's required capabilities against the roster, detect genuine capability gaps, and decide who to 'hire'. When a gap is found, write a role brief and commission roster-maintainer to author the new specialist. Also flags redundant or underused agents. Owns the hire decision, not the agent file."
-model: opus
+model: sonnet
 tools: Read, Write, Grep, Glob, Bash, WebSearch, WebFetch
 ---
 

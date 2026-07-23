@@ -1,7 +1,7 @@
 ---
 name: appsec-engineer
 description: "MUST BE USED to find and fix application vulnerabilities: OWASP Top 10, injection, authz gaps, unsafe deserialization, SSRF, dependency CVEs, and secure-coding review. Defensive security only."
-model: sonnet
+model: opus
 tools: Read, Grep, Glob, Bash
 ---
 

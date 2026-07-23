@@ -1,7 +1,7 @@
 ---
 name: ios-engineer
 description: "MUST BE USED for native iOS/iPadOS + App Store app work: Swift, SwiftUI (and UIKit where needed), Xcode, Swift Package Manager, navigation, SwiftData/Core Data, offline sync, push, and App Store submission. Delivers accessible, bilingual (RTL/Arabic) native iOS UIs. Use when the project needs true platform-native depth rather than cross-platform React Native. Native macOS desktop work (AppKit, Full Disk Access/TCC, notarization/Developer-ID) → macos-engineer."
-model: sonnet
+model: opus
 ---
 
 # iOS Engineer (Native)

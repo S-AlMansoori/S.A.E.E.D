@@ -173,27 +173,27 @@ Heavy-reasoning roles run on the top tier (Opus); implementers run on the mid ti
 |---|---|---|
 | `the-boss` | opus | Enforces accountability — assigns, chases, signs off on evidence |
 | `team-orchestrator` | opus | Decomposes goals and routes work to the right specialist |
-| `hr-talent-lead` | opus | HR/staffing — detects capability gaps, commissions new agents |
-| `roster-maintainer` | opus | Adds, retires, or reshapes the team's own agents |
+| `hr-talent-lead` | sonnet | HR/staffing — detects capability gaps, commissions new agents |
+| `roster-maintainer` | sonnet | Adds, retires, or reshapes the team's own agents |
 | `model-scout` | sonnet | Keeps the team on the best available models |
 | `continuous-improvement-lead` | opus | Drives the improvement loop; decides convergence |
-| `agent-optimizer` | opus | Improves the agents' own prompts |
-| `prompt-engineer` | opus | Prompt craft for users + the inter-agent communication layer |
+| `agent-optimizer` | sonnet | Improves the agents' own prompts |
+| `prompt-engineer` | sonnet | Prompt craft for users + the inter-agent communication layer |
 | `self-eval-critic` | opus | Independently verifies gains; runs retros (read-only) |
 
 ### Architecture & Product
 | Agent | Model | Role |
 |---|---|---|
 | `principal-architect` | opus | System design, tech choices, and ADRs |
-| `product-engineer` | sonnet | Turns ideas/BRDs into buildable specs |
+| `product-engineer` | opus | Turns ideas/BRDs into buildable specs |
 
 ### Frontend & Mobile
 | Agent | Model | Role |
 |---|---|---|
-| `frontend-engineer` | sonnet | Builds and modifies web UI (React/Next) |
-| `react-native-engineer` | sonnet | Cross-platform mobile (Expo/React Native) |
-| `ios-engineer` | sonnet | Native iOS (Swift/SwiftUI) |
-| `android-engineer` | sonnet | Native Android (Kotlin/Jetpack Compose) |
+| `frontend-engineer` | opus | Builds and modifies web UI (React/Next) |
+| `react-native-engineer` | opus | Cross-platform mobile (Expo/React Native) |
+| `ios-engineer` | opus | Native iOS (Swift/SwiftUI) |
+| `android-engineer` | opus | Native Android (Kotlin/Jetpack Compose) |
 | `macos-engineer` | sonnet | Native macOS desktop (SwiftUI/AppKit) + Developer ID notarization |
 | `frontend-performance-engineer` | sonnet | Diagnoses and fixes frontend performance |
 | `accessibility-specialist` | sonnet | Audits and fixes accessibility (WCAG) |
@@ -203,7 +203,7 @@ Heavy-reasoning roles run on the top tier (Opus); implementers run on the mid ti
 | Agent | Model | Role |
 |---|---|---|
 | `product-designer` | sonnet | UX flows, wireframes, interaction design |
-| `ui-visual-designer` | opus | Visual and brand design (navy/gold) |
+| `ui-visual-designer` | sonnet | Visual and brand design (navy/gold) |
 | `design-systems-engineer` | sonnet | Builds and maintains the design system |
 | `design-reviewer` | opus | Design-excellence gate for user-facing diffs (read-only) |
 | `ux-researcher` | sonnet | Plans and analyzes user research |
@@ -211,15 +211,15 @@ Heavy-reasoning roles run on the top tier (Opus); implementers run on the mid ti
 ### Backend
 | Agent | Model | Role |
 |---|---|---|
-| `backend-engineer` | sonnet | Builds server-side logic |
-| `api-designer` | sonnet | Designs API contracts |
+| `backend-engineer` | opus | Builds server-side logic |
+| `api-designer` | opus | Designs API contracts |
 | `realtime-engineer` | sonnet | Realtime and event-driven features |
 | `edge-serverless-engineer` | sonnet | Edge/serverless (Cloudflare Workers/Pages) |
 
 ### Data & Databases
 | Agent | Model | Role |
 |---|---|---|
-| `database-architect` | sonnet | Data modeling, schema, RLS, migrations |
+| `database-architect` | opus | Data modeling, schema, RLS, migrations |
 | `query-optimization-engineer` | sonnet | Diagnoses and fixes slow queries |
 | `vector-search-engineer` | sonnet | Embeddings + vector search (bilingual) |
 | `data-engineer` | sonnet | Pipelines, ETL, OCR digitization |
@@ -229,7 +229,7 @@ Heavy-reasoning roles run on the top tier (Opus); implementers run on the mid ti
 |---|---|---|
 | `llm-engineer` | opus | LLM app work (prompts, tools, evals) |
 | `rag-architect` | opus | Designs and improves RAG end-to-end |
-| `ml-engineer` | sonnet | Model selection, fine-tuning, evaluation |
+| `ml-engineer` | opus | Model selection, fine-tuning, evaluation |
 | `mlops-engineer` | sonnet | Serves/operates models (vLLM on the DGX) |
 | `nlp-bilingual-specialist` | sonnet | Arabic/English NLP correctness |
 
@@ -237,9 +237,9 @@ Heavy-reasoning roles run on the top tier (Opus); implementers run on the mid ti
 | Agent | Model | Role |
 |---|---|---|
 | `security-architect` | opus | Threat modeling and authZ/ABAC design |
-| `appsec-engineer` | sonnet | Finds and fixes app vulnerabilities (OWASP) |
-| `devsecops-engineer` | sonnet | Secures the pipeline and runtime |
-| `security-pentester` | sonnet | Tests your OWN systems (defensive only) |
+| `appsec-engineer` | opus | Finds and fixes app vulnerabilities (OWASP) |
+| `devsecops-engineer` | opus | Secures the pipeline and runtime |
+| `security-pentester` | opus | Tests your OWN systems (defensive only) |
 
 ### Infrastructure & Ops
 | Agent | Model | Role |
@@ -253,14 +253,14 @@ Heavy-reasoning roles run on the top tier (Opus); implementers run on the mid ti
 ### Quality
 | Agent | Model | Role |
 |---|---|---|
-| `qa-automation-engineer` | sonnet | Writes automated tests (unit/integration/E2E) |
+| `qa-automation-engineer` | opus | Writes automated tests (unit/integration/E2E) |
 | `test-architect` | sonnet | Sets test strategy and coverage plan |
-| `code-reviewer` | sonnet | Reviews diffs before they're accepted (read-only) |
+| `code-reviewer` | opus | Reviews diffs before they're accepted (read-only) |
 
 ### Specialists
 | Agent | Model | Role |
 |---|---|---|
-| `python-engineer` | sonnet | Python (FastAPI, async, tooling) |
+| `python-engineer` | opus | Python (FastAPI, async, tooling) |
 | `typescript-specialist` | sonnet | Advanced TypeScript / precise types |
 | `technical-writer` | sonnet | Documentation (bilingual) |
 | `i18n-localization-engineer` | sonnet | RTL layout and locale formatting |

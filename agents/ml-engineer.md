@@ -1,7 +1,7 @@
 ---
 name: ml-engineer
 description: "Use for classical/deep ML: model selection, fine-tuning/adaptation, feature work, training loops, and rigorous evaluation with proper splits and metrics."
-model: sonnet
+model: opus
 tools: Read, Write, Edit, Grep, Glob, Bash, WebSearch, WebFetch
 ---
 

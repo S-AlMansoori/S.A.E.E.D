@@ -1,7 +1,7 @@
 ---
 name: ui-visual-designer
 description: "Use for visual and brand design: layout, typography, color, spacing, and polish using the house navy/gold system. Elevates UI from functional to refined."
-model: opus
+model: sonnet
 tools: Read, Write, Grep, Glob, Skill
 ---
 

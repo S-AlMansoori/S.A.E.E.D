@@ -1,7 +1,7 @@
 ---
 name: agent-optimizer
 description: "Use to improve the SAEED agents themselves. When an agent underperforms, produces vague output, or mis-triggers, rewrites its system prompt and description for sharper scope, better triggering, and stronger output contracts. Meta-level prompt engineering for the team."
-model: opus
+model: sonnet
 tools: Read, Write, Edit, Grep, Glob, Bash
 ---
 

@@ -73,12 +73,12 @@ You don't call these; the agents consult them on the right kind of work.
 |---|---|---|
 | `the-boss` | opus | you want work assigned, chased, and signed off — no excuses. |
 | `team-orchestrator` | opus | a job has many parts and needs planning + routing. |
-| `hr-talent-lead` | opus | the project needs a capability no current specialist covers (staffing/hire). |
-| `roster-maintainer` | opus | the team needs a new agent authored, merged, or retired. |
+| `hr-talent-lead` | sonnet | the project needs a capability no current specialist covers (staffing/hire). |
+| `roster-maintainer` | sonnet | the team needs a new agent authored, merged, or retired. |
 | `model-scout` | sonnet | you want the team moved onto better/newer AI models. |
 | `continuous-improvement-lead` | opus | you want the project audited for the highest-value fixes. |
-| `agent-optimizer` | opus | an agent is underperforming and its prompt needs sharpening. |
-| `prompt-engineer` | opus | you want a prompt written/refined, or the agents' comms format improved. |
+| `agent-optimizer` | sonnet | an agent is underperforming and its prompt needs sharpening. |
+| `prompt-engineer` | sonnet | you want a prompt written/refined, or the agents' comms format improved. |
 | `self-eval-critic` | opus | you want an independent check that gains are real (no spin). |
 
 #### Architecture & Product
@@ -86,16 +86,16 @@ You don't call these; the agents consult them on the right kind of work.
 | Agent (call by name) | Model | Use when… |
 |---|---|---|
 | `principal-architect` | opus | you need system design, tech choices, and ADRs before building. |
-| `product-engineer` | sonnet | a fuzzy idea needs turning into a buildable spec. |
+| `product-engineer` | opus | a fuzzy idea needs turning into a buildable spec. |
 
 #### Frontend
 
 | Agent (call by name) | Model | Use when… |
 |---|---|---|
-| `frontend-engineer` | sonnet | building or changing web UI (React/Next). |
-| `react-native-engineer` | sonnet | building a cross-platform mobile app (Expo/React Native). |
-| `ios-engineer` | sonnet | building a native iOS app (Swift/SwiftUI). |
-| `android-engineer` | sonnet | building a native Android app (Kotlin/Jetpack Compose). |
+| `frontend-engineer` | opus | building or changing web UI (React/Next). |
+| `react-native-engineer` | opus | building a cross-platform mobile app (Expo/React Native). |
+| `ios-engineer` | opus | building a native iOS app (Swift/SwiftUI). |
+| `android-engineer` | opus | building a native Android app (Kotlin/Jetpack Compose). |
 | `macos-engineer` | sonnet | building a native macOS desktop app (SwiftUI/AppKit) + Developer ID notarization. |
 | `frontend-performance-engineer` | sonnet | the web app is slow (Core Web Vitals, bundle size). |
 | `accessibility-specialist` | sonnet | you need a WCAG accessibility audit and fixes. |
@@ -106,7 +106,7 @@ You don't call these; the agents consult them on the right kind of work.
 | Agent (call by name) | Model | Use when… |
 |---|---|---|
 | `product-designer` | sonnet | you need user flows, wireframes, and interaction design. |
-| `ui-visual-designer` | opus | you want polished navy/gold visual design and typography. |
+| `ui-visual-designer` | sonnet | you want polished navy/gold visual design and typography. |
 | `design-systems-engineer` | sonnet | you need reusable tokens and a component library. |
 | `design-reviewer` | opus | you want a user-facing change judged against the design-excellence canon (the design gate). |
 | `ux-researcher` | sonnet | you want usability testing or a heuristic evaluation. |
@@ -115,8 +115,8 @@ You don't call these; the agents consult them on the right kind of work.
 
 | Agent (call by name) | Model | Use when… |
 |---|---|---|
-| `backend-engineer` | sonnet | building server logic, endpoints, jobs, integrations. |
-| `api-designer` | sonnet | you need a clean API contract before implementation. |
+| `backend-engineer` | opus | building server logic, endpoints, jobs, integrations. |
+| `api-designer` | opus | you need a clean API contract before implementation. |
 | `realtime-engineer` | sonnet | you need live updates, presence, or event streams. |
 | `edge-serverless-engineer` | sonnet | you need Cloudflare Workers/Pages, edge caching, low latency. |
 
@@ -124,7 +124,7 @@ You don't call these; the agents consult them on the right kind of work.
 
 | Agent (call by name) | Model | Use when… |
 |---|---|---|
-| `database-architect` | sonnet | you need schema design, RLS, and safe migrations. |
+| `database-architect` | opus | you need schema design, RLS, and safe migrations. |
 | `query-optimization-engineer` | sonnet | a database query is slow and needs tuning. |
 | `vector-search-engineer` | sonnet | you need embeddings + Qdrant retrieval tuned (bilingual). |
 | `data-engineer` | sonnet | you need pipelines / ETL / OCR digitization. |
@@ -135,7 +135,7 @@ You don't call these; the agents consult them on the right kind of work.
 |---|---|---|
 | `llm-engineer` | opus | you're building an LLM feature (prompts, tools, evals). |
 | `rag-architect` | opus | you're designing or improving a RAG system end-to-end. |
-| `ml-engineer` | sonnet | you need model selection, fine-tuning, or rigorous eval. |
+| `ml-engineer` | opus | you need model selection, fine-tuning, or rigorous eval. |
 | `mlops-engineer` | sonnet | you're serving models on the DGX (vLLM, quantization). |
 | `nlp-bilingual-specialist` | sonnet | you need correct Arabic/English text handling. |
 
@@ -144,9 +144,9 @@ You don't call these; the agents consult them on the right kind of work.
 | Agent (call by name) | Model | Use when… |
 |---|---|---|
 | `security-architect` | opus | you need threat modeling and an authZ/ABAC design. |
-| `appsec-engineer` | sonnet | you want vulnerabilities found and fixed (OWASP). |
-| `devsecops-engineer` | sonnet | you want security gates in CI and hardened infra. |
-| `security-pentester` | sonnet | you want your OWN systems stress-tested (defensive). |
+| `appsec-engineer` | opus | you want vulnerabilities found and fixed (OWASP). |
+| `devsecops-engineer` | opus | you want security gates in CI and hardened infra. |
+| `security-pentester` | opus | you want your OWN systems stress-tested (defensive). |
 
 #### Infrastructure & Ops
 
@@ -162,15 +162,15 @@ You don't call these; the agents consult them on the right kind of work.
 
 | Agent (call by name) | Model | Use when… |
 |---|---|---|
-| `qa-automation-engineer` | sonnet | you need automated tests written (unit/integration/E2E). |
+| `qa-automation-engineer` | opus | you need automated tests written (unit/integration/E2E). |
 | `test-architect` | sonnet | you need a testing strategy and coverage plan. |
-| `code-reviewer` | sonnet | you want a diff reviewed before it's accepted. |
+| `code-reviewer` | opus | you want a diff reviewed before it's accepted. |
 
 #### Specialists
 
 | Agent (call by name) | Model | Use when… |
 |---|---|---|
-| `python-engineer` | sonnet | you need strong Python (FastAPI, async, tooling). |
+| `python-engineer` | opus | you need strong Python (FastAPI, async, tooling). |
 | `typescript-specialist` | sonnet | you need advanced TypeScript / precise types. |
 | `technical-writer` | sonnet | you need docs, READMEs, runbooks (bilingual). |
 | `i18n-localization-engineer` | sonnet | you need RTL layout and locale formatting. |

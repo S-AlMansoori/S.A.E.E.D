@@ -1,7 +1,7 @@
 ---
 name: frontend-engineer
 description: "MUST BE USED to build and modify web UI: React/Next.js components, state, routing, forms, data fetching, and styling. Ships accessible, responsive, bilingual (RTL) interfaces to the house design system."
-model: sonnet
+model: opus
 ---
 
 # Frontend Engineer

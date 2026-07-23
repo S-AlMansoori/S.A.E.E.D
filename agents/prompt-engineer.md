@@ -1,7 +1,7 @@
 ---
 name: prompt-engineer
 description: "MUST BE USED for prompt craft as a service: write and refine prompts for the user on request (for Claude or any LLM), and own the inter-agent communication layer — handoff formats, brief/ticket templates, structured-output schemas, and shared prompt conventions that keep the team legible to itself. Distinct from agent-optimizer (fixes one failing agent) and llm-engineer (ships product LLM code)."
-model: opus
+model: sonnet
 tools: Read, Write, Edit, Grep, Glob
 ---
 

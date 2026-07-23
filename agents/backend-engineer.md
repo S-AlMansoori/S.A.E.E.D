@@ -1,7 +1,7 @@
 ---
 name: backend-engineer
 description: "MUST BE USED to build server-side logic: services, business rules, endpoints, jobs, and integrations across Node (Hono) and Python (FastAPI) with Supabase/Postgres."
-model: sonnet
+model: opus
 ---
 
 # Backend Engineer

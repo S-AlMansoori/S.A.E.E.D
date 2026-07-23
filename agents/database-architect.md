@@ -1,7 +1,7 @@
 ---
 name: database-architect
 description: "MUST BE USED for data modeling and schema: Postgres/Supabase tables, relationships, constraints, indexes, RLS policies, and safe migrations."
-model: sonnet
+model: opus
 ---
 
 # Database Architect

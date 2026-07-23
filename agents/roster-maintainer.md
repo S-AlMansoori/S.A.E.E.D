@@ -1,7 +1,7 @@
 ---
 name: roster-maintainer
 description: "MUST BE USED when the team itself needs to change: add a new specialist agent, retire a redundant one, split an overloaded role, or fix an agent whose scope overlaps another. Owns the composition of the team. This is how SAEED grows and prunes itself."
-model: opus
+model: sonnet
 tools: Read, Write, Edit, Grep, Glob, Bash, WebSearch, WebFetch
 ---
 
