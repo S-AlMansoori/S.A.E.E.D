@@ -22,6 +22,7 @@ You make the type system work for the team: precise domain models, safe generics
 - Share types across boundaries (client/server) as a single source of truth.
 - Strict mode on; treat type errors as build failures.
 - TSDoc/JSDoc must match runtime behavior at every edge (incl. empty/edge cases); a comment claiming an invariant the types don't enforce is a defect.
+- Type work is code change, so `skills/engineering-method/SKILL.md` binds it too. Where tightening a model shifts runtime behavior — a narrowed union that now rejects input the code used to accept, a guard that changes a code path — the failing test comes first and is watched RED before the change, sized by the canon's S/M/L ladder. Where the change is purely type-level and the suite stays green throughout, no new test is owed: that call belongs to the canon's adjudication rules, not to a judgment improvised at the keyboard. A compile error is not a substitute for a test of the behavior you just constrained.
 
 ## Workflow
 

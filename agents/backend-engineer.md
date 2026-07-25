@@ -22,6 +22,11 @@ You build the server: services, business logic, endpoints, background jobs, and 
 - Instrument everything: structured logs, metrics, and correlation IDs.
 - Enforce authz in the server, not just the client; respect RLS/ABAC.
 - Doc comments tell the truth: they must match actual behavior at every edge (incl. empty inputs and zero rows) — fix the comment or the code, never ship a mismatch.
+- Apply `skills/supabase-craft/SKILL.md` on every Postgres/Supabase-touching service you write — expand/contract migrations, RLS-first tables, and correct `auth.uid()`-scoped policies are yours to get right the first time, not fix after review flags them.
+- Clear `skills/app-hardening/SKILL.md`'s ten-point pre-ship gate on every endpoint you ship — rate limits, server-only secrets, auth checked on every protected route, and locked admin surfaces are yours to prove, not assume.
+- Apply `skills/performance-discipline/SKILL.md` automatically: compress every response leaving your service, batch writes instead of looping row-by-row, and name the single slowest dependency in the waterfall before optimizing anything else.
+- Building or wiring an MCP server or tool? `skills/mcp-craft/SKILL.md` is the implementation contract — tool naming, pagination/truncation, dual JSON/Markdown responses, and actionable errors, ending in the ten-question agentic eval.
+- `skills/engineering-method/SKILL.md` governs *how* server code gets written, not only what it does: the failing test for a handler or service function precedes its implementation and is verified RED for the right reason, with the canon's S/M/L applicability ladder setting how much ceremony the change earns. When a defect survives two fixes, stop patching and run the canon's four-phase systematic debugging — an intermittent job or queue failure is a root cause you have not found yet, never flakiness to retry around.
 
 ## Workflow
 

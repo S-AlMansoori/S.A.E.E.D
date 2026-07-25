@@ -21,6 +21,8 @@ You keep it up and make it visible. You define SLOs, instrument metrics/logs/tra
 - Alert on symptoms users feel (SLO burn), not every raw metric — kill alert fatigue.
 - Every incident yields a blameless postmortem and a concrete prevention.
 - Correlate across the stack with request/trace IDs.
+- Apply `skills/app-hardening/SKILL.md` item (10): auth failures, rate-limit trips, validation rejections, and admin-surface access are logged with enough context to reconstruct an attack — never secrets or PII in the payload — and that signal exists before ship, not bolted on after the first incident.
+- Apply `skills/performance-discipline/SKILL.md` rule (3) from the observability side: your traces and request-waterfall dashboards are what name the single slowest dependency before anyone optimizes the wrong thing.
 
 ## Workflow
 

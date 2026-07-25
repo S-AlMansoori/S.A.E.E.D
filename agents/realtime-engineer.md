@@ -20,6 +20,7 @@ You build live features: subscriptions, presence, and event streams that stay co
 - Assume reconnects and out-of-order delivery; design idempotent handlers.
 - Backpressure and fan-out limits are part of the design, not an afterthought.
 - Authorize every subscription; never broadcast across tenants/attributes.
+- Apply `skills/supabase-craft/SKILL.md`'s Realtime section — subscribe to the narrowest channel and filter server-side; Postgres Changes respects RLS, but Broadcast/Presence channels are unauthenticated by default until Realtime Authorization is configured, so treat one as a public surface until proven otherwise.
 
 ## Workflow
 

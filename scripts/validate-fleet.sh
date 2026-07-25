@@ -42,6 +42,25 @@
 #                        skills/*/SKILL.md has name (matching its directory)
 #                        and a single-line description. (Absorbed from ECC's
 #                        validate-commands / validate-skills CI gates.)
+#  10. Cross-reference resolution — every `skills/<name>/SKILL.md` reference
+#                        found anywhere under agents/, commands/, skills/,
+#                        hooks/, docs/, or README.md must resolve to a real
+#                        file on disk; and (when .saeed/state.json exists)
+#                        its `skills` array must match the actual skills/*/
+#                        directories in both directions. Closes the blind
+#                        spot Checks 5 and 9 structurally cannot see: a canon
+#                        that is referenced but was never authored. (B7-NEW —
+#                        cycle 9 wired 28 references to a nonexistent canon
+#                        across 24 files and this validator stayed green the
+#                        whole time.)
+#  11. Canon reference form — no doctrine file (skills/, agents/, commands/,
+#                        hooks/) carries a bare backticked `skills/<name>`
+#                        without /SKILL.md, and none carries a line-anchored
+#                        `SKILL.md:<digits>` cross-reference. Check 10's
+#                        pattern requires /SKILL.md, so a MALFORMED reference
+#                        — including a typo'd canon name — never matched it
+#                        and shipped green; line anchors rot silently and the
+#                        two this cycle shipped pointed at the wrong rule.
 #
 # NOTE on .saeed/: it is per-project runtime state and gitignored, so a fresh
 # clone (and CI) has none. Checks that read .saeed/state.json or models.md are
@@ -52,8 +71,8 @@
 #                                       # resolved relative to this script.
 #
 # EXIT STATUS
-#   0  — all hard checks (1-5, 7) passed. Check 6 is advisory and never fails
-#        the build; it only prints a warning.
+#   0  — all hard checks (1-5, 7-11) passed. Check 6 is advisory and never
+#        fails the build; it only prints a warning.
 #   1  — one or more hard checks failed. Every violation is printed with the
 #        file and expected-vs-found detail before the FAIL summary line.
 #
@@ -605,6 +624,64 @@ with tempfile.TemporaryDirectory() as td:
         if proc.returncode != 0 or proc.stdout.strip():
             fail(CHECK8, f"{BRIEF}: must be silent (exit 0, no stdout) when no .saeed/ exists")
 
+GUARD_TDD = "hooks/guard-tdd-mode.sh"
+if (repo_root / GUARD_TDD).exists():
+    # Fixture repo path deliberately contains a space, mirroring this
+    # repo's own path ("S.A.E.E.D." lives under a space-bearing iCloud
+    # path) — a `tempfile.TemporaryDirectory()` with no space in it is
+    # green for the wrong reason and misses quote-truncation bugs in the
+    # hook's target-path extraction.
+    with tempfile.TemporaryDirectory(prefix="saeed tdd guard ") as td:
+        repo = Path(td) / "repo with space"
+        (repo / "src").mkdir(parents=True)
+        (repo / ".saeed").mkdir(parents=True)
+        subprocess.run(["git", "init", "-q"], cwd=repo, capture_output=True, timeout=10)
+        subprocess.run(["git", "config", "user.email", "tdd-fixture@saeed.local"], cwd=repo, capture_output=True, timeout=10)
+        subprocess.run(["git", "config", "user.name", "SAEED TDD Fixture"], cwd=repo, capture_output=True, timeout=10)
+        src_file = repo / "src" / "foo.ts"
+        src_file.write_text("export const foo = 1;\n", encoding="utf-8")
+        subprocess.run(["git", "add", "-A"], cwd=repo, capture_output=True, timeout=10)
+        subprocess.run(["git", "commit", "-q", "-m", "seed"], cwd=repo, capture_output=True, timeout=10)
+
+        # Sentinel absent: even a would-be-blocking payload must stay silent.
+        expect_hook(GUARD_TDD, json.dumps({"tool_name": "Write", "tool_input": {"file_path": str(src_file)}}),
+                    0, "must stay silent (no .saeed/TDD sentinel)", cwd=repo)
+
+        (repo / ".saeed" / "TDD").write_text("enforce\n", encoding="utf-8")
+
+        # 1. enforce-mode bypass write (echo redirect into logic-bearing source,
+        #    properly quoted because the path contains a space) -> BLOCK.
+        #    This is the code-reviewer's exact repro for the space-truncation bug:
+        #    a whitespace-regex target extraction truncates the quoted path at its
+        #    first space, the extension check never sees `.ts`, and the bypass
+        #    this hook exists to police sails through in enforce mode.
+        expect_hook(GUARD_TDD, json.dumps({"tool_name": "Bash", "tool_input": {"command": f'echo "x" >> "{src_file}"'}}),
+                    2, "enforce mode must BLOCK a quoted, space-containing echo-redirect bypass write into logic-bearing source", cwd=repo)
+
+        # 2. enforce-mode source edit with no test file in the change-set -> BLOCK.
+        expect_hook(GUARD_TDD, json.dumps({"tool_name": "Write", "tool_input": {"file_path": str(src_file)}}),
+                    2, "enforce mode must BLOCK a source edit with no test change in the change-set", cwd=repo)
+
+        # 3. sentinel tamper (editing the existing .saeed/TDD file itself) -> BLOCK.
+        expect_hook(GUARD_TDD, json.dumps({"tool_name": "Edit", "tool_input": {"file_path": str(repo / ".saeed" / "TDD")}}),
+                    2, "must BLOCK edits to an existing .saeed/TDD sentinel", cwd=repo)
+
+        # 3b. sentinel tamper through the Bash channel (NIT N3) -> BLOCK, both shapes.
+        expect_hook(GUARD_TDD, json.dumps({"tool_name": "Bash", "tool_input": {"command": f'rm "{repo}/.saeed/TDD"'}}),
+                    2, "must BLOCK `rm` targeting the existing .saeed/TDD sentinel via Bash", cwd=repo)
+        expect_hook(GUARD_TDD, json.dumps({"tool_name": "Bash", "tool_input": {"command": f'echo off > "{repo}/.saeed/TDD"'}}),
+                    2, "must BLOCK a redirect-overwrite of the existing .saeed/TDD sentinel via Bash", cwd=repo)
+        expect_hook(GUARD_TDD, json.dumps({"tool_name": "Bash", "tool_input": {"command": "git status && ls"}}),
+                    0, "must ALLOW an ordinary Bash command that does not touch the sentinel", cwd=repo)
+
+        # 4. benign edit accompanied by a test change (untracked test file present) -> ALLOW.
+        (repo / "src" / "foo.test.ts").write_text("test('x', () => {});\n", encoding="utf-8")
+        expect_hook(GUARD_TDD, json.dumps({"tool_name": "Write", "tool_input": {"file_path": str(src_file)}}),
+                    0, "must ALLOW a source edit when a test file is present in the change-set", cwd=repo)
+
+        # 5. non-JSON input -> fail open.
+        expect_hook(GUARD_TDD, "not json", 0, "must fail OPEN on unparseable input", cwd=repo)
+
 
 # ---------------------------------------------------------------------------
 # Check 9 — Command & skill frontmatter (absorbed from ECC's validate-commands
@@ -652,6 +729,154 @@ for d in skill_dirs:
         # ECC lesson: literal block scalars preserve newlines and break
         # flat-table renderers keyed off the description.
         fail(CHECK9, f"skills/{d.name}/SKILL.md: description uses a literal block scalar ('|') — use a single line or folded scalar")
+
+
+# ---------------------------------------------------------------------------
+# Check 10 — Cross-reference resolution (B7-NEW). Both this cycle's gates
+# independently found that cycle 9 wired 28 references to a canon that did
+# not exist, across 24 files, while this validator stayed green the entire
+# time: Check 9 only enumerates skills/*/ directories that DO exist (so an
+# absent canon is invisible to it), and Check 5 only resolves backtick tokens
+# inside a '## Handoffs' section (so a prose reference anywhere else is
+# invisible to it too). A referenced-but-absent canon fell squarely between
+# them. This check closes that hole directly by scanning every surface a
+# canon reference can appear on and resolving it against the real filesystem.
+# ---------------------------------------------------------------------------
+CHECK10 = "10. Cross-reference resolution"
+
+SKILL_REF_RE = re.compile(r"skills/([A-Za-z0-9_-]+)/SKILL\.md")
+CROSSREF_ROOTS = ["agents", "commands", "skills", "hooks", "docs"]
+
+crossref_files = []
+for root_name in CROSSREF_ROOTS:
+    root_dir = repo_root / root_name
+    if root_dir.exists():
+        crossref_files.extend(sorted(p for p in root_dir.rglob("*") if p.is_file()))
+readme_path = repo_root / "README.md"
+if readme_path.exists():
+    crossref_files.append(readme_path)
+
+actual_skill_dirs = {p.name for p in skills_dir.iterdir() if p.is_dir()} if skills_dir.exists() else set()
+
+# 10a — every skills/<name>/SKILL.md reference found in the fleet must
+# resolve to a real file. This is the check that would have caught this
+# cycle's defect on day one: no enumeration of what exists, just resolution
+# of what is claimed.
+for f in crossref_files:
+    try:
+        text = read(f)
+    except (UnicodeDecodeError, OSError):
+        continue
+    for name in SKILL_REF_RE.findall(text):
+        if name not in actual_skill_dirs:
+            fail(
+                CHECK10,
+                f"{f.relative_to(repo_root)}: references skills/{name}/SKILL.md, "
+                f"but skills/{name}/SKILL.md does not exist on disk",
+            )
+
+# 10b — .saeed/state.json 'skills' array vs skills/*/ directories, checked in
+# BOTH directions (no phantom entries, no unlisted canons). OPTIONAL for the
+# same reason as the other .saeed/ checks above: it is per-project gitignored
+# runtime state, so a fresh clone/CI checkout legitimately has none.
+if state_text is None:
+    note(".saeed/state.json absent (gitignored runtime state) — skills-roster cross-check skipped")
+else:
+    try:
+        state10 = json.loads(state_text)
+        stated_skills = set(state10.get("skills") or [])
+        phantom = sorted(stated_skills - actual_skill_dirs)
+        unlisted = sorted(actual_skill_dirs - stated_skills)
+        for name in phantom:
+            fail(
+                CHECK10,
+                f".saeed/state.json: 'skills' array lists {name!r}, "
+                f"but skills/{name}/SKILL.md does not exist on disk",
+            )
+        for name in unlisted:
+            fail(
+                CHECK10,
+                f".saeed/state.json: 'skills' array is missing {name!r}, "
+                f"but skills/{name}/ exists on disk",
+            )
+    except json.JSONDecodeError:
+        pass  # already reported by Check 1 / Check 4
+
+
+# ---------------------------------------------------------------------------
+# Check 11 — Canon reference FORM. Check 10 resolves well-formed references;
+# a malformed one slips past it silently, which is exactly where cycle 9's
+# last two blocking defects hid. Two shapes, both mechanical:
+#   11a  a bare backticked `skills/<name>` with no /SKILL.md. Check 10's
+#        pattern requires /SKILL.md, so it never matches a bare reference —
+#        meaning a misspelled canon name currently resolves to nothing and
+#        ships green. Both the wrong-form and the typo case are caught here.
+#   11b  a line-anchored `SKILL.md:<digits>` cross-reference — line numbers in
+#        a neighbouring canon have no stability guarantee, and the ones this
+#        cycle shipped pointed at the wrong rule before they even rotted.
+# Scoped to the doctrine surfaces (skills/agents/commands/hooks): docs and
+# CHANGELOG legitimately quote grep output with line numbers. Fenced code
+# blocks are excluded so a canon can illustrate the form it forbids.
+# ---------------------------------------------------------------------------
+CHECK11 = "11. Canon reference form"
+
+BARE_SKILL_REF_RE = re.compile(r"`skills/([A-Za-z0-9_-]+)`")
+ANCHORED_SKILL_REF_RE = re.compile(r"SKILL\.md:\d+")
+FENCED_BLOCK_RE = re.compile(r"^```.*?^```", re.M | re.S)
+DOCTRINE_ROOTS = ["skills", "agents", "commands", "hooks"]
+
+doctrine_files = []
+for root_name in DOCTRINE_ROOTS:
+    root_dir = repo_root / root_name
+    if root_dir.exists():
+        doctrine_files.extend(sorted(p for p in root_dir.rglob("*") if p.is_file()))
+
+
+def strip_fenced_blocks(text: str) -> str:
+    """Blank out fenced code blocks, preserving line count.
+
+    Applied ONLY to the canon that owns the path-form rule: canon-craft has to
+    be able to *illustrate* the form it forbids. Everywhere else a fence is a
+    place a real violation could hide, so the exclusion stays as narrow as the
+    need. Replacing each block with blank lines keeps reported positions honest.
+    """
+    return FENCED_BLOCK_RE.sub(lambda m: "\n" * m.group(0).count("\n"), text)
+
+
+# The rule-owning canon, whose examples are documentation rather than defects.
+FENCE_EXEMPT = {"skills/canon-craft/SKILL.md"}
+
+for f in doctrine_files:
+    try:
+        text = read(f)
+    except (UnicodeDecodeError, OSError):
+        continue
+    if f.relative_to(repo_root).as_posix() in FENCE_EXEMPT:
+        text = strip_fenced_blocks(text)
+    rel = f.relative_to(repo_root)
+    for name in sorted(set(BARE_SKILL_REF_RE.findall(text))):
+        # Every bare backticked `skills/<name>` is a defect, whether the name
+        # is a real canon (wrong form) or not (a typo no other check can see:
+        # Check 10's pattern requires /SKILL.md, so it never matches a bare
+        # ref at all — a misspelled canon reference would otherwise ship green).
+        if name in actual_skill_dirs:
+            fail(
+                CHECK11,
+                f"{rel}: references `skills/{name}` without /SKILL.md — "
+                f"use the full `skills/{name}/SKILL.md` path form",
+            )
+        else:
+            fail(
+                CHECK11,
+                f"{rel}: references `skills/{name}`, which is neither a canon "
+                f"on disk nor full path form — typo, or a canon that never shipped",
+            )
+    for m in ANCHORED_SKILL_REF_RE.finditer(text):
+        fail(
+            CHECK11,
+            f"{rel}: line-anchored cross-canon reference ({m.group(0)}) — "
+            f"cite the path plus a section name; line numbers rot silently",
+        )
 
 
 # ---------------------------------------------------------------------------
@@ -703,6 +928,11 @@ else:
     print(f"                              session brief emits valid SessionStart JSON")
     print(f"  9. Cmd/skill frontmatter  — {len(command_files)} commands have description;")
     print(f"                              {len(skill_dirs)} skills have matching name + description")
+    print(f" 10. Cross-reference res.   — {len(crossref_files)} files scanned, every")
+    print(f"                              skills/<name>/SKILL.md reference resolves;")
+    print(f"                              state.json skills roster matches skills/*/ both ways")
+    print(f" 11. Canon reference form   — {len(doctrine_files)} doctrine files carry no bare")
+    print(f"                              `skills/<name>` and no line-anchored SKILL.md:N ref")
     print("=" * 78)
     print("RESULT: PASS")
     print("=" * 78)

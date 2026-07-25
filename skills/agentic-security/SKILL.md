@@ -53,6 +53,11 @@ instruction. Never combine all three in one unattended run:
 - **Separate identity for unattended runs**: a dedicated bot account with
   scoped, short-lived tokens — never the operator's personal credentials.
   Session logs and pushes then say who (or what) acted.
+- **TDD-mode guard** (`hooks/guard-tdd-mode.sh`): sentinel-gated
+  (`.saeed/TDD` — `off`/`advisory`/`enforce`, absent means silent) mechanical
+  floor for the engineering-method canon's Iron Law — blocks bypass-channel
+  writes into logic-bearing source and tampering with an active sentinel;
+  see `skills/engineering-method/SKILL.md` for the doctrinal ordering rules.
 
 ## Untrusted inputs to the workflow itself
 

@@ -42,8 +42,15 @@ you, a **Self-Governance protocol** — the retiring lead's succession doctrine 
 team decide, recover, and keep a finished project alive without a human lead, an absorbed
 evidence canon (a **Verification Protocol** with executable gates and READY / NOT READY verdicts,
 **Context Discipline** for memory and model routing, and **Agentic Security** defending the team
-itself), and an **Attribution** convention that signs every deliverable. See the roster in
-the README.
+itself), and an **Attribution** convention that signs every deliverable. On top of that, SAEED now
+carries doctrine for the *product* it ships — **Supabase-Craft** (Supabase/Postgres mastery),
+**App-Hardening** (the 10-point pre-ship security gate), and **Performance-Discipline**
+(wire/data/hosting speed) — a **Repo-Housekeeping** canon that tends the team's own workspace
+between cycles, an **MCP-Craft** canon for any MCP server or agent-tool surface it builds, and the
+meta layer that governs how SAEED builds and specs everything it does: **Engineering-Method**
+(TDD, systematic debugging, the design-approval gate), **Spec-Quality** (the requirements-layer
+discipline upstream of orchestration), and **Canon-Craft** (how every one of these canons itself
+gets authored and evaluated). See the roster in the README.
 
 ### How much money it could save (UAE, AED)
 
@@ -133,7 +140,14 @@ ask in plain English and the right specialist is chosen automatically.
 الذاتية** — عقيدة الخلافة التي تركها القائد المتقاعد — ليقرّر الفريق ويتعافى ويُبقي المشروع
 المكتمل حيّاً دون قائد بشري، وقانون أدلةٍ مُستوعَب (**بروتوكول التحقق** ببوابات تنفيذية وحكم
 **جاهز / غير جاهز**، و**انضباط السياق** للذاكرة وتوجيه النماذج، و**الأمن الوكيلي** الذي يحمي
-الفريق نفسه)، و**عُرف الإسناد** الذي يوقّع كل تسليم. القائمة الكاملة في ملف README.
+الفريق نفسه)، و**عُرف الإسناد** الذي يوقّع كل تسليم. وفوق ذلك، صار سعيد يحمل عقيدةً خاصة
+بـ*المنتج* الذي يسلّمه — **حِرفية Supabase** (إتقان Supabase وPostgres)، و**تحصين التطبيق**
+(بوابة الأمان قبل الإطلاق بـ١٠ نقاط)، و**انضباط الأداء** (سرعة الشبكة والبيانات والاستضافة) —
+وقانون **تدبير المستودع** الذي يعتني بمساحة عمل الفريق نفسها بين الدورات، وقانون **حِرفية MCP**
+لأي خادم MCP أو سطح أدوات وكيلية يبنيه، والطبقة الفوقية التي تحكم كيف يبني سعيد ويحدّد مواصفات
+كل ما يفعله: **منهج الهندسة** (التطوير الموجَّه بالاختبارات، وتشخيص الأعطال المنهجي، وبوابة اعتماد
+التصميم)، و**جودة المواصفات** (انضباط طبقة المتطلبات السابق للتنسيق)، و**حِرفية تأليف المعايير**
+(كيف يُؤلَّف كل معيارٍ من هذه المعايير ويُقيَّم). القائمة الكاملة في ملف README.
 
 ### كم يمكن أن يوفّر من المال (الإمارات، بالدرهم)
 

@@ -98,6 +98,11 @@ turn. Keep the enabled surface small: prefer a CLI invoked from Bash (or a
 lazily-loaded skill) over an always-on MCP server that duplicates it; enable
 heavyweight connectors for the session that needs them, not globally. When a
 session feels cramped before work begins, audit the tool surface first.
+- **Test infrastructure is a black box**: exercise test harnesses and helper
+  scripts through their documented interface (e.g. `--help`), never by
+  reading their source into context hunting for answers — the same budget
+  discipline applied to test-infra specifically (see
+  `skills/verification-protocol/SKILL.md`'s E2E verification section).
 
 ## Wiring
 

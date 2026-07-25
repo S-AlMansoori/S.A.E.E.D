@@ -117,6 +117,39 @@ Before choosing, write **one sentence of physical scene**: who uses this, where,
 - Handle mixed-direction runs (Arabic + Latin + numbers) correctly; format dates/numbers/currency by locale (Hijri/Gregorian, numerals).
 - Every user-facing surface works, and looks intentional, in both directions.
 
+## The 2026-06 AI-default delta
+
+The June-2026 revision of the official `frontend-design` skill re-calibrated what "generic" means. Nothing above is repealed; these four rules are added on top of it.
+
+### The named generic-AI-look blocklist
+
+Mid-2026 AI design converges on three looks. Each is legitimate for *some* brief, and each shows up regardless of subject, which is exactly what makes them defaults rather than decisions:
+
+1. **Cream editorial** — warm cream ground near `#F4F1EA`, a high-contrast serif display, a terracotta accent.
+2. **Near-black + one acid accent** — near-black ground carrying a single bright acid-green or vermilion.
+3. **Broadsheet** — hairline rules, zero border-radius, dense newspaper-like columns.
+
+**The brief always wins.** Where the brief pins a visual direction, follow it exactly, including when it asks for one of these three. Where the brief leaves an axis free, never spend that freedom on a blocklist look.
+
+**The house register is not exempt.** SAEED's navy `#0A1628` + gold `#C9A84C` minimalism sits adjacent to look 2 (near-black ground, one warm accent), and the first-order test above already names navy-and-gold as the finance reflex. The house palette therefore takes the same reflex check as any other choice: justify it from this brief's subject, or pick something else. Being the house default is not a justification.
+
+### Plan, then critique the plan — the convergence self-check
+
+Work in two passes before writing any code.
+
+1. **Plan.** Build a compact token system from the brief: **color** (4–6 named hex values), **type** (2+ roles: a characterful display face used with restraint, a complementary body face, a utility face for captions or data), **layout** (one-sentence prose concepts plus ASCII wireframes, so directions can be compared), and **signature** (below).
+2. **Critique.** Review that plan against the brief, part by part. Work through a similar prompt for a similar page: **if you arrive somewhere similar, it is a default, not a decision** — revise that part, and say what you changed and why. Only once the plan survives this pass do you write code, following the revised plan exactly and deriving every color and type value from it.
+
+Do this planning and iteration in your thinking; show the user ideas only when confidence is high.
+
+### The signature slot — spend boldness in one place
+
+Every token system carries a **signature**: the single element this surface will be remembered by, chosen because it embodies the brief. An empty signature slot means the design has no thesis. Everything around the signature stays quiet and disciplined, and any decoration that does not serve the brief is cut. Before hand-off, apply Chanel's mirror rule and remove one accessory. Taking no risk is itself a risk.
+
+### Selector specificity cancels silently
+
+When writing the CSS, structure selector specificity deliberately. A section-level class and an element-level class that both set the same property (a `.section` rule and a `.cta` rule each owning vertical padding or margin) cancel each other out, and the defect is invisible in the source — it surfaces only as wrong spacing between sections. Give every spacing property exactly one owning layer.
+
 ## Pre-flight checklist — the last filter before hand-off / review
 
 - [ ] Register identified; the AI-slop test passes at both altitudes (domain reflex avoided).
@@ -128,9 +161,18 @@ Before choosing, write **one sentence of physical scene**: who uses this, where,
 - [ ] Motion passed the "should it animate?" gate; ease-out/custom curves; <300ms; `transform`/`opacity` only.
 - [ ] All states present (loading/empty/error/success/offline); realistic content.
 - [ ] RTL correct and tested; mobile collapses to `w-full px-4`; `min-h-[100dvh]`; blur only on fixed layers.
+- [ ] No 2026 blocklist look arrived at by default (cream ~`#F4F1EA` + serif + terracotta, near-black + acid accent, broadsheet hairlines) unless the brief asked for it; the plan passed the convergence self-check and names one signature element.
 
 A user-facing change is **not done** until it passes this checklist and the `design-reviewer` gate.
+
+## Wiring
+
+- `design-reviewer` — owns this canon and is its gate. The 2026-06 delta above is **gate-delegated** to it as a standing review check (cycle 9); a blocklist look the brief did not ask for is a blocking finding.
+- Every UI-touching agent already inherits the canon through the auto-activation rule above and inherits the delta with it. The design and build specialists are **deliberately not wired individually** for the delta — class-carrying since cycle 2 already reaches them, and duplicating it would drift.
+- `the-boss` — a user-facing item is not DONE until this gate approves.
 
 ## Attribution
 
 This canon distills, with gratitude, the enforceable rules of the **impeccable** (Apache-2.0, based on Anthropic's frontend-design skill), **gpt-taste**, **high-end-visual-design**, **design-taste-frontend**, **emil-design-eng** (Emil Kowalski's design-engineering philosophy — [animations.dev](https://animations.dev/)), and **full-output-enforcement** skills. When those skills are installed, prefer invoking them for their full depth; this file guarantees the standard when they are not.
+
+The **2026-06 AI-default delta** section above additionally distills the June-2026 revision of the official **frontend-design** skill (Anthropic) — the named generic-look blocklist, the plan-then-critique convergence self-check, the signature slot, and the selector-specificity warning. When that skill is installed, invoke it for its full depth alongside the others.

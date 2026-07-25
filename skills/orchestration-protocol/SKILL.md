@@ -106,6 +106,58 @@ Multiple sessions on one machine interfere unless isolated: claim a session lock
 
 Gates green · pass-rate ≥ project floor · queue drained (done or escalated) · re-verifier confirms no new reds · operator report with verdict-per-workstream + RED tracker + branch table + recommended integration order · checkpoint tagged only if every workstream is green · session artifacts cleaned up (dirty/unmerged items listed, never dropped silently).
 
+## Controller mechanics: ledger, capped fix loops, model economics
+
+The wave model above says *who* runs in parallel. This section says *how one controller drives its sub-agents through to green* — the delta SAEED absorbed from **obra/superpowers** (`using-git-worktrees`, `dispatching-parallel-agents`, `executing-plans`, `subagent-driven-development`). The engineering method those sub-agents work under — the TDD Iron Law, four-phase debugging, the plan law, and the S/M/L applicability ladder that decides how much of this ceremony a task earns — lives in `skills/engineering-method/SKILL.md` and is **not restated here**.
+
+### The workspace and the progress ledger
+
+Conversation memory does not survive compaction. Controllers that lost their place have re-dispatched entire completed task sequences — the single most expensive controller failure on record. **Todos are not a record. The ledger is.**
+
+- Each run owns one git-ignored directory (`.saeed/tasks/<run-id>/`, alongside the ticket queue): briefs, reports, review packages, and `ledger.md` for THIS run and no other. Another run's directory is never yours to read or write.
+- The ledger's first line is its identity — `# Run ledger — plan: <path>`. A ledger naming a different plan is someone else's progress: leave it in place and start your own, fresh.
+- **Resume rules.** A task carrying a `Task <N>: complete` line is DONE — never re-dispatch it; resume at the first task without one. A task whose last line is a fix round is mid-loop — resume at the next round.
+- After compaction, trust the ledger and `git log` over your own recollection: the commits it names exist in git even when your context no longer remembers creating them. The workspace is scratch (`git clean -fdx` deletes it); the git history is the durable record.
+- Every dispatch, every fix round, every ruling appends one line. A silent discard is forbidden.
+
+### Dispatch discipline
+
+- **Fresh sub-agent per task.** Sub-agents never inherit session history — you construct exactly what they need (see the targeted-brief rules above). Never paste accumulated prior-task summaries into a later dispatch: one real session's prompt reached 42k characters of which 99% was pasted history.
+- **Hand artifacts over as file paths, not pasted text** — brief in, report out, diff package in. Anything pasted into a dispatch, and anything a sub-agent prints back, stays resident in your context and is re-read on every later turn.
+- **Record BASE (`git rev-parse HEAD`) before dispatching.** Review packages and fix diffs are cut from it — never from `HEAD~1`, which silently drops all but the last commit of a multi-commit task.
+- **Never run two implementers over the same files**, in parallel or interleaved — that is the worktree rule at task granularity. Independent domains fan out in a single response; one dispatch per response is sequential by accident.
+- Never start implementation on `main`/`master` without the operator's explicit consent. **The controller never fixes findings itself** — controller fixes pollute the coordination context and skip review.
+- Review after every task, on **both** axes (spec compliance AND quality); a report missing either verdict is not a review. An implementer's self-review never substitutes. The broad whole-branch review happens once, at the end.
+- **Never pre-judge findings for a reviewer.** If the dispatch you are writing contains "do not flag", "don't treat X as a defect", or "at most Minor" — stop: you are buying your way out of a review loop.
+
+### The capped fix loop
+
+A fix round is one fix dispatch plus one scoped re-review. **Five rounds maximum per task.**
+
+| Round | Who fixes | Why |
+|---|---|---|
+| **1–3** | Resume the original implementer with the open findings verbatim | Its context is intact — it knows the task, the code, and its own choices. |
+| **4–5** | Fresh implementer one tier up, framed "a prior implementer attempted this N times; you own it now — read the report file for what was tried" | A loop that survives three resumes means the implementer cannot see its own problem: fresh eyes and a capability bump in one move. |
+
+- **Minor findings never enter the loop** — they land in the ledger as deferred minors, and the final review is pointed at that list to triage what must be fixed before merge. A roll-up nobody reads is a silent discard.
+- A finding that contradicts the plan's own text is the operator's call: present the finding beside the plan text and ask which governs. Do not dismiss the finding because the plan mandates it, and do not dispatch a fix that contradicts the plan.
+- Every round ends with a **scoped** re-review over the fix diff only, verdicting each finding ADDRESSED / NOT ADDRESSED. New Critical/Important breakage inside that diff joins the open list; out-of-scope observations go to the ledger and never extend the loop.
+- **The breaker.** If round 5's re-review still leaves findings open, stop dispatching and adjudicate each one in writing: contestable, or real-but-nothing-downstream-builds-on-it → park with a ruling; real and load-bearing → `BLOCKED`, escalated with the finding, the plan text it collides with, and the fix history. Parking a structural failure lets every dependent task build on it and hands the final review a problem it cannot fix either.
+- **Adjudicate only at the cap.** Adjudicating early to end a loop is pre-judging under a different name.
+- The final whole-branch review gets **one** fix wave (a single sub-agent carrying the complete findings list — never one fixer per finding, which rebuilds context and re-runs suites N times) and exactly one scoped re-review. There is no second wave; residuals are adjudicated the same way and surfaced to the operator.
+
+### Model economics at dispatch time
+
+Pick the **least capable model that can hold the role**, and **always name it explicitly** — an omitted model inherits the session's, usually the most expensive, which quietly defeats this whole section. This governs how a controller dispatches; it changes no agent's declared `model:`.
+
+- Transcription-grade work (the brief already contains the code to write; single-file mechanical fixes) → cheapest tier.
+- Implementers working from prose, and all reviewers → mid tier as the **floor**. **Turn count beats token price:** the cheapest models routinely take 2–3× the turns on multi-step work and cost more overall.
+- Multi-file integration, debugging, and pattern-matching → standard tier. Design judgment, seam decisions, and the final whole-branch review → the most capable tier available.
+- Fix rounds 4–5 → at least one tier above the implementer that got stuck.
+- Reviewers scale to the diff: a small mechanical diff does not need the top tier; a subtle concurrency change does.
+
 ## Attribution
 
 This protocol distills, with gratitude, the **claude-sdlc-kit** (`kit-bootstrap`, `kit-ingest` / `corpus-ingestion`, `kit-orchestrate` / `orchestrator-protocol`, `kit-integrate`, `kit-qa`, and its `parallel-browser-qa` recipe and `LESSONS.md`). When the kit is installed, prefer invoking those commands for the full tooling; this file guarantees the discipline when it is not.
+
+The controller-mechanics section above distills, with gratitude, **obra/superpowers** (`using-git-worktrees`, `dispatching-parallel-agents`, `executing-plans`, `subagent-driven-development`). When that plugin is installed, prefer its skills and scripts for the full workflow. Never let a missing plugin lower the bar.

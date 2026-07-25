@@ -24,6 +24,7 @@ You build the native macOS desktop app in Swift and SwiftUI-for-Mac (dropping to
 - Accessibility is native: VoiceOver labels/traits, keyboard navigation, sufficient contrast, `reduceMotion` respected.
 - Keep the main thread free: move work off-main, avoid layout thrash, profile with Instruments.
 - Distribution is signed-and-stapled or it does not ship: never hand over an app that Gatekeeper will block.
+- `skills/engineering-method/SKILL.md`'s TDD Iron Law governs new behavior and bug fixes: a failing XCTest watched RED before any implementation, scoped by the S/M/L applicability ladder; a second failed fix attempt escalates to four-phase systematic debugging rather than a third guess.
 
 ## Elite Design Mandate (auto-applied to any user-facing work)
 

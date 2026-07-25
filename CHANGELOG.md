@@ -6,6 +6,136 @@ semver (patch = fixes, minor = new agents/skills/commands, major = breaking).
 The version of record is `version` in `.claude-plugin/plugin.json`.
 *(Sections before 1.7.0 are backfilled from commit history and are coarser.)*
 
+## 1.10.0 - 2026-07-25
+
+The absorption cycle: seven operator-named external skill sources (two Supabase skills, the
+`/security-review` change-level review, `/engineering:code-review`, the `securitymaxxing`
+10-point checklist, Hayden Smith's 5 slow-app reasons, mikesol's `repository-housekeeping`) plus a
+verified ten-source research shortlist (Anthropic's `skill-creator` + authoring best practices +
+the Agent Skills open standard, Obra's `superpowers`, nizos's `tdd-guard`/Probity, GitHub Spec Kit,
+Anthropic's `mcp-builder`, EveryInc's compound-engineering plugin, the 2026-06 frontend-design
+revision, `webapp-testing`, and `doc-coauthoring`) — see
+`.saeed/tasks/cycle-9/skill-research.md` — distilled into eight new house canons and seven
+additive extensions to existing ones, per the house absorption idiom (`skills/design-excellence`,
+`skills/agentic-security`).
+
+### Added
+- **`skills/supabase-craft`** — schema/migrations, Auth/JWT/RLS and `@supabase/ssr` sessions, Edge
+  Functions, Realtime, Storage, Vectors, Cron/Queues, client patterns with service-role isolation,
+  CLI/MCP, security advisors, extensions, and Postgres query/schema/config performance.
+- **`skills/app-hardening`** — the 10-point pre-ship gate (rate limiting, server-side secrets, RLS
+  everywhere, `.env` hygiene, input validation, explicit permissions, auth on every protected
+  route, generic errors, locked-down admin surfaces, attack-visible logging), disjoint from
+  `skills/agentic-security` (product vs team).
+- **`skills/performance-discipline`** — never ship uncompressed responses, never write rows one at
+  a time, name the slowest dependency before optimizing, update UI optimistically with
+  reconciliation, serve static frontends statically.
+- **`skills/repo-housekeeping`** — git hygiene and untracked-file triage (commit-over-delete with
+  a secrets exception), two-copies/upstream sync discipline (the operator's "check drift"
+  instinct, now doctrine), recent-session knowledge distillation, organizational and
+  orientation-file audits, and close-out reporting. Tends the *workspace*; the improvement loop
+  tends the *product*. Its entrypoint is the steward branch of `/saeed:improve` — no new command
+  and no script change — and its gate is `the-boss`'s Workspace-clean DoD. The canon and its
+  wiring ship here; the first executed housekeeping pass is deliberately its own first outing.
+- **`skills/engineering-method`** — the TDD Iron Law with its rationalization counters, four-phase
+  systematic debugging, the brainstorm HARD-GATE before implementation, the zero-context plan law,
+  subagent-controller mechanics, TDD adjudication rules (Probity), and the task-size (S/M/L)
+  applicability ladder — defined exactly once, here, and referenced by every other canon and gate
+  that scopes itself by task size. The ladder classifies *code changes*; work that ships no code
+  answers to its own gates. Ships with a scoped, **opt-in** `hooks/guard-tdd-mode.sh` gated on a
+  `.saeed/TDD` sentinel (`off`/`advisory`/`enforce`) as its mechanical floor — a repo with no
+  sentinel is a no-op, and the hook blocks the shell bypass channels (`echo`/`printf`/`sed`/
+  `awk`/`perl` redirects) as well as sentinel tampering.
+- **`skills/canon-craft`** — the eval-driven authoring loop, description-trigger optimization,
+  spec conformance (metadata/body/line budgets, one-level references), degrees-of-freedom
+  calibration, and grounding-in-real-execution-traces discipline that now governs `/saeed:upgrade`
+  and every canon authored from this cycle forward. The eight canons below were held to its
+  mechanical floor (F1–F10) plus a light eval — a coherence pass and one trigger smoke each —
+  with that scoping decision and its cost written into the canon itself. Agent files, commands,
+  and hooks are deliberately out of its scope, and a retro-audit of the nine pre-existing canons
+  is queued to the next cycle, not done here.
+- **`skills/spec-quality`** — the ten-category ambiguity taxonomy, the bounded five-question
+  clarification budget with informed-default Assumptions, answer integration, checklists as unit
+  tests for requirements, and the read-only pre-implementation analysis gate with its
+  requirements-to-tasks coverage table. Sits upstream of `skills/orchestration-protocol`.
+- **`skills/mcp-craft`** — quality measured by LLM task success (a shipped 10-question agentic
+  eval), API-coverage-over-workflow tool design, `{service}_{action}_{resource}` naming,
+  pagination/truncation contracts, dual JSON/Markdown responses, and MCP-specific security
+  hardening (token-audience validation, DNS-rebinding protection, Origin validation, loopback
+  binding).
+- **`/saeed:verify` security depth** — auto-escalates (or is invoked explicitly as
+  `/saeed:verify security`) on diffs touching auth, input handling, secrets, the network boundary,
+  new dependencies, or admin/debug surfaces: a severity-ranked findings report over the diff and
+  its blast radius, ending in an explicit pass/block verdict.
+- **`scripts/validate-fleet.sh` Checks 10 and 11** — two new hard checks, added mid-cycle beyond
+  the planned scope because this cycle produced two live proofs the existing checks could not see.
+  **Check 10 (cross-reference resolution)** resolves every `skills/<name>/SKILL.md` reference
+  found under `agents/`, `commands/`, `skills/`, `hooks/`, `docs/`, or `README.md` against the
+  filesystem, and asserts `.saeed/state.json`'s `skills` array against the real `skills/*/`
+  directories in both directions. It closes a hole Checks 5 and 9 structurally cannot see: this
+  cycle wired 28 references to a canon that had never been written, across 24 files, and the
+  validator stayed green the whole time — Check 9 only enumerates directories that exist, and
+  Check 5 only resolves backticked tokens inside a `## Handoffs` section.
+  **Check 11 (canon reference form)** fails any bare backticked `` `skills/<name>` `` without
+  `/SKILL.md`, and any line-anchored `SKILL.md:<digits>` cross-reference, on a doctrine surface
+  (`skills/`, `agents/`, `commands/`, `hooks/`). Check 10 matches only well-formed references, so
+  a typo'd canon name or a line anchor pointing at the wrong rule shipped green — which is exactly
+  where this cycle's last two blocking defects hid. The fenced-code exclusion is scoped to
+  `skills/canon-craft/SKILL.md` alone, the one canon that must be able to illustrate the form it
+  forbids. Exit status is now "all hard checks (1–5, 7–11) passed".
+
+### Changed (additive extensions — prior doctrine unchanged)
+- **`skills/continuous-improvement`** — the codify step (schema'd learning docs filed to
+  `.saeed/solutions/`), 5-dimension overlap scoring + staleness refresh, grounding validation, the
+  `.saeed/CONCEPTS.md` vocabulary rule, the feed-forward mandate, and the one-pipeline knowledge
+  routing tree (instincts vs the solutions library vs housekeeping distillation).
+- **`skills/orchestration-protocol`** — Superpowers' worktree/parallel-dispatch/executing-plans
+  deltas.
+- **`skills/verification-protocol`** — E2E browser-evidence verification (server-lifecycle
+  harness, headless Chromium, pre-navigation console-log capture, modernized web-first
+  assertions), the bilingual doc cold-reader gate (AR and EN gated separately), and one pointer
+  line escalating gate 5 to the new security depth.
+- **`skills/self-governance`** — a constitution-governance subsection (a semver-versioned
+  constitution artifact; violations auto-CRITICAL).
+- **`skills/design-excellence`** — the 2026-06 delta: the named generic-AI-look blocklist (with
+  hexes), the plan-then-critique convergence self-check, the one-signature-element token slot, and
+  the CSS selector-specificity warning — including the corrective note that SAEED's own
+  navy/gold-minimalist register must pass the same reflex check.
+- **`skills/agentic-security`** — one line naming the TDD-mode guardrail hook in "Mechanical
+  rails".
+- **`skills/context-discipline`** — one line: the black-box test-infra rule.
+- **`agents/code-reviewer.md`** — absorbs `/engineering:code-review`'s four check classes (N+1,
+  injection, missing edge cases, error-handling gaps) as standing review lenses; adds
+  `skills/supabase-craft/SKILL.md`, `skills/app-hardening/SKILL.md`, and
+  `skills/performance-discipline/SKILL.md` as review lenses; carries
+  `skills/engineering-method/SKILL.md`'s validator-conduct rules (re-derive judgment fresh, name
+  the rationalization, treat an explicit operator override as authoritative) and an S/M/L
+  tier sanity-check on every diff; and gains a reciprocal `query-optimization-engineer` handoff —
+  N+1 is flag-and-route, never a transfer of ownership.
+- **`/saeed:hire`, `/saeed:improve`, `/saeed:upgrade`** — the lifecycle entrypoints reference the
+  new canons where sibling canons already appear: spec-quality and performance NFR targets at the
+  spec phase, engineering-method's S/M/L tier and the Supabase/hardening/review gates at the build
+  phase, app-hardening and performance-discipline in `/saeed:improve`'s audit dimensions plus the
+  codify step and the housekeeping pass on its steward branch, and canon-craft in `/saeed:upgrade`
+  wherever skills are authored.
+- **Docs and manifests, EN + AR** — README absorbed-canon bullets, `docs/CHEATSHEET.md` skills
+  lists (English and the Arabic mirror), `docs/WHAT-IS-SAEED.md` prose (English and Arabic), and
+  the `plugin.json` / `marketplace.json` descriptions and keywords all name the new canons. No
+  skills count is stated anywhere, in either script — counts were removed in 1.9.0 precisely
+  because they drift. `docs/what-is-saeed.html` is byte-identical: no command was added.
+- Class-wide wiring per the propagation invariant (SU-17): every new canon is applied by a named
+  agent class or delegated to a named gate, and every deliberate exclusion is written down — see
+  each canon's Wiring section, which is the shipped record of truth.
+
+### Credits
+Distilled from (never vendored — "never let a missing plugin lower the bar"): the operator-named
+Supabase, `/security-review`, `/engineering:code-review`, `securitymaxxing`, and
+`repository-housekeeping` (mikesol/cc-disco) skills; Anthropic's `skill-creator` and its authoring
+best practices; the Agent Skills open standard (agentskills.io); Obra's `superpowers`; nizos's
+`tdd-guard`/Probity; GitHub Spec Kit; Anthropic's `mcp-builder`; EveryInc's compound-engineering
+plugin; the 2026-06 frontend-design revision; and `webapp-testing` / `doc-coauthoring` — per the
+research decision document `.saeed/tasks/cycle-9/skill-research.md`.
+
 ## 1.9.1 - 2026-07-15
 
 ### Changed

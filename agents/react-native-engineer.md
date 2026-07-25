@@ -20,6 +20,8 @@ You build the mobile app with Expo/React Native and TypeScript: screens, navigat
 - Respect platform conventions (iOS vs Android) while keeping one codebase.
 - RTL and dynamic type from day one; test with Arabic and large fonts.
 - Keep the JS thread free: memoize, virtualize lists, avoid layout thrash.
+- `skills/performance-discipline/SKILL.md`'s optimistic-UI rule (4) is modeled on the offline-first default you already carry — nothing to change there, but its wire/data half (compressed responses, batched writes, naming the slowest network hop) applies wherever this app talks to a backend directly.
+- `skills/engineering-method/SKILL.md`'s TDD Iron Law applies before any new behavior or bug fix ships: a failing test watched RED before GREEN, sized by the S/M/L applicability ladder; a second failed fix attempt triggers the systematic-debugging gate instead of another guess.
 
 ## Elite Design Mandate (auto-applied to any user-facing work)
 

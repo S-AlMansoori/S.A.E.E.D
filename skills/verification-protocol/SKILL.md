@@ -106,6 +106,130 @@ lands (cheap gates every time, the full ladder before DONE) so a regression
 is caught one step after it appears, not at the end of the pass. This is the
 per-item version of the improvement loop's convergence check.
 
+## E2E verification (browser evidence, when the deliverable is a web app)
+
+Absorbed and modernized from `anthropic-skills:webapp-testing`. The one-line
+doctrine: a UI claim is "verified" only when a browser actually drove it and
+left evidence behind — a screenshot, a captured console log, a passing
+web-first assertion. Reading the code and reasoning about what it "should"
+do is not evidence.
+
+**Decision tree — choose the approach before touching a selector:**
+
+1. **Static HTML** → read the file directly to find selectors, then write
+   the Playwright script. If reading falls short (templated/partial markup),
+   treat it as dynamic instead.
+2. **Dynamic app, server not running** → stand it up through a
+   **server-lifecycle harness**: N servers started, each readiness confirmed
+   by polling its port (never a fixed sleep), the command run, and
+   **guaranteed teardown** (terminate, then kill on timeout) in a `finally`
+   block regardless of outcome. The automation script itself contains only
+   Playwright logic — starting and stopping servers is the harness's job,
+   not the script's.
+3. **Dynamic app, server already running** → **reconnaissance-then-action**:
+   navigate, then inspect (screenshot, DOM query, element enumeration)
+   before writing a single action. Never guess a selector for JS-rendered UI.
+
+**Non-negotiables:**
+
+- **Headless Chromium, always** — launch with `headless=True`; close the
+  browser when done.
+- **Console evidence is pre-navigation.** Register the `page.on('console',
+  …)` handler **before** `page.goto(...)`, not after — a handler attached
+  post-navigation misses everything the page logs on load. Persist the
+  captured console lines as an evidence artifact alongside the screenshot,
+  not just as terminal scrollback.
+- **Element-discovery inventory.** Recon enumerates the interactive surface
+  — buttons, `a[href]` links, inputs/textareas/selects — as a named/role/type
+  list before any selector is chosen, never after a failed guess.
+
+**Modernized waits (SAEED departs from the source here):**
+
+- `networkidle` is **recon-only** — a pragmatic way to let an unfamiliar app
+  settle before you inspect it. It is **never** the assertion mechanism: do
+  not gate a test's pass/fail on `wait_for_load_state('networkidle')`. Use
+  web-first assertions and auto-waiting locators that retry until the real
+  condition is true, not a network-quiescence proxy for it.
+- `wait_for_timeout` (a fixed sleep) is **banned** — it is the canonical
+  flaky-test smell: too short and it races the app, too long and it wastes
+  the run. Replace every instance with a condition-based wait.
+
+**Evidence maps into the existing report, unchanged.** A browser-verified
+web claim satisfies the Verification Report's **Tests** row (state what
+Playwright exercised and what it captured); for a non-UI deliverable that
+row reads **N/A** with the reason. No new row, no format change — the
+report's consumers read what's already there.
+
+Bundled automation belongs to `anthropic-skills:webapp-testing`'s helper
+scripts (e.g. its server-lifecycle runner) when installed — invoke them as
+black boxes (`--help` first; read the source only if a customized solution
+is genuinely unavoidable) — or write native Playwright otherwise. **Never
+let a missing plugin lower the bar** — the decision tree, the harness
+pattern, and the modernized-waits rule apply either way.
+
+## Doc-delivery cold-reader gate
+
+Absorbed from Anthropic's `doc-coauthoring` reader-testing stage. The
+one-line doctrine: **"done" for a document means a context-free reader
+actually understood it** — the author's own re-read does not count as
+evidence.
+
+**Scope.** Doc *deliverables* — specs, READMEs, operator/runbook docs, user
+guides; not code comments, changelog entries, or internal tickets (the
+task-size ladder's does-not-apply line for this gate).
+
+**Before drafting** — the context checklist: doc type, primary audience,
+desired impact on the reader, format/template, org context, and
+why-not-alternatives. Structure the doc with the highest-uncertainty
+section (the core decision or technical approach) first; summaries last.
+
+**The gate itself**, looped until it passes:
+
+1. Predict 5-10 questions a real reader would ask when discovering this doc.
+2. Hand the finished (or near-finished) doc text to a **context-free
+   subagent** — no session history, just the document — and put each
+   predicted question to it in turn; record right/wrong per question.
+3. Run three standing checks on the same context-free subagent: ambiguity
+   ("what here could be read more than one way?"), assumed knowledge ("what
+   does this doc assume the reader already knows?"), and internal
+   contradictions.
+4. Any wrong answer, surfaced ambiguity, or contradiction sends the
+   affected section back for a rewrite, then re-runs steps 2-3 on the
+   revised text — loop until the cold reader answers cleanly and raises no
+   new gaps.
+5. At ~80% complete, one full read-through of the whole doc (not per
+   section) for flow, redundancy, contradictions across sections, and
+   generic filler ("slop") that carries no weight.
+6. Every image ships with alt-text; an unlabelled image fails the gate.
+
+**Bilingual extension.** AR and EN are gated **separately, with independent
+cold readers**: run the full predicted-question loop once against the
+English text and once against the Arabic text, each with its own
+predicted-question set (a question an English reader asks is not
+necessarily the one an Arabic-native reader asks) and its own cold-reader
+subagent. Passing the EN cold-reader loop is not evidence for AR, and the
+AR pass also checks native register and correct RTL rendering, not just
+comprehension.
+
+**What is deliberately dropped.** The source's human-facilitation
+choreography — the info-dump prompts, the section-by-section
+brainstorm/curation dialogue, the multi-stage negotiation with a human
+co-author — is not absorbed; SAEED runs the cold-reader gate as an
+automated verification step a subagent executes, not a live collaborative
+workflow.
+
+**Reporting.** A doc pass records its cold-reader verdict in the
+Verification Report's existing `Diff` row (e.g. `Diff: PASS — 8/8
+predicted questions answered correctly, EN + AR cold-reader pass`) or as
+`N/A` when the change carries no doc deliverable — the report format
+itself is unchanged.
+
+**Invoke the deep skill.** `anthropic-skills:doc-coauthoring` for the full
+interactive co-authoring workflow when installed — its Context Gathering /
+Refinement stages remain useful for drafting even though this canon absorbs
+only its Reader Testing stage as a gate. **Never let a missing plugin lower
+the bar**: the cold-reader loop above runs identically with or without it.
+
 ## Wiring
 
 - `the-boss` — sign-off consumes the Verification Report; READY required.

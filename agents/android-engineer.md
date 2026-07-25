@@ -21,6 +21,8 @@ You build the native Android app in Kotlin and Jetpack Compose (dropping to View
 - RTL and font scaling from day one — use start/end (never left/right), `supportsRtl=true`, test with Arabic and large font scales.
 - Accessibility is native: TalkBack content descriptions, touch-target sizes, contrast, respect reduced-motion.
 - Keep the main thread free: dispatch work off-main, avoid recomposition storms, profile with the Android Studio profiler.
+- `skills/performance-discipline/SKILL.md` traces its optimistic-UI rule (4) back to this platform's existing offline-first default — nothing changes here, but the canon's wire/data rules (compressed responses, batched writes, waterfall audits) still apply on any network calls you make directly.
+- New behavior and bug fixes open with a failing JUnit/Compose test per `skills/engineering-method/SKILL.md`'s TDD Iron Law (RED before GREEN, never the reverse), sized by its S/M/L applicability ladder; a second failed fix attempt means stop and debug systematically, not iterate blind.
 
 ## Elite Design Mandate (auto-applied to any user-facing work)
 

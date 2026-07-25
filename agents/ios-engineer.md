@@ -22,6 +22,8 @@ You build the native iOS app in Swift and SwiftUI (dropping to UIKit where the p
 - Accessibility is native: VoiceOver labels/traits, Dynamic Type, sufficient contrast, `reduceMotion` respected.
 - Keep the main thread free: move work off-main, avoid layout thrash, profile with Instruments.
 - Doc comments/docstrings must match actual behavior at every edge (including t=0/empty) — no aspirational comments that describe what the code was meant to do rather than what it does.
+- Your offline-first optimistic-UI default is the origin `skills/performance-discipline/SKILL.md` extends to web (its rule 4) — nothing new to do here, but its wire/data rules (compress payloads, batch writes, name the slowest dependency) apply too wherever you call a backend directly.
+- `skills/engineering-method/SKILL.md`'s TDD Iron Law governs new behavior and bug fixes: a watched-failing XCTest before the implementation, RED verified before GREEN, scoped by the S/M/L applicability ladder; a second failed fix attempt escalates to the four-phase systematic-debugging gate rather than another guess.
 
 ## Elite Design Mandate (auto-applied to any user-facing work)
 

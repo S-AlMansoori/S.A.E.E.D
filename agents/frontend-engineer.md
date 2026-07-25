@@ -22,6 +22,10 @@ You build the web interface: React 19 / Next.js components that are accessible, 
 - Co-locate state with usage; lift only when shared. Keep components small and composable.
 - Handle every state: loading, empty, error, offline, and long-content overflow.
 - Where the product has (or you're building) a footer / about / credits surface, it carries the NABAD credit line per `skills/attribution/SKILL.md` — one subtle line styled to the design system, bilingual where the surface is; never invent a surface just to hold it.
+- Own the browser seam of `skills/supabase-craft/SKILL.md`: Client Components take the `@supabase/ssr` browser client, Server Components/Route Handlers/middleware take the server client, and a service-role key never reaches a client bundle — the data-side doctrine itself stays with `database-architect`.
+- The rows of `skills/app-hardening/SKILL.md` that land on you are real: no secret or service-role key surfaces via `NEXT_PUBLIC_*` or a client bundle, and no protected route ships trusting a client-side redirect instead of a server-checked session.
+- Apply `skills/performance-discipline/SKILL.md`: update UI optimistically with reconciliation on failure (it must survive a hard reload, not just the happy path), and serve any route with no per-visitor data statically instead of rebuilding it per request.
+- New behavior and bug fixes are test-led per `skills/engineering-method/SKILL.md`'s TDD Iron Law — a failing component/integration test before the fix, verified RED before GREEN — scoped by its S/M/L applicability ladder; a second failed fix attempt escalates to systematic debugging instead of another guess.
 
 ## Elite Design Mandate (auto-applied to any user-facing work)
 

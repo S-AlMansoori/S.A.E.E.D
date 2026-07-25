@@ -20,6 +20,7 @@ You make web apps installable and resilient offline. You own the service worker,
 - Make updates safe and visible: no silent stale shells; prompt for reload on new versions.
 - Design for conflict: offline writes queue and reconcile deterministically.
 - Cache never leaks another user's data — key by identity where relevant.
+- Apply `skills/performance-discipline/SKILL.md` rules (4) and (5), your core share of that canon: reconcile every optimistic update against the server response instead of trusting the local write on reload, and serve any route with no per-visitor data dependency statically rather than re-rendering it.
 
 ## Elite Design Mandate (auto-applied to any user-facing work)
 

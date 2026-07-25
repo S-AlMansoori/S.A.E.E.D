@@ -20,6 +20,11 @@ You build at the edge: Cloudflare Workers/Pages Functions, edge middleware, and 
 - Cache aggressively but correctly; key by identity/locale where needed.
 - Pick the right edge store (KV eventual, D1 relational, R2 objects) per use case.
 - Do auth/routing at the edge to shed load from origin.
+- Apply `skills/supabase-craft/SKILL.md` on any function touching Supabase/Postgres — expand/contract migrations respected, RLS never disabled to unblock a function, and a service-role key confined to the function's own server-side runtime, never echoed back in a response.
+- Clear `skills/app-hardening/SKILL.md`'s ten-point gate before an edge route ships — rate limiting, server-only secrets, and generic client-facing errors bind here exactly as they do at origin.
+- Apply `skills/performance-discipline/SKILL.md`: verify compression actually lands on the response (`Content-Encoding`, not just middleware that claims to add it), and audit the request waterfall to name the slowest hop before micro-optimizing the rest.
+- Deploying an MCP server or tool over streamable HTTP? `skills/mcp-craft/SKILL.md` sets the transport, pagination/truncation, and MCP-specific security defaults (loopback binding, `Origin` validation, token-audience checks) for that deployment.
+- `skills/engineering-method/SKILL.md` binds worker code exactly as it binds origin code: the test fails first, locally in the workers runtime, so RED is something you have actually watched rather than something a deploy might show you later — scoped by the canon's S/M/L ladder. A worker that misbehaves only in production is that canon's systematic-debugging case: reproduce it against the real runtime, name the root cause, then fix it. A second speculative deploy is not a diagnostic.
 
 ## Workflow
 

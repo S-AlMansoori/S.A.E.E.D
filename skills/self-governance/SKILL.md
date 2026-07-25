@@ -153,6 +153,47 @@ gates, reconciled state, a retro entry, and current succession docs** (this file
 `docs/SUCCESSION.md`). If you are reading this at the start of a pass and all four hold, the
 handover worked; take the hat and run the cycle.
 
+## Project constitutions (governing principles for a managed repo)
+
+Absorbed from GitHub Spec Kit's constitution doctrine (cycle 9). This file is the **team's** law
+and travels with SAEED. A **constitution** is one managed **project's** law: a short set of named
+governing principles — testing standards, architecture constraints, quality bars, compliance
+rules — that every spec, plan, ticket, and diff in that repo must conform to. It is optional;
+where it exists it is not advisory.
+
+- **Home and shape.** One file per repo (`.saeed/constitution.md` in the house layout; a Spec Kit
+  project keeps its own at `memory/constitution.md` — either is fine, but exactly one). Each
+  principle is a declarative, testable rule stated in MUST/SHOULD terms with its rationale, plus a
+  governance section naming the amendment procedure. "Should be fast" is a wish, not a principle:
+  write the bar or leave it out.
+- **Versioned like code.** The file carries a semver `Version`, a ratification date, and a
+  last-amended date. **MAJOR** — a principle removed or incompatibly redefined · **MINOR** — a
+  principle added or materially expanded · **PATCH** — clarification, wording, non-semantic
+  refinement. An ambiguous bump is argued in the proposal before it lands.
+- **Violations are CRITICAL by construction.** A spec, plan, or change that conflicts with a
+  constitution MUST is the highest-severity finding available and blocks like any red gate. The
+  fix is to **change the spec, the plan, or the code — never to dilute, reinterpret, or silently
+  ignore the principle.** If the principle itself is wrong, that is a separate, explicit
+  constitution amendment argued on its own evidence, never a mid-review reinterpretation.
+- **Absent or unfilled ⇒ skip gracefully.** No constitution, or one still full of template
+  placeholders, means the check reports "none" and the pass continues. A missing artifact never
+  deadlocks a pass.
+- **Landing or amending one is a doctrine amendment.** It follows the Amendment section above —
+  written proposal with evidence, the two independent gates, a version bump, a retro entry — and
+  it propagates in the same change-set: the repo's specs, plan/ticket templates, and orientation
+  files are re-checked against the new principles, with what was updated and what is still pending
+  reported. Under `supervised` with no operator present, it parks.
+
+**Rank.** A constitution governs a project; it never governs the team. It cannot amend the
+precedence order above, cannot weaken the untouchables, and does not outrank an explicit operator
+instruction. Inside its own repo it binds at the executable-gate level, and the exits are the ones
+precedence already names: fix it, or a written `WONTFIX` from the domain owner, logged.
+
+**Seam.** Conformance is *checked* where requirements are checked — the constitution-alignment
+pass of the read-only analysis gate in `skills/spec-quality/SKILL.md`, which owns the requirements
+discipline and is not restated here. Authoring, versioning, ratifying, and amending the
+constitution are governance, and live here.
+
 ## Wiring (target class, named here per the propagation invariant)
 
 Carried directly by the **eight governance/meta agents** — `the-boss` (enforces it as a gate),
