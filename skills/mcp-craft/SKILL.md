@@ -68,7 +68,7 @@ Author the ten questions by inspecting tools and exploring content
 **read-only**, solving each yourself first to pin the verified answer, then
 ship them as an `<evaluation>` XML file of `<qa_pair>` elements (question +
 answer) in the source's convention, run through its runner
-(`scripts/evaluation.py`, stdio/SSE/HTTP transports supported). Flag and
+(mcp-builder's `scripts/evaluation.py`, stdio/SSE/HTTP supported). Flag and
 drop any pair that turns out to need a write or destructive call.
 
 **Thresholds follow `skills/verification-protocol/SKILL.md`:** treat the

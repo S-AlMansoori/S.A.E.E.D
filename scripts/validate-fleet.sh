@@ -61,6 +61,12 @@
 #                        — including a typo'd canon name — never matched it
 #                        and shipped green; line anchors rot silently and the
 #                        two this cycle shipped pointed at the wrong rule.
+#  12. Version parity  — .claude-plugin/plugin.json is the version of record;
+#                        CHANGELOG.md's newest `## <version>` heading, the
+#                        README badge, and (when present) .saeed/state.json
+#                        must all agree with it. Third occurrence of the
+#                        stale-bookkeeping class: cycle 9's release nearly
+#                        shipped plugin.json at 1.9.1 under a 1.10.0 CHANGELOG.
 #
 # NOTE on .saeed/: it is per-project runtime state and gitignored, so a fresh
 # clone (and CI) has none. Checks that read .saeed/state.json or models.md are
@@ -71,7 +77,7 @@
 #                                       # resolved relative to this script.
 #
 # EXIT STATUS
-#   0  — all hard checks (1-5, 7-11) passed. Check 6 is advisory and never
+#   0  — all hard checks (1-5, 7-12) passed. Check 6 is advisory and never
 #        fails the build; it only prints a warning.
 #   1  — one or more hard checks failed. Every violation is printed with the
 #        file and expected-vs-found detail before the FAIL summary line.
@@ -815,14 +821,16 @@ else:
 #        a neighbouring canon have no stability guarantee, and the ones this
 #        cycle shipped pointed at the wrong rule before they even rotted.
 # Scoped to the doctrine surfaces (skills/agents/commands/hooks): docs and
-# CHANGELOG legitimately quote grep output with line numbers. Fenced code
-# blocks are excluded so a canon can illustrate the form it forbids.
+# CHANGELOG legitimately quote grep output with line numbers. There is no
+# fenced-code exemption, per canon-craft's own rule that exemption clauses
+# don't scope: a canon illustrating a bad form writes it in a shape the rule
+# cannot match (angle-bracket placeholders like `skills/<name>`), rather than
+# carving out a region where a real violation could hide.
 # ---------------------------------------------------------------------------
 CHECK11 = "11. Canon reference form"
 
 BARE_SKILL_REF_RE = re.compile(r"`skills/([A-Za-z0-9_-]+)`")
 ANCHORED_SKILL_REF_RE = re.compile(r"SKILL\.md:\d+")
-FENCED_BLOCK_RE = re.compile(r"^```.*?^```", re.M | re.S)
 DOCTRINE_ROOTS = ["skills", "agents", "commands", "hooks"]
 
 doctrine_files = []
@@ -831,28 +839,11 @@ for root_name in DOCTRINE_ROOTS:
     if root_dir.exists():
         doctrine_files.extend(sorted(p for p in root_dir.rglob("*") if p.is_file()))
 
-
-def strip_fenced_blocks(text: str) -> str:
-    """Blank out fenced code blocks, preserving line count.
-
-    Applied ONLY to the canon that owns the path-form rule: canon-craft has to
-    be able to *illustrate* the form it forbids. Everywhere else a fence is a
-    place a real violation could hide, so the exclusion stays as narrow as the
-    need. Replacing each block with blank lines keeps reported positions honest.
-    """
-    return FENCED_BLOCK_RE.sub(lambda m: "\n" * m.group(0).count("\n"), text)
-
-
-# The rule-owning canon, whose examples are documentation rather than defects.
-FENCE_EXEMPT = {"skills/canon-craft/SKILL.md"}
-
 for f in doctrine_files:
     try:
         text = read(f)
     except (UnicodeDecodeError, OSError):
         continue
-    if f.relative_to(repo_root).as_posix() in FENCE_EXEMPT:
-        text = strip_fenced_blocks(text)
     rel = f.relative_to(repo_root)
     for name in sorted(set(BARE_SKILL_REF_RE.findall(text))):
         # Every bare backticked `skills/<name>` is a defect, whether the name
@@ -877,6 +868,69 @@ for f in doctrine_files:
             f"{rel}: line-anchored cross-canon reference ({m.group(0)}) — "
             f"cite the path plus a section name; line numbers rot silently",
         )
+
+
+# ---------------------------------------------------------------------------
+# Check 12 — Version parity. Third occurrence of the stale-bookkeeping class
+# this script exists to prevent (cycle 1: Arabic agent count; cycle 3:
+# state.json roster count; cycle 9: the release nearly shipped plugin.json at
+# 1.9.1 while CHANGELOG.md already announced 1.10.0). plugin.json is the
+# version of record; the CHANGELOG's top heading, the README badge, and
+# state.json must agree with it.
+# ---------------------------------------------------------------------------
+CHECK12 = "12. Version parity"
+
+plugin_json_path = repo_root / ".claude-plugin" / "plugin.json"
+version_of_record = None
+if plugin_json_path.exists():
+    try:
+        version_of_record = json.loads(read(plugin_json_path)).get("version")
+    except json.JSONDecodeError:
+        pass  # already reported by Check 4
+
+if version_of_record:
+    changelog_path = repo_root / "CHANGELOG.md"
+    if changelog_path.exists():
+        m = re.search(r"^##\s+(\d+\.\d+\.\d+)", read(changelog_path), re.M)
+        if not m:
+            fail(CHECK12, "CHANGELOG.md: no '## <version>' release heading found")
+        elif m.group(1) != version_of_record:
+            fail(
+                CHECK12,
+                f"CHANGELOG.md: newest release heading is {m.group(1)}, but "
+                f"plugin.json (version of record) says {version_of_record}",
+            )
+
+    readme_path12 = repo_root / "README.md"
+    if readme_path12.exists():
+        readme_text = read(readme_path12)
+        stale = sorted(
+            set(re.findall(r"badge/version-(\d+\.\d+\.\d+)", readme_text))
+            | set(re.findall(r'alt="version (\d+\.\d+\.\d+)"', readme_text))
+        )
+        for found in stale:
+            if found != version_of_record:
+                fail(
+                    CHECK12,
+                    f"README.md: version badge reads {found}, but plugin.json "
+                    f"(version of record) says {version_of_record}",
+                )
+
+    # Optional for the same reason as the other .saeed/ checks: gitignored
+    # per-project runtime state, absent in a fresh clone or CI checkout.
+    if state_text is None:
+        note(".saeed/state.json absent (gitignored runtime state) — version parity check skipped")
+    else:
+        try:
+            state_version = json.loads(state_text).get("version")
+            if state_version and state_version != version_of_record:
+                fail(
+                    CHECK12,
+                    f".saeed/state.json: version {state_version}, but plugin.json "
+                    f"(version of record) says {version_of_record}",
+                )
+        except json.JSONDecodeError:
+            pass  # already reported by Check 1 / Check 4
 
 
 # ---------------------------------------------------------------------------
@@ -933,6 +987,8 @@ else:
     print(f"                              state.json skills roster matches skills/*/ both ways")
     print(f" 11. Canon reference form   — {len(doctrine_files)} doctrine files carry no bare")
     print(f"                              `skills/<name>` and no line-anchored SKILL.md:N ref")
+    print(f" 12. Version parity         — plugin.json {version_of_record} matches the CHANGELOG")
+    print(f"                              heading, README badge, and state.json")
     print("=" * 78)
     print("RESULT: PASS")
     print("=" * 78)

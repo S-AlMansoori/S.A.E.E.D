@@ -13,7 +13,7 @@ Binds automatically: the nine builder engineers, `team-orchestrator` and `the-bo
 
 **This ladder is defined exactly once, here.** Every canon, agent, and command that scopes its own gates by task size references it by this path rather than carrying its own tiers. A referrer may name the tier letters and say what binds at each — that is the point of referencing — but the *triggers* that classify a task live only here, so there is one place to change when they change.
 
-**Does NOT apply:** work that ships no code — a design note, a spec, a doc-only or ledger-only change. The ladder classifies code changes; a canon-authoring or bookkeeping pass answers to its own gates, not to this one.
+**Does NOT apply:** work that ships no code — a design note, a spec, a canon-authoring or ledger-only change. Such a ticket still declares a tier for bookkeeping (S, unless its own domain says otherwise), but binds none of this canon's gates: there is no production code for a test to precede.
 
 Three tiers, objective triggers — declare the tier in the ticket/brief; `code-reviewer` re-derives it from the diff on every review:
 
