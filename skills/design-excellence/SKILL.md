@@ -109,7 +109,7 @@ Before choosing, write **one sentence of physical scene**: who uses this, where,
 
 - Realistic names, organic messy numbers, invented contextual brand names, concrete copy. Phosphor/Radix icons (standardize `strokeWidth`), never emoji or the SVG "egg" avatar.
 - **Every surface ships all states:** loading (skeletons matching layout, not spinners), empty (composed, tells the user how to fill it), error (inline, specific), success, and offline. A static happy-path only is incomplete.
-- Forms: label above input, error text below, sensible gap.
+- **Forms hold six laws** (numbered per the source); read `references/forms.md` when the surface contains a form: (1) submit stays disabled until valid **and** what's missing is visibly marked — a mute grayed button is the worse failure; (2) validate inline at field-exit, never only at submit; (3) limited fields show a live character count; (4) pre-fill everything already known; (5) password requirements display as a live checklist ticking as they type; (6) accept forgiving formats (phone with dashes, parentheses, or neither) and normalize once, server-side. Layout: label above input, error text below, sensible gap. Client-side forgiveness never replaces server-side validation — that control is `skills/app-hardening/SKILL.md` rule 5's.
 
 ## Trust & perceived responsiveness
 
@@ -171,6 +171,7 @@ When writing the CSS, structure selector specificity deliberately. A section-lev
 - [ ] Motion passed the "should it animate?" gate; ease-out/custom curves; <300ms; `transform`/`opacity` only.
 - [ ] All states present (loading/empty/error/success/offline); realistic content.
 - [ ] Trust holds: no dark pattern, every action acknowledged instantly and ended by a proportional success state, onboarding controls stay put, failures reach the user as designed surfaces.
+- [ ] Forms hold the six laws: submit gated with visible reasons, inline validation at field-exit, live character counts, known data pre-filled, password rules as a live checklist, forgiving formats normalized server-side.
 - [ ] RTL correct and tested; mobile collapses to `w-full px-4`; `min-h-[100dvh]`; blur only on fixed layers.
 - [ ] No 2026 blocklist look arrived at by default (cream ~`#F4F1EA` + serif + terracotta, near-black + acid accent, broadsheet hairlines) unless the brief asked for it; the plan passed the convergence self-check and names one signature element.
 
@@ -188,4 +189,4 @@ This canon distills, with gratitude, the enforceable rules of the **impeccable**
 
 The **2026-06 AI-default delta** section above additionally distills the June-2026 revision of the official **frontend-design** skill (Anthropic) — the named generic-look blocklist, the plan-then-critique convergence self-check, the signature slot, and the selector-specificity warning. When that skill is installed, invoke it for its full depth alongside the others.
 
-The **Trust & perceived responsiveness** section distills the UX & Trust portion (credited to Kev + Katia UX) of the operator's 2026-08-06 audit checklist — source preserved in `.saeed/tasks/cycle-10/sources/`. Its skeleton-loader and friendly-error items were already law above; the dark-pattern, instant-acknowledgment, onboarding-consistency, and proportional-success rules are the additions.
+The **Trust & perceived responsiveness** section distills the UX & Trust portion (credited to Kev + Katia UX) of the operator's 2026-08-06 audit checklist — source preserved in `.saeed/tasks/cycle-10/sources/`. Its skeleton-loader and friendly-error items were already law above; the dark-pattern, instant-acknowledgment, onboarding-consistency, and proportional-success rules are the additions. The **forms laws** (the six-rule block above, depth in `references/forms.md`) distill Katia UX's "Building with Good UX Part 6: Forms", operator-supplied same day — transcript preserved in `.saeed/tasks/cycle-11/sources/`; the old one-line forms rule (label/error/gap) survives inside law 2's layout note.

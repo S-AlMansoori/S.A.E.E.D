@@ -6,6 +6,32 @@ semver (patch = fixes, minor = new agents/skills/commands, major = breaking).
 The version of record is `version` in `.claude-plugin/plugin.json`.
 *(Sections before 1.7.0 are backfilled from commit history and are coarser.)*
 
+## 1.14.0 - 2026-08-06
+
+Same-day addendum to cycle 11: the operator supplied Katia UX's "Building with Good UX
+Part 6: Forms" transcript ("here are some more tips to absorb").
+
+### Added
+- `skills/design-excellence` gains the **six forms laws**, numbered as the source wrote
+  them: (1) submit gated on validity **with what's missing visibly marked** — a mute
+  grayed button is the worse failure; (2) inline validation at field-exit, never only at
+  submit; (3) live character counts on limited fields; (4) pre-fill everything already
+  known; (5) password requirements as a live checklist ticking as the user types;
+  (6) forgiving input formats (phone with dashes/parentheses/neither; Arabic-Indic and
+  Latin digits both valid) normalized once, server-side. Client-side forgiveness never
+  replaces server-side validation — that control stays with `app-hardening` rule 5.
+- **First exercised `references/` split** (canon-craft F5 was untested until now):
+  the canon body was ~1.2k chars under its F4 budget, so the six laws bind as one
+  compact block in the body and the full treatment — edge cases, refuse-in-review
+  shapes, interplay with the trust laws — lives in
+  `skills/design-excellence/references/forms.md`, loaded when the surface contains a
+  form. The source's teased part 7 (error placement) has a named landing place there.
+
+### Changed
+- The old one-line forms rule (label above input, error below, sensible gap) survives
+  as the block's layout note. Pre-ship checklist gains a forms line; CHEATSHEET (EN+AR)
+  names the forms laws. Source transcript preserved in `.saeed/tasks/cycle-11/sources/`.
+
 ## 1.13.0 - 2026-08-06
 
 Cycle 11 — the operator's capability mandate ("I want SAEED to do all this — feel free
