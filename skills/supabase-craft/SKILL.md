@@ -48,7 +48,7 @@ Subscribe to the narrowest channel and filter server-side (`filter:` on the subs
 
 ## Storage
 
-Buckets are either public (readable by any unsigned URL) or private (RLS-gated via `storage.objects` policies, same policy-per-operation discipline as any other table). Default to private; make a bucket public only for content that is genuinely meant to be world-readable. Validate file type and size before upload, on both the client (fast feedback) and a server-side check or a Storage policy (the enforcement that actually holds). Signed URLs carry a deliberately short expiry for anything sensitive.
+Buckets are either public (readable by any unsigned URL) or private (RLS-gated via `storage.objects` policies, same policy-per-operation discipline as any other table). Default to private; make a bucket public only for content that is genuinely meant to be world-readable. Validate file type and size before upload, on both the client (fast feedback) and a server-side check or a Storage policy (the enforcement that actually holds). Signed URLs carry a deliberately short expiry for anything sensitive. Whether a bucket has accumulated blobs nothing in the database points at is not asked here — that sweep is `skills/performance-discipline/SKILL.md`'s audit item A4.
 
 ## Vectors
 
@@ -56,7 +56,7 @@ Buckets are either public (readable by any unsigned URL) or private (RLS-gated v
 
 ## Cron & Queues
 
-`pg_cron` schedules SQL or a `net.http_post` call on a cron expression stored in the database itself, auditable by `SELECT * FROM cron.job`; prefer it over an external scheduler for anything that only needs to run SQL. `pgmq` (or an Edge Function polling loop) gives at-least-once queue semantics — design consumers to be idempotent (a message may be delivered twice), and set a visibility timeout longer than the worst-case processing time so a slow job doesn't get double-picked-up.
+`pg_cron` schedules SQL or a `net.http_post` call on a cron expression stored in the database itself, auditable by `SELECT * FROM cron.job`; prefer it over an external scheduler for anything that only needs to run SQL. `pgmq` (or an Edge Function polling loop) gives at-least-once queue semantics — design consumers to be idempotent (a message may be delivered twice), and set a visibility timeout longer than the worst-case processing time so a slow job doesn't get double-picked-up. `cron.job` is also where `skills/performance-discipline/SKILL.md`'s audit item A5 starts its enumeration — a scheduled job registered by an extension rather than written by hand still holds pool connections nobody counted.
 
 ## `supabase-js` client patterns
 

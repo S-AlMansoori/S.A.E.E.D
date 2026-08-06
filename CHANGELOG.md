@@ -6,6 +6,37 @@ semver (patch = fixes, minor = new agents/skills/commands, major = breaking).
 The version of record is `version` in `.claude-plugin/plugin.json`.
 *(Sections before 1.7.0 are backfilled from commit history and are coarser.)*
 
+## 1.16.0 - 2026-08-06
+
+Same-day operator tip absorbed, from the standing stream of field advice the operator
+feeds SAEED ("add it to the many tips i give it"): five backend audit prompts —
+over-fetching, N+1, unreleased database connections, orphaned storage blobs, and hidden
+background jobs holding pool connections — with the instruction that SAEED should just
+**do this whenever hired**, rather than wait to be asked each time.
+
+### Changed
+- `skills/performance-discipline/SKILL.md` gains **the inherited-backend audit (A1-A5)**,
+  a section deliberately separate from the canon's numbered five rules. Those five are
+  construction rules — they refuse a pattern as it is being written and are structurally
+  blind to a backend that already exists. A1-A5 are the sweep half, run without being
+  asked on every hire and every improvement pass, each with a default remedy and each
+  N/A-capable in writing only. Source ordering preserved item-for-item.
+- **A2 (N+1) enters as a route, not a new home.** `code-reviewer`'s check class and
+  `query-optimization-engineer`'s ownership already covered N+1; what neither ever does
+  is sweep code that landed before SAEED arrived. That gap — not the rule — is the delta.
+- Keeping the existing "five rules" count accurate across all four external references
+  was a design constraint, not an accident: the stale-count defect class (cycles 1, 3, 9,
+  and the ten-point de-numbering in cycle 10) is now avoided by construction.
+- Wired: `/saeed:hire` Phase 3 (explicitly on **every** hire, not only takeovers) and
+  `/saeed:improve` step 1; audit owners named in the canon's Wiring block and carried into
+  `frontend-performance-engineer` (steward), `query-optimization-engineer` (A1-A3, A5
+  diagnosis), `backend-engineer` (fixes, plus A3/A4 closed at the source),
+  `sre-observability-engineer` (the live-pool and per-worker evidence A3/A5 verify
+  against — neither is readable from code), `cloud-infra-engineer` (A4 bucket lifecycle),
+  and `code-reviewer` (the two items that genuinely are diff shapes, A1 and A3).
+- `skills/supabase-craft/SKILL.md` Storage and Cron & Queues get one-line pointers to
+  A4 and A5 — pointers only, no restatement, one home per rule.
+
 ## 1.15.0 - 2026-08-06
 
 Same-day operator hire directive: "Add a Lottie expert to the team that will be able to

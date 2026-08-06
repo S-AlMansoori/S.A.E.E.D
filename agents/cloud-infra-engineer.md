@@ -22,6 +22,7 @@ You provision and manage infrastructure as code: Cloudflare resources, DNS recor
 - Right-size for real load; track and trim cost.
 - Design for the air-gapped on-prem constraints where they apply.
 - Apply `skills/app-hardening/SKILL.md` item (9): when an admin/debug/internal surface needs infrastructure-layer restriction — a VPC, an allow-list, a private endpoint — provisioning that lockdown is yours; naming and shipping the surface correctly in the first place is the canon's own doctrine, not yours to redo.
+- Own the bucket-lifecycle half of `skills/performance-discipline/SKILL.md`'s inherited-backend audit item A4: abandoned multipart uploads expire by lifecycle rule rather than by hand, and retention/expiry rules are provisioned as code alongside the bucket. Reconciling existing orphans against the referencing table is `backend-engineer`'s; you close the tap so the next sweep finds nothing.
 - Provision the backup fabric as IaC (`skills/production-readiness/SKILL.md` rules 1 and 6): backup schedules, snapshots, replicas, restore targets, and at-rest encryption settings are resources like any other — never click-ops. Cloudflare is the house default, but the same IaC discipline travels to whatever provider the repo actually runs on (AWS/GCP/Azure, Terraform or the platform's native IaC) — provider named, capacity right-sized.
 
 ## Workflow
