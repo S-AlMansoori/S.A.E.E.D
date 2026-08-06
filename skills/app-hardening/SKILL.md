@@ -1,11 +1,13 @@
 ---
 name: app-hardening
-description: SAEED's absorbed product-hardening canon — the ten-point pre-ship gate (rate limiting, server-side secrets, RLS everywhere, .env hygiene, input validation, explicit permissions, auth on protected routes, generic errors, locked-down admin surfaces, attack-visible logging) plus the change-level security review. Defends the product SAEED ships; `skills/agentic-security/SKILL.md` defends the team.
+description: SAEED's absorbed product-hardening canon — the seventeen-point pre-ship gate: rate limiting, server-only secrets, RLS, .env hygiene, input validation, deny-by-default access, route auth, generic errors, locked admin, attack logging, IDOR, real logout, safe uploads, verified webhooks, centralized authz, data-model ownership — plus the change-level security review. Defends the product; `skills/agentic-security/SKILL.md` defends the team.
 ---
 
 # SAEED App Hardening — the absorbed pre-ship gate
 
-Absorbed from the operator's own ten-point securitymaxxing checklist: the
+Absorbed from the operator's own securitymaxxing checklist — ten points as
+first absorbed, extended to seventeen by the operator's 2026-08-06 audit
+checklist (Security section, Michael Ly + Casco) — the
 product-hardening habits every SAEED-built app must show before it ships,
 distilled into a match-and-refuse gate instead of advisory prose. This canon
 defends the **product**; `skills/agentic-security/SKILL.md` defends the
@@ -37,7 +39,7 @@ deployment target, the gate applies.
 If none are installed, the canon below still fully applies. Never let a
 missing plugin lower the bar.
 
-## The ten-point pre-ship gate (numbered as the operator wrote it)
+## The seventeen-point pre-ship gate (numbered as the operator wrote it)
 
 Match-and-refuse: each rule is a shape to recognize and a refusal to give
 when it's missing, not a suggestion to weigh.
@@ -110,10 +112,59 @@ when it's missing, not a suggestion to weigh.
     ownership is `sre-observability-engineer`'s; this rule is the pre-ship
     check that the signal exists at all before ship, not added after the
     first incident.
+11. **IDOR protection — object-level authorization on every data request.**
+    Rule 7 checks *who the caller is*; this rule checks *whether that caller
+    may touch this specific record*. Every read or write that takes an
+    identifier — URL param, body field, filename — verifies server-side that
+    the authenticated caller holds permission on that object, never inferring
+    permission from the ID being known. Unguessability is not authorization:
+    a UUID key is as vulnerable to IDOR as a sequential integer once it
+    leaks. Refuse to ship a handler that fetches by ID with no ownership or
+    permission predicate beside the fetch.
+12. **Proper logout — invalidate server-side, clear client-side.** Logout
+    revokes the session on the server (session row deleted, token revoked or
+    denylisted) **and** clears cookies, local storage, and session storage on
+    the client. A logout that only clears the client leaves a live
+    credential replayable from any stolen copy. The proof is a post-logout
+    request with the old token being rejected — refuse a logout that cannot
+    demonstrate it.
+13. **File upload safety.** Every upload validates type against an allowlist
+    by content inspection (never the extension or the client's Content-Type
+    alone), enforces a size cap, and lands in non-executable storage — an
+    object-storage bucket, never the webroot — served back with a safe
+    content type or download disposition. Bucket policy and storage-RLS
+    depth on Supabase is `skills/supabase-craft/SKILL.md`'s; this rule is
+    the refusal when an upload path skips any of the three checks.
+14. **Webhook signature verification.** Every webhook consumer verifies the
+    provider's signature (Stripe, or any signing provider) against the raw
+    request body before trusting the payload — an unverified payment webhook
+    means anyone who finds the URL can mint fake payment events. Pair it
+    with idempotency on the event ID so a replayed event cannot double-apply.
+    Refuse a webhook route shipping without verification and a test proving
+    a bad signature is rejected.
+15. **Deny-by-default access control, everywhere.** Rule 6 states the
+    posture for tables; the same posture binds every other resource — routes,
+    storage buckets, RPC functions, feature flags, API scopes. Nothing is
+    reachable unless a named rule explicitly allows it; "public for now,
+    lock it down later" is a finding at any layer, not only the database.
+16. **Centralized access checks.** Authorization runs through one reusable,
+    tested layer — a middleware, a policy module, the RLS policies of rule 3
+    — that every endpoint passes through, never bespoke permission logic
+    hand-rolled per endpoint. N copies of a check drift independently, and
+    the one forgotten copy is the breach. A new endpoint re-implementing a
+    check the central layer already owns is a finding even when its logic is
+    currently correct.
+17. **Record ownership enforced at the data-model level.** Every user- or
+    tenant-scoped record carries its owner in the schema itself — an
+    `owner_id`/`tenant_id` column with a real foreign key — so the database
+    knows who owns what without consulting application code. Rules 3 (RLS)
+    and 16 (the central check) bind to that column; ownership living only in
+    application bookkeeping, or nowhere, fails this gate even when RLS is
+    technically enabled.
 
 ## The change-level security review
 
-The ten-point gate is the pre-ship snapshot; a pending diff gets a security
+The seventeen-point gate is the pre-ship snapshot; a pending diff gets a security
 *review* at the depth the change deserves. `/saeed:verify` carries a
 security-depth mode — invoked explicitly or auto-escalated when the diff
 touches auth, input handling, secrets, the network boundary, new
@@ -134,6 +185,13 @@ paragraph is the pointer, not a second copy.
 - [ ] (8) No stack trace, raw exception, internal path, or SQL error reaches a client response.
 - [ ] (9) No admin/debug surface reachable in production without real authorization.
 - [ ] (10) Auth failures, rate-limit trips, and admin access are logged with reconstructable context, secret- and PII-free.
+- [ ] (11) Every handler taking an object identifier carries an ownership/permission predicate beside the fetch — no IDOR.
+- [ ] (12) Logout invalidates the session server-side **and** clears cookies/local/session storage; the old token demonstrably stops working.
+- [ ] (13) Every upload path validates type by content, caps size, and stores in a non-executable location.
+- [ ] (14) Every webhook verifies the provider's signature on the raw body, with a bad-signature rejection test and event-ID idempotency.
+- [ ] (15) Every resource layer — routes, buckets, RPCs, flags, scopes — is deny-by-default, not only tables.
+- [ ] (16) Authorization runs through one central layer; no endpoint hand-rolls its own copy of an existing check.
+- [ ] (17) Every user-/tenant-scoped table carries its owner as a real column + FK the policies bind to.
 - [ ] N/A claims name the reason (no network/UI surface) rather than silently skipping.
 
 A shippable change is **not done** until this checklist passes and
@@ -143,7 +201,7 @@ gate 5, consumed by `the-boss`'s Definition of Done.
 ## Wiring
 
 - **Owner:** `appsec-engineer` — stewards this canon and is the named gate:
-  runs the ten-point verdict at pre-ship and the diff-level review under
+  runs the seventeen-point verdict at pre-ship and the diff-level review under
   `/saeed:verify`'s security depth.
 - **Applying class:** `security-architect`, `devsecops-engineer`,
   `backend-engineer`, `frontend-engineer`, `api-designer`,
@@ -163,6 +221,9 @@ gate 5, consumed by `the-boss`'s Definition of Done.
 ## Attribution
 
 This canon distills, with gratitude, the operator's own ten-point
-securitymaxxing pre-ship checklist. When the `anthropic-skills:securitymaxxing`
-session skill is installed, prefer invoking it for full depth; this file
-guarantees the standard when it is not.
+securitymaxxing pre-ship checklist, extended to seventeen points by the
+Security section (credited to Michael Ly + Casco) of the operator's
+2026-08-06 audit checklist — items 11–17 above, in the order the operator
+wrote them (source preserved in `.saeed/tasks/cycle-10/sources/`). When the
+`anthropic-skills:securitymaxxing` session skill is installed, prefer
+invoking it for full depth; this file guarantees the standard when it is not.

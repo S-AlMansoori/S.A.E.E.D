@@ -1,6 +1,6 @@
 ---
 name: spec-quality
-description: SAEED's requirements-layer canon — the ten-category ambiguity taxonomy rated Clear/Partial/Missing, the bounded five-question clarification budget with informed-default Assumptions, answer integration that deletes contradicted text, checklists as unit tests for requirements, and the read-only analysis gate with its requirements-to-tasks coverage table. Applies upstream of orchestration, wherever specs are written.
+description: SAEED's requirements-layer canon — the ten-category ambiguity taxonomy rated Clear/Partial/Missing, the bounded five-question clarification budget with informed-default Assumptions, answer integration that deletes contradicted text, checklists as unit tests for requirements, the AI-automation readiness map, and the read-only analysis gate with its coverage table. Applies upstream of orchestration, wherever specs are written.
 ---
 
 # SAEED Spec-Quality — the absorbed requirements canon
@@ -124,6 +124,23 @@ works" — it is "is the button's required behavior specified clearly enough to 
 - Consolidate near-duplicate items checking the same aspect; collapse more than five low-impact
   edge cases into one combined item rather than padding the list.
 
+## The AI-automation readiness map
+
+When the product embeds AI or automation features — an assistant, agents, automated workflows —
+or the mandate is an automation audit, the spec carries two artifacts before tickets are cut:
+
+- **The automation map.** Every workflow task the product touches is classified **human-led /
+  human-assisted / fully autonomous**, in a table in the spec. What AI replaces is documented,
+  never implied — the classification is what makes automation scope testable, and re-auditable
+  when models improve and the boundary moves.
+- **One named source of truth.** The spec names the single knowledge base all AI agents and
+  features pull from. Agents reading divergent sources produce inconsistent outputs; divergence
+  is prevented in the spec, not patched after. Designing and implementing that store (retrieval,
+  chunking, sync) is `rag-architect`'s and `llm-engineer`'s work — this canon only refuses a spec
+  that leaves the source unnamed, or plural.
+
+**Does not apply** — mark N/A with the reason — to a product with no AI or automation surface.
+
 ## The read-only pre-implementation analysis gate
 
 Before tickets are cut (`the-boss`'s plan sign-off, `team-orchestrator`'s decomposition), run a
@@ -197,6 +214,9 @@ sub-spec's path — a plain-text, grep-able, bidirectional convention, no new to
       traceability markers.
 - [ ] The requirements-to-tasks coverage table is filled in — no unmapped requirement, no
       unexplained unmapped task.
+- [ ] If the product has an AI/automation surface: the automation map (human-led / human-assisted /
+      fully autonomous per workflow task) is filled in and one knowledge-base source of truth is
+      named — or N/A with the reason.
 - [ ] Any true scope blocker is parked under `## Awaiting operator` with the exact question, not
       silently guessed.
 
@@ -228,3 +248,7 @@ requirements" (`/speckit.checklist`), the read-only cross-artifact analysis gate
 requirements-to-tasks coverage table (`/speckit.analyze`), and the spec-of-specs roadmap pattern
 for oversized features. When Spec Kit is installed, prefer invoking it directly for the full
 interactive loop; this file guarantees the standard when it is not.
+
+The **AI-automation readiness map** distills the AI Automation Readiness section (credited to
+Ahmed Alassafi) of the operator's 2026-08-06 audit checklist — source preserved in
+`.saeed/tasks/cycle-10/sources/`.

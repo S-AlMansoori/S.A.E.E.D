@@ -1,6 +1,6 @@
 ---
 name: design-excellence
-description: SAEED's absorbed design canon — the enforceable house standard for every user-facing surface. Distills impeccable, gpt-taste, high-end-visual-design, design-taste-frontend, and emil-design-eng into non-negotiable laws for color, type, layout, motion, content, and anti-AI-slop craft, plus the rule to invoke those skills for full depth. Consulted automatically by every UI-touching SAEED agent — no one has to ask.
+description: SAEED's absorbed design canon — the enforceable house standard for every user-facing surface. Distills impeccable, gpt-taste, high-end-visual-design, design-taste-frontend, and emil-design-eng into non-negotiable laws for color, type, layout, motion, content, trust, and anti-AI-slop craft, plus the rule to invoke those skills for full depth. Consulted automatically by every UI-touching SAEED agent — no one has to ask.
 ---
 
 # SAEED Design Excellence — the absorbed canon
@@ -111,6 +111,16 @@ Before choosing, write **one sentence of physical scene**: who uses this, where,
 - **Every surface ships all states:** loading (skeletons matching layout, not spinners), empty (composed, tells the user how to fill it), error (inline, specific), success, and offline. A static happy-path only is incomplete.
 - Forms: label above input, error text below, sensible gap.
 
+## Trust & perceived responsiveness
+
+UX trust is a design deliverable, held to the same match-and-refuse bar as the visual laws.
+
+- **No dark patterns.** Unsubscribe/cancel is as easy as subscribe, pricing is clear before commitment, no trick copy, confirm-shaming, or pre-checked add-ons. A flow that needs a trick to convert is a design failure, not a growth tactic.
+- **Instant acknowledgment on every action.** The UI responds the moment the user acts, even when the backend takes time: acknowledge instantly, run slow work in the background with visible progress — never block the interface on a round-trip. The optimistic-update-with-reconciliation shape this rides on is `skills/performance-discipline/SKILL.md` rule 4 (pointer, not restated).
+- **Consistent onboarding controls.** The primary action ("Continue") keeps the same position, style, and label on every screen of a multi-step flow. Spatial consistency is what makes a flow feel safe to walk through.
+- **Proportional success states — no action vanishes into the void.** Every action ends in a visible outcome: a major or irreversible action gets a full confirmation moment (a confirmation page; celebration where the register allows it), a minor one gets a subtle checkmark or in-place visual update. The states law above requires a success state to *exist*; this rule sizes it to the action.
+- **Failures are designed surfaces.** 404s and backend errors reach the user as composed, human messages ("Something went wrong. Please try again later."), never a raw status page or a dev error. What must never leak inside those messages — stack traces, internals — is `skills/app-hardening/SKILL.md` rule 8's law; this rule owns the designed surface, that one owns the redaction.
+
 ## Bilingual / RTL is first-class
 
 - RTL is a real layout, not a mirror hack: **logical properties** (`inline-start`/`inline-end`, `ms-*`/`me-*`), never hard-coded left/right. Test with real Arabic content and long strings.
@@ -160,6 +170,7 @@ When writing the CSS, structure selector specificity deliberately. A section-lev
 - [ ] Layout breathes (`py-24`+), varies rhythm, breaks center-bias; bento has zero dead cells; cards earn their elevation.
 - [ ] Motion passed the "should it animate?" gate; ease-out/custom curves; <300ms; `transform`/`opacity` only.
 - [ ] All states present (loading/empty/error/success/offline); realistic content.
+- [ ] Trust holds: no dark pattern, every action acknowledged instantly and ended by a proportional success state, onboarding controls stay put, failures reach the user as designed surfaces.
 - [ ] RTL correct and tested; mobile collapses to `w-full px-4`; `min-h-[100dvh]`; blur only on fixed layers.
 - [ ] No 2026 blocklist look arrived at by default (cream ~`#F4F1EA` + serif + terracotta, near-black + acid accent, broadsheet hairlines) unless the brief asked for it; the plan passed the convergence self-check and names one signature element.
 
@@ -176,3 +187,5 @@ A user-facing change is **not done** until it passes this checklist and the `des
 This canon distills, with gratitude, the enforceable rules of the **impeccable** (Apache-2.0, based on Anthropic's frontend-design skill), **gpt-taste**, **high-end-visual-design**, **design-taste-frontend**, **emil-design-eng** (Emil Kowalski's design-engineering philosophy — [animations.dev](https://animations.dev/)), and **full-output-enforcement** skills. When those skills are installed, prefer invoking them for their full depth; this file guarantees the standard when they are not.
 
 The **2026-06 AI-default delta** section above additionally distills the June-2026 revision of the official **frontend-design** skill (Anthropic) — the named generic-look blocklist, the plan-then-critique convergence self-check, the signature slot, and the selector-specificity warning. When that skill is installed, invoke it for its full depth alongside the others.
+
+The **Trust & perceived responsiveness** section distills the UX & Trust portion (credited to Kev + Katia UX) of the operator's 2026-08-06 audit checklist — source preserved in `.saeed/tasks/cycle-10/sources/`. Its skeleton-loader and friendly-error items were already law above; the dark-pattern, instant-acknowledgment, onboarding-consistency, and proportional-success rules are the additions.

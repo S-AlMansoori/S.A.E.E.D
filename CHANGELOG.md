@@ -6,6 +6,43 @@ semver (patch = fixes, minor = new agents/skills/commands, major = breaking).
 The version of record is `version` in `.claude-plugin/plugin.json`.
 *(Sections before 1.7.0 are backfilled from commit history and are coarser.)*
 
+## 1.11.0 - 2026-08-06
+
+Cycle 10 — absorb the operator's four-part audit checklist (UX & Trust [Kev + Katia UX],
+Security [Michael Ly + Casco], Performance [Hayden Smith], AI Automation Readiness
+[Ahmed Alassafi]), folded into a `/saeed:upgrade` run the operator invoked mid-cycle.
+Coverage audit first, per the house idiom: the Performance section was already absorbed
+rule-for-rule (`skills/performance-discipline`, same source), and the Security section's
+first ten items are the existing gate in the operator's own order — so the cycle extends
+three canons rather than adding one. Source verbatim in `.saeed/tasks/cycle-10/sources/`.
+
+### Changed
+- `skills/app-hardening` — the pre-ship gate grows from ten to **seventeen** points, numbered
+  as the operator wrote them: IDOR/object-level authorization (11), real logout (12), file
+  upload safety (13), payment-webhook signature verification (14), deny-by-default access
+  control beyond tables (15), centralized access checks (16), record ownership at the
+  data-model level (17). The eight external references to the gate (5 agents, 3 commands)
+  and the doc surfaces (README, CHEATSHEET EN+AR, WHAT-IS EN+AR) are **de-numbered** to
+  "pre-ship gate" — the stale-count defect class (cycles 1, 3, 9) applied preventively, so
+  the count now lives in exactly one home.
+- `skills/design-excellence` — new **"Trust & perceived responsiveness"** law set: no dark
+  patterns, instant acknowledgment with background processing, consistent onboarding
+  controls, proportional success states ("no action vanishes into the void"), failures as
+  designed surfaces. Skeleton loaders and friendly errors were already law.
+- `skills/spec-quality` — new **"The AI-automation readiness map"**: every workflow task
+  classified human-led / human-assisted / fully autonomous, plus one named knowledge-base
+  source of truth for all AI features; binds at the requirements layer, N/A-capable.
+
+### Evidence
+- Light eval per `skills/canon-craft`: a **live fresh-agent trigger smoke** (exceeds
+  cycle-9's traced-smoke precedent) — a clean-context reviewer found all three planted
+  defects citing the new gate items 11/12/14 and returned BLOCK. Coherence ran inline by
+  the coordinator after two independent-critic attempts died to the session usage limit;
+  the independent re-run is queued debt. Evidence: `.saeed/tasks/cycle-10/eval-evidence.md`.
+- Upgrade steps 2–5 concluded inline under the usage limit: NO-HIRE (no exercised gap,
+  cycle-5 precedent), no optimizer/roster changes, MS-1 (fable re-tier) surfaced to the
+  operator for decision.
+
 ## 1.10.0 - 2026-07-25
 
 The absorption cycle: seven operator-named external skill sources (two Supabase skills, the
