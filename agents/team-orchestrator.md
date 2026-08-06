@@ -1,7 +1,7 @@
 ---
 name: team-orchestrator
 description: "MUST BE USED as the entry point for any multi-step project. Decomposes goals into tasks, routes each to the right specialist subagent, sequences the work, runs parallel exploration where safe, and synthesizes results. The team's conductor."
-model: opus
+model: fable
 ---
 
 # Team Orchestrator

@@ -341,6 +341,7 @@ CHECK3 = "3. Model-tier tally"
 
 opus_count = 0
 sonnet_count = 0
+fable_count = 0
 other_models = []
 
 for f in agent_files:
@@ -357,6 +358,8 @@ for f in agent_files:
         opus_count += 1
     elif model_val == "sonnet":
         sonnet_count += 1
+    elif model_val == "fable":
+        fable_count += 1
     else:
         other_models.append((f.relative_to(repo_root), model_val))
 
@@ -388,10 +391,25 @@ if models_text is not None:
                 f"{models_md_path.relative_to(repo_root)}: states {stated_sonnet} sonnet, "
                 f"but agents/*.md frontmatter has {sonnet_count}",
             )
+    # Fable is a legitimate third tier (MS-1, cycle 10). The heading is required
+    # exactly when the fleet carries fable agents; a stated tally must match.
+    fable_m = re.search(r"Fable \((\d+)\)", models_text)
+    if fable_count > 0 and not fable_m:
+        fail(
+            CHECK3,
+            f"{models_md_path.relative_to(repo_root)}: could not find 'Fable (N)' tally heading "
+            f"while agents/*.md frontmatter has {fable_count} fable",
+        )
+    elif fable_m and int(fable_m.group(1)) != fable_count:
+        fail(
+            CHECK3,
+            f"{models_md_path.relative_to(repo_root)}: states {fable_m.group(1)} fable, "
+            f"but agents/*.md frontmatter has {fable_count}",
+        )
 
 if other_models:
     for rel, val in other_models:
-        fail(CHECK3, f"{rel}: unexpected model tier {val!r} (expected 'opus' or 'sonnet')")
+        fail(CHECK3, f"{rel}: unexpected model tier {val!r} (expected 'opus', 'sonnet', or 'fable')")
 
 # Cross-check the per-tier tallies stated in the docs/what-is-saeed.html
 # "Model mix" legend against the actual frontmatter counts. This is a distinct
@@ -411,6 +429,11 @@ if html_mix_text is not None:
         fail(CHECK3, f"{html_mix_path.relative_to(repo_root)}: 'N mid-tier (Sonnet)' Model-mix legend row not found")
     elif int(legend_sonnet.group(1)) != sonnet_count:
         fail(CHECK3, f"{html_mix_path.relative_to(repo_root)}: Model-mix legend states {legend_sonnet.group(1)} sonnet, but agents/*.md frontmatter has {sonnet_count}")
+    legend_fable = re.search(r"(\d+)\s+apex-tier \(Fable\)", html_mix_text)
+    if fable_count > 0 and not legend_fable:
+        fail(CHECK3, f"{html_mix_path.relative_to(repo_root)}: 'N apex-tier (Fable)' Model-mix legend row not found while agents/*.md frontmatter has {fable_count} fable")
+    elif legend_fable and int(legend_fable.group(1)) != fable_count:
+        fail(CHECK3, f"{html_mix_path.relative_to(repo_root)}: Model-mix legend states {legend_fable.group(1)} fable, but agents/*.md frontmatter has {fable_count}")
 
 
 # ---------------------------------------------------------------------------
@@ -970,7 +993,7 @@ else:
     print(f"                              (incl. SVG donut), and .saeed/state.json")
     print(f"  2. Frontmatter integrity  — {N}/{N} agents have name/description/model,")
     print(f"                              name matches filename")
-    print(f"  3. Model-tier tally       — {opus_count} opus / {sonnet_count} sonnet matches .saeed/models.md")
+    print(f"  3. Model-tier tally       — {fable_count} fable / {opus_count} opus / {sonnet_count} sonnet matches .saeed/models.md")
     print(f"                              and the what-is-saeed.html Model-mix legend")
     print(f"  4. JSON validity          — plugin.json, marketplace.json, hooks.json,")
     print(f"                              .saeed/state.json all parse")
