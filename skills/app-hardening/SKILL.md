@@ -1,6 +1,6 @@
 ---
 name: app-hardening
-description: SAEED's absorbed product-hardening canon — the seventeen-point pre-ship gate: rate limiting, server-only secrets, RLS, .env hygiene, input validation, deny-by-default access, route auth, generic errors, locked admin, attack logging, IDOR, real logout, safe uploads, verified webhooks, centralized authz, data-model ownership — plus the change-level security review. Defends the product; `skills/agentic-security/SKILL.md` defends the team.
+description: SAEED's absorbed product-hardening canon — the seventeen-point pre-ship gate: rate limiting, server-only secrets, RLS, input validation, deny-by-default access, route auth, generic errors, locked admin, attack logging, IDOR, real logout, safe uploads, verified webhooks, centralized authz, data-model ownership — plus the EULA/DMCA legal items and the change-level review. Defends the product; `skills/agentic-security/SKILL.md` defends the team.
 ---
 
 # SAEED App Hardening — the absorbed pre-ship gate
@@ -162,6 +162,31 @@ when it's missing, not a suggestion to weigh.
     application bookkeeping, or nowhere, fails this gate even when RLS is
     technically enabled.
 
+## The legal pre-ship items (Section 5, numbered as the operator wrote them)
+
+Absorbed 2026-08-06 from the operator's audit-checklist addendum (Legal
+section, credited to Ryan Naghibzadeh). Same match-and-refuse posture,
+different attack surface: these defend the product in a courtroom rather
+than at the network boundary. `compliance-privacy-engineer` owns both items
+in its advisory register — engineering guidance, never legal advice; a real
+legal determination goes to qualified counsel.
+
+- **L1 — EULA in place.** Every shipped app carries an End User License
+  Agreement defining the builder's ownership rights and the boundaries of
+  what users may and may not do with the app — reachable where users can
+  find it (signup flow, settings, store listing) before ship. Generators
+  such as TermsFeed or Termly produce a workable baseline; anything bespoke
+  goes to counsel. Refuse to ship an app with no EULA, and refuse to call a
+  generated one "reviewed".
+- **L2 — DMCA policy published, when users can upload content.** Any app
+  accepting user-generated content (uploads, posts, comments, avatars)
+  publishes a DMCA policy naming a working process for copyright-infringement
+  claims — that process is what shields the platform from liability for what
+  its users upload. Conditional on an observable predicate: no UGC surface →
+  N/A with the reason recorded; the moment a UGC feature lands, this item
+  binds (the same activation shape as the Scope section's HTTP-listener
+  clause).
+
 ## The change-level security review
 
 The seventeen-point gate is the pre-ship snapshot; a pending diff gets a security
@@ -192,7 +217,9 @@ paragraph is the pointer, not a second copy.
 - [ ] (15) Every resource layer — routes, buckets, RPCs, flags, scopes — is deny-by-default, not only tables.
 - [ ] (16) Authorization runs through one central layer; no endpoint hand-rolls its own copy of an existing check.
 - [ ] (17) Every user-/tenant-scoped table carries its owner as a real column + FK the policies bind to.
-- [ ] N/A claims name the reason (no network/UI surface) rather than silently skipping.
+- [ ] (L1) A EULA exists and is reachable from the product before ship.
+- [ ] (L2) UGC-accepting apps publish a DMCA policy with a working claims process; no-UGC apps record the N/A.
+- [ ] N/A claims name the reason (no network/UI surface; no UGC for L2) rather than silently skipping.
 
 A shippable change is **not done** until this checklist passes and
 `appsec-engineer` returns a verdict — escalated from Verification Protocol
@@ -207,7 +234,9 @@ gate 5, consumed by `the-boss`'s Definition of Done.
   `backend-engineer`, `frontend-engineer`, `api-designer`,
   `database-architect`, `edge-serverless-engineer`,
   `sre-observability-engineer` (item 10 instrumentation),
-  `cloud-infra-engineer` (item 9 network lockdown).
+  `cloud-infra-engineer` (item 9 network lockdown),
+  `compliance-privacy-engineer` (legal items L1–L2, advisory register —
+  its verdict feeds the same pre-ship gate).
 - **Gate:** `appsec-engineer`'s pre-ship verdict, escalated from
   Verification Protocol gate 5 (`skills/verification-protocol/SKILL.md`);
   a red verdict blocks ship until fixed or an explicit N/A with reason.
@@ -224,6 +253,8 @@ This canon distills, with gratitude, the operator's own ten-point
 securitymaxxing pre-ship checklist, extended to seventeen points by the
 Security section (credited to Michael Ly + Casco) of the operator's
 2026-08-06 audit checklist — items 11–17 above, in the order the operator
-wrote them (source preserved in `.saeed/tasks/cycle-10/sources/`). When the
+wrote them — and by that checklist's same-day Legal addendum (credited to
+Ryan Naghibzadeh), items L1–L2 (source preserved in
+`.saeed/tasks/cycle-10/sources/`). When the
 `anthropic-skills:securitymaxxing` session skill is installed, prefer
 invoking it for full depth; this file guarantees the standard when it is not.

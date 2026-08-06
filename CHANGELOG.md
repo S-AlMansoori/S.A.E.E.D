@@ -6,6 +6,22 @@ semver (patch = fixes, minor = new agents/skills/commands, major = breaking).
 The version of record is `version` in `.claude-plugin/plugin.json`.
 *(Sections before 1.7.0 are backfilled from commit history and are coarser.)*
 
+## 1.12.0 - 2026-08-06
+
+Same-day addendum to cycle 10: the operator extended the audit checklist with a Legal
+section (credited to Ryan Naghibzadeh, "How to NOT Get Sued Building Your First App").
+
+### Changed
+- `skills/app-hardening` — new **"Legal pre-ship items"** section, L1–L2, deliberately
+  numbered apart from the security gate's 1–17: **L1** every shipped app carries a
+  reachable EULA (generators like TermsFeed/Termly as baseline, counsel for anything
+  bespoke); **L2** any app accepting user-generated content publishes a DMCA policy with
+  a working claims process — conditional on the observable UGC predicate, N/A with reason
+  otherwise. Both owned by `compliance-privacy-engineer` in its advisory-not-legal-advice
+  register; its scope and description extended to carry the ownership.
+- Doc surfaces follow (README, CHEATSHEET EN+AR, WHAT-IS EN+AR). No legal doctrine
+  existed anywhere before this (EULA/DMCA: zero grep hits repo-wide).
+
 ## 1.11.0 - 2026-08-06
 
 Cycle 10 — absorb the operator's four-part audit checklist (UX & Trust [Kev + Katia UX],
