@@ -6,6 +6,52 @@ semver (patch = fixes, minor = new agents/skills/commands, major = breaking).
 The version of record is `version` in `.claude-plugin/plugin.json`.
 *(Sections before 1.7.0 are backfilled from commit history and are coarser.)*
 
+## 1.13.0 - 2026-08-06
+
+Cycle 11 — the operator's capability mandate ("I want SAEED to do all this — feel free
+to add stuff"): nineteen capabilities across Security & Compliance, Testing & Quality,
+Architecture & Infrastructure, and DevOps & Deployment, audited against the fleet
+before a single edit. Thirteen were already covered; the gaps became the change set.
+
+### Added
+- `skills/production-readiness` — the **ops pre-ship gate**, the entropy-twin of
+  `app-hardening`'s attacker gate. Seven match-and-refuse rules, each tracing to a
+  zero-hit grep from the coverage audit: (1) backups proven by an **actual restore**
+  with named RPO/RTO (a backup never restored is a hope); (2) a product
+  disaster-recovery runbook (distinct from the team's own in `self-governance`);
+  (3) dev/**staging**/prod tiers with per-environment secret sets ("staging" appeared
+  nowhere in doctrine before this); (4) load-verified non-functional targets (k6-style
+  generated load, percentile assertions — targets were set at intake and never
+  verified); (5) deliberate caching with TTL + invalidation and a never-cache rule for
+  authz-scoped data; (6) encryption at rest verified on every store *including
+  backups*, keys under named custody; (7) a named compliance surface — GDPR, UAE PDPL,
+  SOC 2, HIPAA/PCI-DSS awareness (no standard was named anywhere repo-wide before).
+  Steward + gate: `sre-observability-engineer`; nine applying agents wired.
+- `docs/CAPABILITY-MAP.md` — the persistent capability→owner→gate map across all nine
+  divisions. Exists because the audit proved an unowned capability was structurally
+  invisible: roster tables inventory agents, so nothing failed while backups had no
+  owner.
+- **Validator Check 13** — capability-map ownership: the map must exist and every
+  agent owner named in it must resolve to `agents/*.md`. Red/green demonstrated
+  (RED on a planted `chaos-goblin-engineer`).
+
+### Changed
+- Eleven agents extended surgically: `compliance-privacy-engineer` now names GDPR /
+  UAE PDPL / SOC 2 (HIPAA/PCI-DSS awareness) and owns the named-regime compliance
+  map; `security-architect` gains at-rest encryption + key-custody doctrine;
+  `sre-observability-engineer` stewards the new canon and its gate (backups/DR/RPO/
+  RTO); `qa-automation-engineer` + `test-architect` gain load/stress testing;
+  `backend-engineer` + `edge-serverless-engineer` gain the cache-with-invalidation
+  contract; `devops-platform-engineer` gains the three-tier environment default;
+  `cloud-infra-engineer` gains backup-fabric IaC + multi-provider breadth
+  (AWS/GCP/Azure/Terraform when the repo lives there); `database-architect` gains
+  PITR/restore mechanics.
+
+### Fixed
+- `appsec-engineer` still said "any of the **ten** points" for the seventeen-point
+  gate it stewards — de-numbered to "any of its points" per the one-home count rule.
+- Both manifests still advertised a "10-point" app-hardening gate — same de-numbering.
+
 ## 1.12.0 - 2026-08-06
 
 Same-day addendum to cycle 10: the operator extended the audit checklist with a Legal

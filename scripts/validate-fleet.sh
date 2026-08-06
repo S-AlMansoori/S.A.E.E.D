@@ -77,7 +77,7 @@
 #                                       # resolved relative to this script.
 #
 # EXIT STATUS
-#   0  — all hard checks (1-5, 7-12) passed. Check 6 is advisory and never
+#   0  — all hard checks (1-5, 7-13) passed. Check 6 is advisory and never
 #        fails the build; it only prints a warning.
 #   1  — one or more hard checks failed. Every violation is printed with the
 #        file and expected-vs-found detail before the FAIL summary line.
@@ -957,6 +957,40 @@ if version_of_record:
 
 
 # ---------------------------------------------------------------------------
+# Check 13 — Capability-map ownership resolution (cycle 11). The coverage
+# audit proved an unowned capability is structurally invisible: the roster
+# tables inventory agents, so nothing failed while backups, load testing,
+# and named compliance regimes had no owner. docs/CAPABILITY-MAP.md is the
+# artifact that fails instead — it must exist, and every bare agent token
+# it names must resolve to agents/<name>.md, so a retired or renamed agent
+# cannot silently leave a capability orphaned.
+# ---------------------------------------------------------------------------
+CHECK13 = "13. Capability-map ownership"
+
+capmap_path = repo_root / "docs" / "CAPABILITY-MAP.md"
+capmap_refs = 0
+if not capmap_path.exists():
+    fail(CHECK13, "docs/CAPABILITY-MAP.md does not exist — the capability map is doctrine, not decoration")
+else:
+    capmap_text = read(capmap_path)
+    # An owner reference is a bare hyphenated kebab token (every agent name
+    # contains a hyphen); paths, commands, and file names carry / : . and
+    # are skipped, same shape as Check 5.
+    for ref in BACKTICK_RE.findall(capmap_text):
+        if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)+", ref):
+            continue
+        capmap_refs += 1
+        if ref not in agent_names:
+            fail(
+                CHECK13,
+                f"docs/CAPABILITY-MAP.md: names `{ref}` as an owner, "
+                f"but agents/{ref}.md does not exist",
+            )
+    if capmap_refs == 0:
+        fail(CHECK13, "docs/CAPABILITY-MAP.md: contains no resolvable agent-owner references at all")
+
+
+# ---------------------------------------------------------------------------
 # Report
 # ---------------------------------------------------------------------------
 print("=" * 78)
@@ -1012,6 +1046,8 @@ else:
     print(f"                              `skills/<name>` and no line-anchored SKILL.md:N ref")
     print(f" 12. Version parity         — plugin.json {version_of_record} matches the CHANGELOG")
     print(f"                              heading, README badge, and state.json")
+    print(f" 13. Capability-map owners  — docs/CAPABILITY-MAP.md exists; {capmap_refs} agent-owner")
+    print(f"                              references all resolve to agents/*.md")
     print("=" * 78)
     print("RESULT: PASS")
     print("=" * 78)

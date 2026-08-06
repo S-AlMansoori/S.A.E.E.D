@@ -45,7 +45,11 @@ evidence canon (a **Verification Protocol** with executable gates and READY / NO
 itself), and an **Attribution** convention that signs every deliverable. On top of that, SAEED now
 carries doctrine for the *product* it ships — **Supabase-Craft** (Supabase/Postgres mastery),
 **App-Hardening** (the pre-ship security + legal gate), and **Performance-Discipline**
-(wire/data/hosting speed) — a **Repo-Housekeeping** canon that tends the team's own workspace
+(wire/data/hosting speed), and **Production-Readiness** (the ops pre-ship gate: backups proven
+by an actual restore with RPO/RTO, disaster-recovery runbooks, dev/staging/prod tiers, load-verified
+performance targets, encryption at rest, and a named GDPR/UAE-PDPL/SOC-2 compliance surface,
+with the full capability→owner matrix in `docs/CAPABILITY-MAP.md`) — a **Repo-Housekeeping**
+canon that tends the team's own workspace
 between cycles, an **MCP-Craft** canon for any MCP server or agent-tool surface it builds, and the
 meta layer that governs how SAEED builds and specs everything it does: **Engineering-Method**
 (TDD, systematic debugging, the design-approval gate), **Spec-Quality** (the requirements-layer
@@ -142,7 +146,11 @@ ask in plain English and the right specialist is chosen automatically.
 **جاهز / غير جاهز**، و**انضباط السياق** للذاكرة وتوجيه النماذج، و**الأمن الوكيلي** الذي يحمي
 الفريق نفسه)، و**عُرف الإسناد** الذي يوقّع كل تسليم. وفوق ذلك، صار سعيد يحمل عقيدةً خاصة
 بـ*المنتج* الذي يسلّمه — **حِرفية Supabase** (إتقان Supabase وPostgres)، و**تحصين التطبيق**
-(بوابة الأمان والحماية القانونية قبل الإطلاق)، و**انضباط الأداء** (سرعة الشبكة والبيانات والاستضافة) —
+(بوابة الأمان والحماية القانونية قبل الإطلاق)، و**انضباط الأداء** (سرعة الشبكة والبيانات والاستضافة)،
+و**الجاهزية الإنتاجية** (بوابة التشغيل قبل الإطلاق: نسخ احتياطية مُثبتة باستعادة فعلية مع RPO/RTO،
+وأدلة التعافي من الكوارث، وبيئات dev/staging/prod، وأهداف أداء مُتحقق منها تحت الحمل، وتشفير في
+حالة السكون، وخريطة امتثال مُسمّاة GDPR/PDPL/SOC 2 — مع مصفوفة القدرات الكاملة في
+`docs/CAPABILITY-MAP.md`) —
 وقانون **تدبير المستودع** الذي يعتني بمساحة عمل الفريق نفسها بين الدورات، وقانون **حِرفية MCP**
 لأي خادم MCP أو سطح أدوات وكيلية يبنيه، والطبقة الفوقية التي تحكم كيف يبني سعيد ويحدّد مواصفات
 كل ما يفعله: **منهج الهندسة** (التطوير الموجَّه بالاختبارات، وتشخيص الأعطال المنهجي، وبوابة اعتماد
