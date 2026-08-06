@@ -5,11 +5,11 @@
 ### Self-Advancing Elite Engineering Directorate
 
 **A complete software engineering team you install into [Claude Code](https://docs.claude.com/en/docs/claude-code/overview) —
-54 specialist AI engineers that design, build, test, secure, and document your project, then keep improving it on their own.**
+55 specialist AI engineers that design, build, test, secure, and document your project, then keep improving it on their own.**
 
 <p>
-  <img alt="version 1.14.0" src="https://img.shields.io/badge/version-1.14.0-C9A84C?style=flat-square&labelColor=0A1628" />
-  <img alt="54 agents" src="https://img.shields.io/badge/agents-54-C9A84C?style=flat-square&labelColor=0A1628" />
+  <img alt="version 1.15.0" src="https://img.shields.io/badge/version-1.15.0-C9A84C?style=flat-square&labelColor=0A1628" />
+  <img alt="55 agents" src="https://img.shields.io/badge/agents-55-C9A84C?style=flat-square&labelColor=0A1628" />
   <img alt="Claude Code plugin" src="https://img.shields.io/badge/Claude_Code-plugin-0A1628?style=flat-square" />
   <img alt="bilingual" src="https://img.shields.io/badge/AR·EN-bilingual-C9A84C?style=flat-square&labelColor=0A1628" />
   <img alt="license non-commercial" src="https://img.shields.io/badge/license-non--commercial-0A1628?style=flat-square" />
@@ -105,7 +105,7 @@ Requires the Claude Code CLI.
 /plugin install saeed@saeed-marketplace
 ```
 
-Restart the session, then run `/agents` to see all 54.
+Restart the session, then run `/agents` to see all 55.
 
 ## 🎛️ Commands
 
@@ -165,7 +165,7 @@ be caught by the loop going silent the day it converges.
 | `STOP` | You create this to halt. Delete it to resume. |
 | `AUTONOMY` | Autonomy level. Absent/`supervised`: self-modification parks for your approval; `autonomous`: the team may land it unattended (gated, logged, reversible). |
 
-## 👥 The roster (54 agents)
+## 👥 The roster (55 agents)
 
 Heavy-reasoning roles run on the top tier (Opus); implementers run on the mid tier (Sonnet).
 `model-scout` re-tiers the fleet when better models become available.
@@ -200,6 +200,7 @@ Heavy-reasoning roles run on the top tier (Opus); implementers run on the mid ti
 | `frontend-performance-engineer` | sonnet | Diagnoses and fixes frontend performance |
 | `accessibility-specialist` | sonnet | Audits and fixes accessibility (WCAG) |
 | `pwa-offline-engineer` | sonnet | PWA and offline-first work |
+| `lottie-engineer` | sonnet | Owns all Lottie animation work — edit, retheme, retime, optimize, embed |
 
 ### Design
 | Agent | Model | Role |

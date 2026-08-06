@@ -6,6 +6,55 @@ semver (patch = fixes, minor = new agents/skills/commands, major = breaking).
 The version of record is `version` in `.claude-plugin/plugin.json`.
 *(Sections before 1.7.0 are backfilled from commit history and are coarser.)*
 
+## 1.15.0 - 2026-08-06
+
+Same-day operator hire directive: "Add a Lottie expert to the team that will be able to
+edit and manipulate lottie to the users' will" — with the routing rule given in full:
+"Anything lottie related to it, goes to that agent." The first roster growth since
+macos-engineer (v1.4.x line), and the first hire where the operator supplied the
+staffing decision directly rather than through an hr-talent-lead gap report.
+
+### Added
+- `agents/lottie-engineer.md` (sonnet) — the **mandatory owner of ALL Lottie work**.
+  Per the directive's second clause the description is MUST-BE-USED and deliberately
+  keyword-saturated so any Lottie-touching task routes there: Lottie JSON,
+  .lottie/dotLottie, Bodymovin/After Effects exports, lottie-web/lottie-react,
+  lottie-react-native, lottie-ios, lottie-android, dotLottie players (ThorVG),
+  rlottie, LottieFiles. Owns hands-on JSON manipulation (layers, shapes, transforms,
+  keyframes, bezier easing, markers, named segments), token-mapped rethemes, text and
+  image asset swaps, retiming/trimming/splitting/reversing/looping, file-size
+  optimization and JSON↔.lottie conversion, player integration and playback control
+  on every house platform, RTL mirroring rulings for Arabic surfaces, reduced-motion
+  and poster-frame fallbacks, and renderer/performance discipline (svg vs canvas,
+  lazy loading, off-main-thread playback). Born carrying the Elite Design Mandate
+  and the screenshot-or-block + engine-honesty certification rules — an animation is
+  not done until it is seen playing.
+- The agent carries the house asset-library doctrine, supplied by the operator in the
+  same session: S.A.E.E.D. Lottie assets live in the private repo
+  `github.com/S-AlMansoori/nabad-motion-library` (**internal Nabad use only**) — the
+  library is checked before authoring or importing from anywhere else, finished
+  optimized animations are contributed back, and a guardrail forbids the assets (or
+  the library URL) from appearing in public repos, external deliverables, or
+  user-facing output.
+
+### Changed
+- Roster 54 → 55 (1 fable / 23 opus / 31 sonnet) across every counting surface:
+  README (copy, badges, roster heading + table), CHEATSHEET (EN + AR), WHAT-IS
+  (EN + AR, division prose names the new engineer), what-is-saeed.html (meta, hero,
+  chip, org heading, donut numeral + arcs, model-mix legend, Arabic hero), both
+  manifests (+ `lottie`/`animation`/`motion` keywords), `.saeed/models.md`,
+  `.saeed/state.json`.
+- `docs/CAPABILITY-MAP.md` gains the Lottie row under Product Surfaces (owner
+  `lottie-engineer`; doctrine: the design canon's motion laws; gate:
+  `design-reviewer`).
+
+### Fixed
+- what-is-saeed.html's "Specialists per division" bars still showed Frontend & Mobile
+  at 7 — stale since the macos-engineer hire, so the division sum read 53 under a 54
+  donut. Corrected to 9 (8 members + lottie-engineer); the bars sum to the roster
+  again. The divbars array is a surface Check 1 does not assert — noted in the retro
+  as a validator candidate.
+
 ## 1.14.0 - 2026-08-06
 
 Same-day addendum to cycle 11: the operator supplied Katia UX's "Building with Good UX

@@ -1,6 +1,6 @@
 # SAEED · سعيد — Cheat Sheet · ورقة أوامر سعيد المختصرة
 
-Everything in one place: every command, the runner, the state files, and all 54 specialists you
+Everything in one place: every command, the runner, the state files, and all 55 specialists you
 can call by name. *(العربية في الأسفل.)*
 
 ---
@@ -74,7 +74,7 @@ You don't call these; the agents consult them on the right kind of work.
 | `STOP` | You create this to halt the loop. Delete it to resume. |
 | `AUTONOMY` | Autonomy level: absent/`supervised` = self-modification waits for (or parks for) you; `autonomous` = the team lands it unattended, gated + logged. |
 
-## 👥 The 54 specialists — call any of them by name
+## 👥 The 55 specialists — call any of them by name
 
 #### Governance & Meta — the team that runs the team
 
@@ -109,6 +109,7 @@ You don't call these; the agents consult them on the right kind of work.
 | `frontend-performance-engineer` | sonnet | the web app is slow (Core Web Vitals, bundle size). |
 | `accessibility-specialist` | sonnet | you need a WCAG accessibility audit and fixes. |
 | `pwa-offline-engineer` | sonnet | you need offline support / installable PWA / service workers. |
+| `lottie-engineer` | sonnet | anything Lottie — editing, retheming, retiming, optimizing, converting, or embedding animations (JSON / .lottie / Bodymovin). |
 
 #### Design
 
@@ -254,7 +255,7 @@ scripts/saeed-loop.sh /path/to/your/repo 50 0
 | `STOP` | تنشئه أنت لإيقاف الحلقة. احذفه للاستئناف. |
 | `AUTONOMY` | مستوى الاستقلالية: غائب/`supervised` = تعديل الفريق لنفسه ينتظر موافقتك (أو يُركَن لحين عودتك)؛ `autonomous` = يُنفَّذ تلقائياً عبر البوابات ومع التسجيل. |
 
-> القائمة الكاملة للمتخصصين الـ٥٤ موجودة في الجدول الإنجليزي أعلاه؛ ويمكنك مناداة أيٍّ منهم
+> القائمة الكاملة للمتخصصين الـ٥٥ موجودة في الجدول الإنجليزي أعلاه؛ ويمكنك مناداة أيٍّ منهم
 > باسمه مباشرةً.
 
 </div>

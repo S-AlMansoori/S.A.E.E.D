@@ -84,6 +84,7 @@ same commit.
 | Native iOS / Android / macOS | `ios-engineer` / `android-engineer` / `macos-engineer` | platform-native depth, bilingual RTL |
 | Cross-platform mobile | `react-native-engineer` | offline-first sync |
 | PWA / offline web | `pwa-offline-engineer` | service-worker caching per resource |
+| Lottie animations (edit, retheme, retime, optimize, convert, embed, playback) | `lottie-engineer` | `skills/design-excellence/SKILL.md` motion laws; gate: `design-reviewer` |
 | Design system & tokens | `design-systems-engineer` | house tokens, RTL variants |
 | UX, research, visual craft | `product-designer` (`ux-researcher`, `ui-visual-designer`) | `skills/design-excellence/SKILL.md` |
 | Accessibility (WCAG 2.2 AA) | `accessibility-specialist` | advisory + fixes on every UI surface |
