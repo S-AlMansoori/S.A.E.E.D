@@ -6,7 +6,57 @@ semver (patch = fixes, minor = new agents/skills/commands, major = breaking).
 The version of record is `version` in `.claude-plugin/plugin.json`.
 *(Sections before 1.7.0 are backfilled from commit history and are coarser.)*
 
-## 1.16.1 - 2026-08-24
+## 1.17.0 - 2026-08-24
+
+Same-day operator absorption directive: "Absorb all the skills mentioned here" — the
+ten-skill roundup "Your AI-Built Websites Look Identical to Everyone Else's. These 10
+Skills Fix That" (Chirag T, Medium, 2026-05; retrieved via the author's RSS feed after a
+direct-fetch 403, source preserved in `.saeed/tasks/cycle-13/sources/`). Per the cycle-11
+method, all ten were audited against the fleet **before a single edit**: five were already
+house law in whole or part (impeccable's registers and anti-patterns; the states law and
+screenshot-or-block; token-as-source-of-truth at the system level; spec-quality's
+interrogation-before-code; handover-protocol's connector-first ladder covering composio's
+ground); the genuine deltas became the change set.
+
+### Added
+- `skills/design-excellence/SKILL.md` gains the **handoff-fidelity law** — its own
+  section, with depth in the new `references/handoff.md` (distilling
+  figma-implements-design + playwright/webapp-testing): a reference design is law —
+  translate faithfully from the system's existing tokens/components, ship every state the
+  reference implies, verify **in a real browser side-by-side with the reference at
+  mobile/tablet/desktop (+RTL)**, self-grade and fix *before* hand-off; unauthorized
+  deviations (including "improvements") block at the gate, necessary ones are raised and
+  recorded. Previously zero Figma/handoff doctrine existed anywhere in the fleet.
+- Five new binding rules in the canon body: the **Space Grotesk** font ban and the
+  **purposeless-carousel** ban join the absolute bans; **tokens carry every color**
+  (hard-coded per-component hexes are a refusal shape; theming ships as token-set
+  variants incl. high-contrast — distilling theme-factory); **color is never the sole
+  signal** (WCAG 1.4.1, seamed to `accessibility-specialist`); **every screen keeps a
+  single visual anchor** (joins the signature-slot law).
+- Invoke-table rows for `figma-implements-design` + `playwright`/`webapp-testing`,
+  Owl-Listener's `designer-skills` collection, and `theme-factory`; impeccable's
+  sub-command list gains `colourise`, `quieter`, `delight` per its documented command set.
+- `docs/CAPABILITY-MAP.md`: Figma / reference-design handoff row (owner
+  `frontend-engineer`, `design-systems-engineer` for tokens/components; gate
+  `design-reviewer`).
+
+### Changed
+- **F4 forced the canon's second and third `references/` splits** (the budget was at
+  21,999/22,000 before the absorption): the Motion section's full treatment moved to
+  `references/motion.md` and the 2026-06 AI-default delta's to `references/ai-defaults.md`
+  — both now bind as compact blocks in the body (the exercised v1.14.0 forms pattern),
+  with load conditions named and **no rule weakened in the move**. Body lands at 21,998.
+- `agents/design-reviewer.md`: purposeless carousels join its blocking-ban list; new
+  **handoff-fidelity standing check** (no side-by-side evidence ⇒ unrenderable-block;
+  unauthorized deviation ⇒ blocking finding).
+- `agents/accessibility-specialist.md`: color-as-sole-signal (WCAG 1.4.1) explicitly
+  enumerated in its owned checks — the criterion was implied by "audit against WCAG 2.2
+  AA" but appeared nowhere in the fleet by name.
+- `agents/network-engineer.md`: its diagram output now specifies **diagram-as-text,
+  editable and version-controlled, never an opaque image** — extending
+  `principal-architect`'s existing convention to the one output contract that left
+  diagram format unspecified (the generalizable substance of the excalidraw-diagram
+  skill; the skill itself is invokable where native `.excalidraw` canvases are wanted).
 
 `/saeed:upgrade` cycle, run remotely by an acting lead per the succession doctrine
 (entry state: clean tree, green validator — the handover held). The sweep's honest

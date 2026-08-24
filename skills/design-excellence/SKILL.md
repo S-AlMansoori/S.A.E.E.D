@@ -15,11 +15,14 @@ Any SAEED agent that produces, changes, specs, reviews, or audits a user-facing 
 
 ## Invoke the deep skills (when the Skill tool is available to you)
 
-The canon is self-contained, but the source skills carry far more depth. When they are installed, **invoke the best-fit one via the Skill tool and fold its output into your work** — don't reinvent what it already encodes:
+The canon is self-contained; the source skills carry the depth. When installed, **invoke the best-fit one via the Skill tool and fold its output in** — don't reinvent what it encodes:
 
 | Task in front of you | Invoke |
 |---|---|
-| Any holistic design / redesign / polish / critique / audit of an interface | `impeccable` (has sub-commands: `craft`, `shape`, `audit`, `polish`, `bolder`, `distill`, `animate`, `typeset`, `layout`, `clarify`, `harden`…) |
+| Any holistic design / redesign / polish / critique / audit of an interface | `impeccable` (has sub-commands: `craft`, `shape`, `audit`, `polish`, `bolder`, `quieter`, `distill`, `delight`, `animate`, `typeset`, `colourise`, `layout`, `clarify`, `harden`…) |
+| Implementing a Figma / reference design | `figma-implements-design` + `playwright`/`webapp-testing` for fidelity |
+| Full research → strategy → UI → handoff workflows | Owl-Listener's `designer-skills` collection |
+| Reusable token systems / theme variants | `theme-factory` |
 | Award-tier landing / marketing page, AIDA structure, bento, scrolltelling | `gpt-taste` |
 | "$150k agency" visual feel: double-bezel surfaces, variance engine, choreography | `high-end-visual-design` |
 | Component/dashboard engineering, metric-based rules, hardware-accelerated motion | `design-taste-frontend` |
@@ -48,7 +51,8 @@ If you are about to write any of these, stop and rewrite the element with differ
 - **Identical card grids** — same-size cards with icon + heading + text repeated. The generic "3 equal columns" feature row is banned; use zig-zag, asymmetric, or horizontal-scroll instead.
 - **Nested cards** — a card inside a card is always wrong.
 - **Modal as first thought** — exhaust inline / progressive alternatives first.
-- **Banned fonts** — `Inter`, Roboto, Arial, Helvetica, Open Sans. (SAEED house display is Cormorant Garamond; body is DM Sans. Otherwise reach for Geist, Satoshi, Cabinet Grotesk, Outfit, Clash Display, PP Editorial New.)
+- **Carousels without purpose** — auto-rotating heroes and decorative sliders nobody pages through. It must earn its place (a gallery genuinely browsed); otherwise a static hero, curated grid, or user-controlled scroll.
+- **Banned fonts** — `Inter`, Roboto, Arial, Helvetica, Open Sans, Space Grotesk. (SAEED house display is Cormorant Garamond; body is DM Sans. Otherwise reach for Geist, Satoshi, Cabinet Grotesk, Outfit, Clash Display, PP Editorial New.)
 - **Emojis as UI** — never in code, markup, labels, or alt text. Use Phosphor or Radix icons, or clean SVG.
 - **Pure `#000` / `#fff`** — tint every neutral toward the brand hue (OKLCH chroma 0.005–0.01).
 - **The AI-purple/neon-glow aesthetic** — no purple button glows, no outer-glow `box-shadow`, no neon gradients. Neutral base + one high-contrast accent.
@@ -63,6 +67,8 @@ If you are about to write any of these, stop and rewrite the element with differ
 - Pick a **color strategy** before picking colors: *Restrained* (tinted neutrals + one accent ≤10%; product default) · *Committed* (one saturated color carries 30–60%) · *Full palette* (3–4 named roles) · *Drenched* (the surface IS the color). The "one accent ≤10%" rule is Restrained only — the others exceed it on purpose.
 - Max one accent for Restrained work; saturation < ~80% unless the strategy is deliberately Committed/Drenched.
 - One palette per project — don't drift between warm and cool grays. Tint shadows toward the background hue; never harsh `rgba(0,0,0,0.3)`.
+- **Tokens carry every color** — every value flows through the named token / CSS-variable system (`design-systems-engineer` owns it); a hard-coded per-component hex is a refusal shape. Theming in the brief ⇒ ship variants as token sets (light, dark, high-contrast).
+- **Color is never the sole signal** — pair every state change with a second cue: icon, label, weight, or pattern (WCAG 1.4.1; `accessibility-specialist` audits).
 - SAEED house accent is gold `#C9A84C` over navy `#0A1628` — used with restraint (gold is an accent, not a flood), and only when the scene sentence and reflex check don't make navy-and-gold the obvious training-data answer for the domain.
 
 ## Theme — light vs dark is never a default
@@ -89,12 +95,7 @@ Before choosing, write **one sentence of physical scene**: who uses this, where,
 
 ## Motion (Emil's framework)
 
-1. **Should it animate at all?** Actions done 100+×/day (keyboard shortcuts, command palette) → no animation, ever. Frequent (hover, list nav) → minimal. Occasional (modals, toasts) → standard. Rare/first-run → can delight.
-2. **What's the purpose?** Every animation answers spatial consistency, state indication, explanation, feedback, or preventing a jarring change. "Looks cool" on a frequently-seen element is not a purpose.
-3. **Easing.** Entering/exiting → **ease-out**. Moving/morphing on-screen → ease-in-out. Hover/color → ease. Constant (marquee/progress) → linear. **Never `ease-in` for UI** — it feels sluggish at the moment the user is watching. Use strong custom curves, not the weak built-ins: `--ease-out: cubic-bezier(0.23, 1, 0.32, 1)`; `--ease-drawer: cubic-bezier(0.32, 0.72, 0, 1)`.
-4. **Duration.** Button press 100–160ms · tooltip 125–200ms · dropdown 150–250ms · modal/drawer 200–500ms. **Keep UI animation < 300ms.**
-5. **Physical honesty.** Nothing appears from nothing — enter with `scale(0.95) + opacity` and a gentle fade-up, not `scale(0)`. Buttons respond to press (`:active` → `scale(0.97)` / `-translate-y-[1px]`). Popovers scale from their trigger; modals stay centered.
-6. **Spring where it fits** — `type: "spring", stiffness ~100, damping ~20` over linear easing for interactive elements; stagger list/grid reveals rather than mounting all at once.
+**Motion holds six laws**; read `references/motion.md` when the surface animates (exact curves and durations there): (1) should it animate at all — 100+×/day actions never animate, frequent ones minimally, occasional ones standard, only rare/first-run moments may delight; (2) every animation names its purpose (spatial consistency, state, explanation, feedback, preventing a jarring change) — "looks cool" is not one; (3) easing: ease-out entering/exiting, ease-in-out morphing, never `ease-in` for UI, strong custom curves over weak built-ins; (4) **UI animation stays < 300ms** (modal/drawer may reach 500ms); (5) physical honesty — nothing appears from nothing (`scale(0.95)` + opacity, never `scale(0)`), buttons respond to press, popovers scale from their trigger; (6) spring physics + staggered reveals for interactive elements.
 
 ## Performance guardrails (never traded away)
 
@@ -121,6 +122,10 @@ UX trust is a design deliverable, held to the same match-and-refuse bar as the v
 - **Proportional success states — no action vanishes into the void.** Every action ends in a visible outcome: a major or irreversible action gets a full confirmation moment (a confirmation page; celebration where the register allows it), a minor one gets a subtle checkmark or in-place visual update. The states law above requires a success state to *exist*; this rule sizes it to the action.
 - **Failures are designed surfaces.** 404s and backend errors reach the user as composed, human messages ("Something went wrong. Please try again later."), never a raw status page or a dev error. What must never leak inside those messages — stack traces, internals — is `skills/app-hardening/SKILL.md` rule 8's law; this rule owns the designed surface, that one owns the redaction.
 
+## Design handoff — a reference design is law
+
+When a reference design exists (Figma file, mock, or design system), the job is faithful translation, not reinterpretation: build from the system's existing tokens and components, ship **every state the reference implies**, and verify fidelity **in a real browser against the reference**, side-by-side at mobile/tablet/desktop (+RTL where bilingual), grading your own build and fixing mismatches *before* hand-off. An unauthorized deviation is a blocking `design-reviewer` finding; a necessary one (accessibility, an undesigned state) is raised and recorded, never silent. Read `references/handoff.md` when a handoff or reference-design implementation is the task.
+
 ## Bilingual / RTL is first-class
 
 - RTL is a real layout, not a mirror hack: **logical properties** (`inline-start`/`inline-end`, `ms-*`/`me-*`), never hard-coded left/right. Test with real Arabic content and long strings.
@@ -129,42 +134,13 @@ UX trust is a design deliverable, held to the same match-and-refuse bar as the v
 
 ## The 2026-06 AI-default delta
 
-The June-2026 revision of the official `frontend-design` skill re-calibrated what "generic" means. Nothing above is repealed; these four rules are added on top of it.
-
-### The named generic-AI-look blocklist
-
-Mid-2026 AI design converges on three looks. Each is legitimate for *some* brief, and each shows up regardless of subject, which is exactly what makes them defaults rather than decisions:
-
-1. **Cream editorial** — warm cream ground near `#F4F1EA`, a high-contrast serif display, a terracotta accent.
-2. **Near-black + one acid accent** — near-black ground carrying a single bright acid-green or vermilion.
-3. **Broadsheet** — hairline rules, zero border-radius, dense newspaper-like columns.
-
-**The brief always wins.** Where the brief pins a visual direction, follow it exactly, including when it asks for one of these three. Where the brief leaves an axis free, never spend that freedom on a blocklist look.
-
-**The house register is not exempt.** SAEED's navy `#0A1628` + gold `#C9A84C` minimalism sits adjacent to look 2 (near-black ground, one warm accent), and the first-order test above already names navy-and-gold as the finance reflex. The house palette therefore takes the same reflex check as any other choice: justify it from this brief's subject, or pick something else. Being the house default is not a justification.
-
-### Plan, then critique the plan — the convergence self-check
-
-Work in two passes before writing any code.
-
-1. **Plan.** Build a compact token system from the brief: **color** (4–6 named hex values), **type** (2+ roles: a characterful display face used with restraint, a complementary body face, a utility face for captions or data), **layout** (one-sentence prose concepts plus ASCII wireframes, so directions can be compared), and **signature** (below).
-2. **Critique.** Review that plan against the brief, part by part. Work through a similar prompt for a similar page: **if you arrive somewhere similar, it is a default, not a decision** — revise that part, and say what you changed and why. Only once the plan survives this pass do you write code, following the revised plan exactly and deriving every color and type value from it.
-
-Do this planning and iteration in your thinking; show the user ideas only when confidence is high.
-
-### The signature slot — spend boldness in one place
-
-Every token system carries a **signature**: the single element this surface will be remembered by, chosen because it embodies the brief. An empty signature slot means the design has no thesis. Everything around the signature stays quiet and disciplined, and any decoration that does not serve the brief is cut. Before hand-off, apply Chanel's mirror rule and remove one accessory. Taking no risk is itself a risk.
-
-### Selector specificity cancels silently
-
-When writing the CSS, structure selector specificity deliberately. A section-level class and an element-level class that both set the same property (a `.section` rule and a `.cta` rule each owning vertical padding or margin) cancel each other out, and the defect is invisible in the source — it surfaces only as wrong spacing between sections. Give every spacing property exactly one owning layer.
+The June-2026 `frontend-design` revision re-calibrated what "generic" means; read `references/ai-defaults.md` before the plan pass of any surface you originate. Nothing above is repealed; four rules sit on top. (1) **The named blocklist** — three looks are now AI defaults: cream editorial (~`#F4F1EA` + serif + terracotta), near-black + one acid accent, broadsheet hairlines. The brief always wins — but where it leaves an axis free, never spend that freedom on a blocklist look, and the house navy/gold register is **not exempt**: justify it from this brief's subject or pick something else. (2) **Plan, then critique the plan** — build a compact token system (color 4–6 values; type 2+ roles; layout prose + ASCII wireframes; signature), then critique it part by part: **if a similar prompt would land somewhere similar, it is a default, not a decision** — revise before any code, then follow the plan exactly. (3) **The signature slot** — one element this surface is remembered by; every screen keeps a **single visual anchor** (two compete, zero is wallpaper); everything else stays quiet; the mirror rule removes one accessory before hand-off. (4) **Selector specificity cancels silently** — give every spacing property exactly one owning layer.
 
 ## Pre-flight checklist — the last filter before hand-off / review
 
 - [ ] Register identified; the AI-slop test passes at both altitudes (domain reflex avoided).
-- [ ] No absolute-ban pattern present (fonts, emoji, gradient text, side-stripes, nested cards, hero-metric, meta-labels, em dashes, pure black/white, AI-purple glow, `h-screen`, generic content).
-- [ ] Color strategy chosen deliberately; OKLCH; tinted neutrals; one palette; accent used with restraint.
+- [ ] No absolute-ban pattern present (fonts, emoji, gradient text, side-stripes, nested cards, hero-metric, meta-labels, em dashes, pure black/white, AI-purple glow, `h-screen`, purposeless carousels, generic content).
+- [ ] Color strategy chosen deliberately; OKLCH; tinted neutrals; one palette; accent used with restraint; tokens carry every color; color never the sole signal.
 - [ ] Theme justified by a concrete scene sentence.
 - [ ] Type scale has real contrast; hero is 2–3 lines; body ≤75ch; Arabic type cared for.
 - [ ] Layout breathes (`py-24`+), varies rhythm, breaks center-bias; bento has zero dead cells; cards earn their elevation.
@@ -173,7 +149,8 @@ When writing the CSS, structure selector specificity deliberately. A section-lev
 - [ ] Trust holds: no dark pattern, every action acknowledged instantly and ended by a proportional success state, onboarding controls stay put, failures reach the user as designed surfaces.
 - [ ] Forms hold the six laws: submit gated with visible reasons, inline validation at field-exit, live character counts, known data pre-filled, password rules as a live checklist, forgiving formats normalized server-side.
 - [ ] RTL correct and tested; mobile collapses to `w-full px-4`; `min-h-[100dvh]`; blur only on fixed layers.
-- [ ] No 2026 blocklist look arrived at by default (cream ~`#F4F1EA` + serif + terracotta, near-black + acid accent, broadsheet hairlines) unless the brief asked for it; the plan passed the convergence self-check and names one signature element.
+- [ ] No 2026 blocklist look arrived at by default (cream ~`#F4F1EA` + serif + terracotta, near-black + acid accent, broadsheet hairlines) unless the brief asked for it; the plan passed the convergence self-check and names one signature element; each screen keeps a single anchor.
+- [ ] Reference design (if any) matched in-browser side-by-side at mobile/tablet/desktop (+RTL) before hand-off; deviations recorded, never silent.
 
 A user-facing change is **not done** until it passes this checklist and the `design-reviewer` gate.
 
@@ -188,5 +165,7 @@ A user-facing change is **not done** until it passes this checklist and the `des
 This canon distills, with gratitude, the enforceable rules of the **impeccable** (Apache-2.0, based on Anthropic's frontend-design skill), **gpt-taste**, **high-end-visual-design**, **design-taste-frontend**, **emil-design-eng** (Emil Kowalski's design-engineering philosophy — [animations.dev](https://animations.dev/)), and **full-output-enforcement** skills. When those skills are installed, prefer invoking them for their full depth; this file guarantees the standard when they are not.
 
 The **2026-06 AI-default delta** section above additionally distills the June-2026 revision of the official **frontend-design** skill (Anthropic) — the named generic-look blocklist, the plan-then-critique convergence self-check, the signature slot, and the selector-specificity warning. When that skill is installed, invoke it for its full depth alongside the others.
+
+The **Space Grotesk and carousel bans, single-anchor rule, token and color-signal laws, and the handoff-fidelity law** (depth in `references/handoff.md`) distill the operator-supplied ten-skill roundup (Chirag T, Medium 2026-05; absorbed 2026-08-24, source: `.saeed/tasks/cycle-13/sources/`): Anthropic's frontend-design + OpenAI's frontend-skill, impeccable's commands, **figma-implements-design**, **playwright/webapp-testing**, Owl-Listener's **designer-skills**, **theme-factory**, Julian Oczkowski's design-process pack, composio, the excalidraw-diagram skill, and **accesslint**.
 
 The **Trust & perceived responsiveness** section distills the UX & Trust portion (credited to Kev + Katia UX) of the operator's 2026-08-06 audit checklist — source preserved in `.saeed/tasks/cycle-10/sources/`. Its skeleton-loader and friendly-error items were already law above; the dark-pattern, instant-acknowledgment, onboarding-consistency, and proportional-success rules are the additions. The **forms laws** (the six-rule block above, depth in `references/forms.md`) distill Katia UX's "Building with Good UX Part 6: Forms", operator-supplied same day — transcript preserved in `.saeed/tasks/cycle-11/sources/`; the old one-line forms rule (label/error/gap) survives inside law 2's layout note.
