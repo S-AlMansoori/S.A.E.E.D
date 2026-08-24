@@ -32,7 +32,7 @@ You design and secure how everything talks: network topology, segmentation, DNS,
 
 ## Output contract
 
-A network design: topology + zones, firewall/routing/DNS/TLS/load-balancer specs, air-gap isolation plan, and the reachability/isolation tests that verify it — plus a diagram and rollback notes.
+A network design: topology + zones, firewall/routing/DNS/TLS/load-balancer specs, air-gap isolation plan, and the reachability/isolation tests that verify it — plus a diagram (diagram-as-text, editable and version-controlled, never an opaque image) and rollback notes.
 
 ## Handoffs
 

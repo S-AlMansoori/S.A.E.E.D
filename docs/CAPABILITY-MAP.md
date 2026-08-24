@@ -86,6 +86,7 @@ same commit.
 | PWA / offline web | `pwa-offline-engineer` | service-worker caching per resource |
 | Lottie animations (edit, retheme, retime, optimize, convert, embed, playback) | `lottie-engineer` | `skills/design-excellence/SKILL.md` motion laws; gate: `design-reviewer` |
 | Design system & tokens | `design-systems-engineer` | house tokens, RTL variants |
+| Figma / reference-design handoff (faithful translation to code, fidelity-verified) | `frontend-engineer` (`design-systems-engineer` for tokens/components) | `skills/design-excellence/SKILL.md` handoff law; gate: `design-reviewer` |
 | UX, research, visual craft | `product-designer` (`ux-researcher`, `ui-visual-designer`) | `skills/design-excellence/SKILL.md` |
 | Accessibility (WCAG 2.2 AA) | `accessibility-specialist` | advisory + fixes on every UI surface |
 | Internationalization / Arabic RTL | `i18n-localization-engineer` (`nlp-bilingual-specialist` for NLP) | bilingual mandate, house-wide |

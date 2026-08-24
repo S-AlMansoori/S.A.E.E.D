@@ -6,7 +6,92 @@ semver (patch = fixes, minor = new agents/skills/commands, major = breaking).
 The version of record is `version` in `.claude-plugin/plugin.json`.
 *(Sections before 1.7.0 are backfilled from commit history and are coarser.)*
 
-## 1.16.0 - 2026-08-06
+## 1.17.0 - 2026-08-24
+
+Same-day operator absorption directive: "Absorb all the skills mentioned here" — the
+ten-skill roundup "Your AI-Built Websites Look Identical to Everyone Else's. These 10
+Skills Fix That" (Chirag T, Medium, 2026-05; retrieved via the author's RSS feed after a
+direct-fetch 403, source preserved in `.saeed/tasks/cycle-13/sources/`). Per the cycle-11
+method, all ten were audited against the fleet **before a single edit**: five were already
+house law in whole or part (impeccable's registers and anti-patterns; the states law and
+screenshot-or-block; token-as-source-of-truth at the system level; spec-quality's
+interrogation-before-code; handover-protocol's connector-first ladder covering composio's
+ground); the genuine deltas became the change set.
+
+### Added
+- `skills/design-excellence/SKILL.md` gains the **handoff-fidelity law** — its own
+  section, with depth in the new `references/handoff.md` (distilling
+  figma-implements-design + playwright/webapp-testing): a reference design is law —
+  translate faithfully from the system's existing tokens/components, ship every state the
+  reference implies, verify **in a real browser side-by-side with the reference at
+  mobile/tablet/desktop (+RTL)**, self-grade and fix *before* hand-off; unauthorized
+  deviations (including "improvements") block at the gate, necessary ones are raised and
+  recorded. Previously zero Figma/handoff doctrine existed anywhere in the fleet.
+- Five new binding rules in the canon body: the **Space Grotesk** font ban and the
+  **purposeless-carousel** ban join the absolute bans; **tokens carry every color**
+  (hard-coded per-component hexes are a refusal shape; theming ships as token-set
+  variants incl. high-contrast — distilling theme-factory); **color is never the sole
+  signal** (WCAG 1.4.1, seamed to `accessibility-specialist`); **every screen keeps a
+  single visual anchor** (joins the signature-slot law).
+- Invoke-table rows for `figma-implements-design` + `playwright`/`webapp-testing`,
+  Owl-Listener's `designer-skills` collection, and `theme-factory`; impeccable's
+  sub-command list gains `colourise`, `quieter`, `delight` per its documented command set.
+- `docs/CAPABILITY-MAP.md`: Figma / reference-design handoff row (owner
+  `frontend-engineer`, `design-systems-engineer` for tokens/components; gate
+  `design-reviewer`).
+
+### Changed
+- **F4 forced the canon's second and third `references/` splits** (the budget was at
+  21,999/22,000 before the absorption): the Motion section's full treatment moved to
+  `references/motion.md` and the 2026-06 AI-default delta's to `references/ai-defaults.md`
+  — both now bind as compact blocks in the body (the exercised v1.14.0 forms pattern),
+  with load conditions named and **no rule weakened in the move**. Body lands at 21,998.
+- `agents/design-reviewer.md`: purposeless carousels join its blocking-ban list; new
+  **handoff-fidelity standing check** (no side-by-side evidence ⇒ unrenderable-block;
+  unauthorized deviation ⇒ blocking finding).
+- `agents/accessibility-specialist.md`: color-as-sole-signal (WCAG 1.4.1) explicitly
+  enumerated in its owned checks — the criterion was implied by "audit against WCAG 2.2
+  AA" but appeared nowhere in the fleet by name.
+- `agents/network-engineer.md`: its diagram output now specifies **diagram-as-text,
+  editable and version-controlled, never an opaque image** — extending
+  `principal-architect`'s existing convention to the one output contract that left
+  diagram format unspecified (the generalizable substance of the excalidraw-diagram
+  skill; the skill itself is invokable where native `.excalidraw` canvases are wanted).
+
+`/saeed:upgrade` cycle, run remotely by an acting lead per the succession doctrine
+(entry state: clean tree, green validator — the handover held). The sweep's honest
+outcome: the fleet is already on the best models it can use, so nothing is re-tiered;
+the one recorded bookkeeping blind spot becomes an asserted surface instead. Supervised
+mode (`.saeed/AUTONOMY` absent, operator not interactively present): the change set
+ships as a proposal on a feature branch — the pull request is this pass's
+`## Awaiting operator` surface, and nothing lands on main without the operator's merge.
+
+### Changed
+- **Model sweep — verified current, no re-tier** (`model-scout`). Checked live against
+  the official Anthropic model docs (2026-08-24): the lineup remains Fable 5 / Opus 5 /
+  Sonnet 5 / Haiku 4.5 — nothing newer has shipped since the 2026-08-06 MS-1 decision.
+  The `opus`/`sonnet` aliases continue to track Opus 5 / Sonnet 5 automatically, and
+  `fable` remains a valid, accessible subagent tier (verified by real access, per the
+  succession letter's alias-seam duty). MS-1 Option B (widening fable beyond the
+  conductor) stays declined per the operator's standing 2026-08-06 decision — no new
+  model, price change, or failure evidence to reopen it; haiku fast-tiering of lookup
+  agents was considered and rejected under the no-cost-downgrade guardrail. Tally
+  unchanged: 1 fable / 23 opus / 31 sonnet. No hire (no recurring capability-gap
+  evidence), no retirement (no usage evidence) — the letter's empty-file test stands.
+- `agents/model-scout.md`: the stable-alias example list gains `fable` — the fleet has
+  shipped a fable-tier agent since MS-1, and the doctrine's own example list predated
+  the tier it now watches. (The one prompt edit this cycle; diagnosis and before/after
+  logged to the retro.)
+
+### Fixed
+- `validate-fleet.sh` Check 1 now asserts the what-is-saeed.html **"Specialists per
+  division" bars**: the inline `var divs` array's counts must sum to the roster count.
+  v1.15.0 caught this surface stale by hand (Frontend & Mobile still 7 after the
+  macos-engineer hire — a division sum of 53 under a 54 donut) and recorded it as a
+  validator candidate; the recurring stale-bookkeeping class (cycles 1, 3, 9) is now
+  closed on this surface by construction. Red/green demonstrated: re-introducing that
+  exact defect fails the gate ("the 11 division counts sum to 53, but agents/*.md has
+  55 files"); the true state passes.
 
 Same-day operator tip absorbed, from the standing stream of field advice the operator
 feeds SAEED ("add it to the many tips i give it"): five backend audit prompts —
