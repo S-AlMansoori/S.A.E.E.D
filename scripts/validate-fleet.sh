@@ -13,7 +13,9 @@
 #
 # WHAT IT CHECKS (see README below for detail on each)
 #   1. Count drift    — every surface that states "N agents" agrees with the
-#                        actual number of agents/*.md files (English + Arabic).
+#                        actual number of agents/*.md files (English + Arabic),
+#                        including the what-is-saeed.html "Specialists per
+#                        division" bars, whose counts must sum to N.
 #   2. Frontmatter     — every agents/*.md has name/description/model in YAML
 #                        frontmatter, and name == filename (minus .md).
 #   3. Model tally     — opus/sonnet counts across agents/*.md match the
@@ -277,6 +279,38 @@ check_regex_matches_N(
     "SVG donut numeral",
     str(N),
 )
+
+# The "Specialists per division" bars are driven by the inline `var divs`
+# array; its per-division counts must sum to N. Cycle 12 (v1.15.0) caught this
+# surface stale by hand — Frontend & Mobile still 7 after the macos-engineer
+# hire, a division sum of 53 under a 54 donut — and recorded it as a Check-1
+# blind spot; asserted since v1.16.1.
+divbars_text = require_file(html_path, CHECK1)
+if divbars_text is not None:
+    divs_m = re.search(r"var divs = \[(.*?)\];", divbars_text, re.S)
+    if not divs_m:
+        fail(
+            CHECK1,
+            f"{html_path.relative_to(repo_root)} (division bars): "
+            f"'var divs = [...]' array not found",
+        )
+    else:
+        div_counts = re.findall(r'\["[^"]*",\s*(\d+)\]', divs_m.group(1))
+        if not div_counts:
+            fail(
+                CHECK1,
+                f"{html_path.relative_to(repo_root)} (division bars): "
+                f'no ["name",count] entries parsed from the `var divs` array',
+            )
+        else:
+            div_total = sum(int(c) for c in div_counts)
+            if div_total != N:
+                fail(
+                    CHECK1,
+                    f"{html_path.relative_to(repo_root)} (division bars): "
+                    f"the {len(div_counts)} division counts sum to {div_total}, "
+                    f"but agents/*.md has {N} files",
+                )
 
 # .saeed/state.json roster_agents — OPTIONAL: .saeed/ is per-project runtime
 # state and gitignored, so a fresh clone / CI checkout legitimately has none.
@@ -1024,7 +1058,7 @@ else:
     print(f"  1. Count drift            — N={N} consistent across README, plugin.json,")
     print(f"                              marketplace.json, WHAT-IS-SAEED.md (EN/AR),")
     print(f"                              CHEATSHEET.md (EN/AR), what-is-saeed.html")
-    print(f"                              (incl. SVG donut), and .saeed/state.json")
+    print(f"                              (incl. SVG donut + division bars), and .saeed/state.json")
     print(f"  2. Frontmatter integrity  — {N}/{N} agents have name/description/model,")
     print(f"                              name matches filename")
     print(f"  3. Model-tier tally       — {fable_count} fable / {opus_count} opus / {sonnet_count} sonnet matches .saeed/models.md")

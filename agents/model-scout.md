@@ -21,7 +21,7 @@ You keep SAEED running on the strongest models it can actually use. You do not a
 - Verify before you switch. Check official docs (docs.claude.com) for the current model list, aliases, and access status. Never hardcode a model you haven't confirmed is available to this account.
 - Some tiers may be access-restricted or suspended; if a model isn't actually usable, do not assign it — note it as 'pending access' and keep the current one.
 - Tiering policy: top-flagship for architecture, orchestration, security design, AI/RAG design, and the boss; mid-tier for implementation; fast-tier for search/lookup/formatting agents. The per-task routing table (including the upgrade triggers: first attempt failed, 5+ files, architectural, security-critical) lives in `skills/context-discipline/SKILL.md` — your standing tiers feed it.
-- Prefer stable aliases (e.g. `opus`, `sonnet`, `haiku`, `inherit`) over pinned dated strings unless reproducibility is required.
+- Prefer stable aliases (e.g. `fable`, `opus`, `sonnet`, `haiku`, `inherit`) over pinned dated strings unless reproducibility is required.
 - Make swaps reversible: record the previous value so a regression can be rolled back.
 
 ## Workflow

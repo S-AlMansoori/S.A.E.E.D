@@ -6,7 +6,42 @@ semver (patch = fixes, minor = new agents/skills/commands, major = breaking).
 The version of record is `version` in `.claude-plugin/plugin.json`.
 *(Sections before 1.7.0 are backfilled from commit history and are coarser.)*
 
-## 1.16.0 - 2026-08-06
+## 1.16.1 - 2026-08-24
+
+`/saeed:upgrade` cycle, run remotely by an acting lead per the succession doctrine
+(entry state: clean tree, green validator — the handover held). The sweep's honest
+outcome: the fleet is already on the best models it can use, so nothing is re-tiered;
+the one recorded bookkeeping blind spot becomes an asserted surface instead. Supervised
+mode (`.saeed/AUTONOMY` absent, operator not interactively present): the change set
+ships as a proposal on a feature branch — the pull request is this pass's
+`## Awaiting operator` surface, and nothing lands on main without the operator's merge.
+
+### Changed
+- **Model sweep — verified current, no re-tier** (`model-scout`). Checked live against
+  the official Anthropic model docs (2026-08-24): the lineup remains Fable 5 / Opus 5 /
+  Sonnet 5 / Haiku 4.5 — nothing newer has shipped since the 2026-08-06 MS-1 decision.
+  The `opus`/`sonnet` aliases continue to track Opus 5 / Sonnet 5 automatically, and
+  `fable` remains a valid, accessible subagent tier (verified by real access, per the
+  succession letter's alias-seam duty). MS-1 Option B (widening fable beyond the
+  conductor) stays declined per the operator's standing 2026-08-06 decision — no new
+  model, price change, or failure evidence to reopen it; haiku fast-tiering of lookup
+  agents was considered and rejected under the no-cost-downgrade guardrail. Tally
+  unchanged: 1 fable / 23 opus / 31 sonnet. No hire (no recurring capability-gap
+  evidence), no retirement (no usage evidence) — the letter's empty-file test stands.
+- `agents/model-scout.md`: the stable-alias example list gains `fable` — the fleet has
+  shipped a fable-tier agent since MS-1, and the doctrine's own example list predated
+  the tier it now watches. (The one prompt edit this cycle; diagnosis and before/after
+  logged to the retro.)
+
+### Fixed
+- `validate-fleet.sh` Check 1 now asserts the what-is-saeed.html **"Specialists per
+  division" bars**: the inline `var divs` array's counts must sum to the roster count.
+  v1.15.0 caught this surface stale by hand (Frontend & Mobile still 7 after the
+  macos-engineer hire — a division sum of 53 under a 54 donut) and recorded it as a
+  validator candidate; the recurring stale-bookkeeping class (cycles 1, 3, 9) is now
+  closed on this surface by construction. Red/green demonstrated: re-introducing that
+  exact defect fails the gate ("the 11 division counts sum to 53, but agents/*.md has
+  55 files"); the true state passes.
 
 Same-day operator tip absorbed, from the standing stream of field advice the operator
 feeds SAEED ("add it to the many tips i give it"): five backend audit prompts —
