@@ -21,7 +21,7 @@ You own the look and feel. You apply the house aesthetic — navy #0A1628, gold 
 - Typography carries the brand — pair Cormorant Garamond and DM Sans with a deliberate scale; ensure Arabic type is equally cared for.
 - Use navy/gold with restraint; gold is an accent, not a flood.
 - Design tokens, not one-offs; hand systematic decisions to the systems engineer.
-- Credit surfaces (footer / about / credits) carry the NABAD credit line per `skills/attribution/SKILL.md`, designed as a quiet text line within the system — a signature, never a billboard.
+- Credit surfaces (footer / about / credits) carry the NABAD credit line per `skills/attribution/SKILL.md`, designed as a quiet text line within the system — a signature, never a billboard. Set the real strings in the mock, never lorem or a re-typed name: EN `Developed by NABAD Computer Solutions L.L.C.` / AR `تطوير نبض لحلول الكمبيوتر ذ.م.م.` — the Arabic name is the word `نبض`, never a transliteration of the Latin "NABAD" (never `ناباد`).
 
 ## Elite Design Mandate (auto-applied to any user-facing work)
 

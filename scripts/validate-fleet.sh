@@ -67,6 +67,19 @@
 #                        must all agree with it. Third occurrence of the
 #                        stale-bookkeeping class: cycle 9's release nearly
 #                        shipped plugin.json at 1.9.1 under a 1.10.0 CHANGELOG.
+#  13. Capability map   — docs/CAPABILITY-MAP.md exists and every agent it
+#                        names as an owner resolves to agents/<name>.md, so a
+#                        renamed or retired agent cannot silently orphan a
+#                        capability.
+#  14. Attribution      — the canonical EN + AR credit strings are intact in
+#                        skills/attribution/SKILL.md; every Arabic credit line
+#                        in the repo names نبض; no transliterated form of the
+#                        company name appears outside the small registry of
+#                        files that teach the rule; and the authoring-time
+#                        guard hook exists and is wired. Cycle 12: surfaces
+#                        shipped ناباد — the Latin "NABAD" respelled in Arabic
+#                        letters — because the Arabic string lived in one canon
+#                        file and every other surface only said "bilingual".
 #
 # NOTE on .saeed/: it is per-project runtime state and gitignored, so a fresh
 # clone (and CI) has none. Checks that read .saeed/state.json or models.md are
@@ -77,7 +90,7 @@
 #                                       # resolved relative to this script.
 #
 # EXIT STATUS
-#   0  — all hard checks (1-5, 7-13) passed. Check 6 is advisory and never
+#   0  — all hard checks (1-5, 7-14) passed. Check 6 is advisory and never
 #        fails the build; it only prints a warning.
 #   1  — one or more hard checks failed. Every violation is printed with the
 #        file and expected-vs-found detail before the FAIL summary line.
@@ -653,6 +666,59 @@ with tempfile.TemporaryDirectory() as td:
         if proc.returncode != 0 or proc.stdout.strip():
             fail(CHECK8, f"{BRIEF}: must be silent (exit 0, no stdout) when no .saeed/ exists")
 
+GUARD_ATTRIB = "hooks/guard-attribution-canon.sh"
+# Use vs mention, the transliteration trap, and the read path all have to hold:
+# a guard that blocks `grep ناباد` would break the only way to diagnose the
+# defect, and one that fires inside نبادل/نبادر would block ordinary Arabic copy.
+expect_hook(GUARD_ATTRIB,
+            json.dumps({"tool_name": "Write", "tool_input": {
+                "file_path": "/tmp/x/README.md",
+                "content": "تطوير ناباد لحلول الكمبيوتر ذ.م.م."}}),
+            2, "must BLOCK a transliterated company name in a Write")
+expect_hook(GUARD_ATTRIB,
+            json.dumps({"tool_name": "Edit", "tool_input": {
+                "file_path": "/tmp/x/Footer.tsx",
+                "new_string": "<p>تطوير نباد لحلول الكمبيوتر</p>"}}),
+            2, "must BLOCK a transliterated name in an Edit new_string")
+expect_hook(GUARD_ATTRIB,
+            json.dumps({"tool_name": "MultiEdit", "tool_input": {
+                "file_path": "/tmp/x/ar.md",
+                "edits": [{"new_string": "fine"}, {"new_string": "شركة ناباد"}]}}),
+            2, "must BLOCK a transliterated name in any MultiEdit edit")
+expect_hook(GUARD_ATTRIB,
+            json.dumps({"tool_name": "Write", "tool_input": {
+                "file_path": "/tmp/x/ar.json",
+                "content": "تطوير نابض لحلول الكمبيوتر ذ.م.م."}}),
+            2, "must BLOCK a real Arabic word used in company-name position")
+expect_hook(GUARD_ATTRIB,
+            json.dumps({"tool_name": "Bash", "tool_input": {
+                "command": 'echo "تطوير ناباد" >> README.md'}}),
+            2, "must BLOCK a transliterated name written through a shell redirect")
+expect_hook(GUARD_ATTRIB,
+            json.dumps({"tool_name": "Write", "tool_input": {
+                "file_path": "/tmp/x/README.md",
+                "content": "تطوير نبض لحلول الكمبيوتر ذ.م.م."}}),
+            0, "must ALLOW the canonical Arabic credit line")
+expect_hook(GUARD_ATTRIB,
+            json.dumps({"tool_name": "Write", "tool_input": {
+                "file_path": "/tmp/x/doc.md",
+                "content": "انتقل إلى نبض الوصاية لإبقاء المشروع حيّاً"}}),
+            0, "must ALLOW نبض used as an ordinary noun")
+expect_hook(GUARD_ATTRIB,
+            json.dumps({"tool_name": "Write", "tool_input": {
+                "file_path": "/tmp/x/copy.md",
+                "content": "نبادل الخبرات ونبادر إلى العمل، والقلب نابض بالحياة"}}),
+            0, "must ALLOW نبادل/نبادر/نابض in ordinary copy (no bare-substring matching)")
+expect_hook(GUARD_ATTRIB,
+            json.dumps({"tool_name": "Bash", "tool_input": {"command": "grep -rn ناباد ."}}),
+            0, "must ALLOW reading/grepping for the wrong form — that is how it is diagnosed")
+expect_hook(GUARD_ATTRIB,
+            json.dumps({"tool_name": "Write", "tool_input": {
+                "file_path": str(repo_root / "skills" / "attribution" / "SKILL.md"),
+                "content": "never write ناباد"}}),
+            0, "must ALLOW the canon file itself to name the banned forms")
+expect_hook(GUARD_ATTRIB, "not json", 0, "must fail OPEN on unparseable input")
+
 GUARD_TDD = "hooks/guard-tdd-mode.sh"
 if (repo_root / GUARD_TDD).exists():
     # Fixture repo path deliberately contains a space, mirroring this
@@ -991,6 +1057,138 @@ else:
 
 
 # ---------------------------------------------------------------------------
+# Check 14 — Attribution string canon (cycle 12). The company's Arabic name is
+# a WORD — نبض, "pulse" — and "NABAD" is its romanization, not the other way
+# round. Surfaces nonetheless shipped ناباد: a letter-for-letter transliteration
+# of the Latin name back into Arabic letters. The mechanism was structural, the
+# same shape as every other defect class this script exists to prevent: the
+# Arabic string lived in exactly ONE file (skills/attribution/SKILL.md) while
+# every other surface only said "carry the NABAD credit, bilingual" — so an
+# agent writing an Arabic surface without that canon loaded had nothing to copy
+# and re-derived the name instead. Doctrine now forbids the derivation and the
+# string is carried to the point of use; this check is the mechanical floor,
+# and hooks/guard-attribution-canon.sh is the authoring-time twin.
+#
+# Three rules, in ascending order of generality:
+#   (a) the canonical EN + AR strings are present and intact in the canon file;
+#   (b) every Arabic credit line in the repo — anything reading
+#       "<name> لحلول الكمبيوتر" — names نبض and nothing else. This is the rule
+#       that actually catches the defect, and it catches wrong forms nobody
+#       thought to ban;
+#   (c) the known-wrong forms appear nowhere except as backtick-quoted
+#       MENTIONS inside files that teach the rule. Use vs mention is the real
+#       distinction: doctrine has to be able to name what it forbids, but only
+#       doctrine does, and only in code span form.
+# ---------------------------------------------------------------------------
+CHECK14 = "14. Attribution string canon"
+
+ATTRIB_CANON_REL = "skills/attribution/SKILL.md"
+CANON_EN_LINE = "Developed by NABAD Computer Solutions L.L.C."
+CANON_AR_LINE = "تطوير نبض لحلول الكمبيوتر ذ.م.م."
+CANON_AR_NAME = "نبض"
+
+# Not Arabic words at all — only ever a botched transliteration of "NABAD".
+# Matched at Arabic word boundaries, never as bare substrings: نباد is a
+# substring of the everyday verbs نبادل ("we exchange") and نبادر ("we
+# initiate"), and flagging those would be a false positive on ordinary copy.
+BANNED_NAME_FORMS = ["ناباد", "نباد", "نابد", "ناباض", "نابااد", "نااباد", "نبظ", "نبأد"]
+AR_LETTER = "؀-ۿ"
+BANNED_FORM_RE = re.compile(
+    "|".join(f"(?<![{AR_LETTER}]){re.escape(v)}(?![{AR_LETTER}])" for v in BANNED_NAME_FORMS)
+)
+# "…<name> لحلول الكمبيوتر" — the Arabic credit line, whatever name it carries.
+AR_CREDIT_RE = re.compile(rf"([{AR_LETTER}]+)\s+لحلول\s+الكمبيوتر")
+
+# The registry: the four files that ARE the ban list, and so must be able to
+# carry the wrong forms as raw data — the canon's table, this script's list,
+# the guard hook's list and test fixtures, and the changelog entry recording
+# the fix. They are skipped wholesale. Every OTHER file may still mention a
+# wrong form, but only as a backtick-quoted code span, and only if it
+# references the canon — i.e. only doctrine that teaches the rule.
+BAN_LIST_OWNERS = {
+    ATTRIB_CANON_REL,
+    "scripts/validate-fleet.sh",
+    "hooks/guard-attribution-canon.sh",
+    "CHANGELOG.md",
+}
+
+attrib_text = require_file(repo_root / ATTRIB_CANON_REL, CHECK14)
+if attrib_text is not None:
+    for needle, label in ((CANON_EN_LINE, "English credit line"),
+                          (CANON_AR_LINE, "Arabic credit line")):
+        if needle not in attrib_text:
+            fail(CHECK14, f"{ATTRIB_CANON_REL}: canonical {label} missing or altered — "
+                          f"expected the verbatim string `{needle}`")
+
+SCANNED_SUFFIXES = {".md", ".sh", ".json", ".html", ".txt", ".yml", ".yaml", ""}
+SKIP_DIRS = {".git", "node_modules", "dist", "build", ".next"}
+
+attribution_files = 0
+for f in sorted(repo_root.rglob("*")):
+    if not f.is_file():
+        continue
+    if any(seg in SKIP_DIRS for seg in f.relative_to(repo_root).parts):
+        continue
+    if f.suffix.lower() not in SCANNED_SUFFIXES:
+        continue
+    try:
+        text = read(f)
+    except (UnicodeDecodeError, OSError):
+        continue
+    rel = f.relative_to(repo_root).as_posix()
+
+    # The registry files ARE the ban list — they carry the wrong forms as data
+    # (a Python list, a regex, hook test fixtures, the record of the fix), so
+    # neither rule can apply to them without the gate eating itself. Every
+    # other file in the repo is scanned.
+    if rel in BAN_LIST_OWNERS:
+        continue
+
+    # (b) Every Arabic credit line names نبض — the generic rule.
+    for m in AR_CREDIT_RE.finditer(text):
+        attribution_files += 1
+        name = m.group(1)
+        if name != CANON_AR_NAME:
+            fail(
+                CHECK14,
+                f"{rel}: Arabic credit line reads «{name} لحلول الكمبيوتر», but the "
+                f"company's Arabic name is «{CANON_AR_NAME}» — copy the canonical "
+                f"string `{CANON_AR_LINE}` ({ATTRIB_CANON_REL}); never transliterate "
+                f"the Latin \"NABAD\" into Arabic letters",
+            )
+
+    # (c) Known-wrong forms: mention-only, and only where the rule is taught.
+    for m in BANNED_FORM_RE.finditer(text):
+        form = m.group(0)
+        start, end = m.span()
+        line_start = text.rfind("\n", 0, start) + 1
+        line_end = text.find("\n", end)
+        line = text[line_start:line_end if line_end != -1 else len(text)]
+        quoted = f"`{form}`" in line
+        teaches_rule = ATTRIB_CANON_REL in text
+        if not quoted:
+            fail(
+                CHECK14,
+                f"{rel}: contains «{form}» as running text — a transliteration of the "
+                f"Latin \"NABAD\". The company's Arabic name is «{CANON_AR_NAME}»; "
+                f"doctrine may only MENTION a wrong form inside backticks",
+            )
+        elif not teaches_rule:
+            fail(
+                CHECK14,
+                f"{rel}: names the banned form `{form}` but does not reference "
+                f"{ATTRIB_CANON_REL} — only files that teach the attribution rule "
+                f"may name what it forbids",
+            )
+
+guard_canon_rel = "hooks/guard-attribution-canon.sh"
+if not (repo_root / guard_canon_rel).exists():
+    fail(CHECK14, f"{guard_canon_rel} does not exist — the authoring-time gate is doctrine, not decoration")
+elif guard_canon_rel not in hook_scripts:
+    fail(CHECK14, f"{guard_canon_rel} exists but hooks/hooks.json does not wire it — an unwired guard never runs")
+
+
+# ---------------------------------------------------------------------------
 # Report
 # ---------------------------------------------------------------------------
 print("=" * 78)
@@ -1048,6 +1246,9 @@ else:
     print(f"                              heading, README badge, and state.json")
     print(f" 13. Capability-map owners  — docs/CAPABILITY-MAP.md exists; {capmap_refs} agent-owner")
     print(f"                              references all resolve to agents/*.md")
+    print(f" 14. Attribution strings    — canon EN+AR intact; {attribution_files} Arabic credit")
+    print(f"                              line(s) all name نبض; no transliterated form")
+    print(f"                              outside the ban-list registry; guard hook wired")
     print("=" * 78)
     print("RESULT: PASS")
     print("=" * 78)

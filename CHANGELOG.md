@@ -6,6 +6,61 @@ semver (patch = fixes, minor = new agents/skills/commands, major = breaking).
 The version of record is `version` in `.claude-plugin/plugin.json`.
 *(Sections before 1.7.0 are backfilled from commit history and are coarser.)*
 
+## 1.16.1 - 2026-08-25
+
+Field defect, reported by the operator: some generated surfaces printed the company's
+Arabic name as `ناباد` instead of `نبض`. `نبض` is an ordinary Arabic word — *nabḍ*,
+"pulse" — and it is the company's actual name; `NABAD` is its romanization. `ناباد` is
+that romanization spelled back out in Arabic letters: not a typo, a different name, and
+a misspelling of the client's own name on the surfaces meant to credit them.
+
+### Fixed
+- **Root cause was structural, not careless.** The Arabic string existed in exactly one
+  file (`skills/attribution/SKILL.md`); every other surface that ordered the credit said
+  only "carry the NABAD credit, bilingual". An agent writing an Arabic surface without
+  that canon loaded therefore had no string to copy — so it derived one, and the only
+  derivation available from the Latin name is a transliteration. Nothing forbade the
+  derivation and nothing detected the result, so it shipped. Fixing the strings alone
+  would have left every one of those conditions in place.
+- **The derivation is now forbidden by name.** `skills/attribution/SKILL.md` gains
+  *"The Arabic name is a word, never a transliteration"*: the romanization direction is
+  stated explicitly, each wrong form is tabled with why it is wrong (transliteration
+  attempts; `نابض` — a real word, but not the name; `النبض`/`نبضة` — right root, wrong
+  form), and the canonical-strings section now says copy, never retype or re-derive.
+- **The string travels to the point of use.** Both credit strings are now carried
+  verbatim in `technical-writer`, `frontend-engineer`, `ui-visual-designer`, `the-boss`,
+  `/saeed:hire`, and `/saeed:improve` — the agents that actually write credit surfaces no
+  longer have to reach one hop away for the name they are about to print.
+- **The two agents who own the failure mode get the explicit carve-out.**
+  `i18n-localization-engineer`: brand and proper nouns are fixed assets, not translatable
+  copy. `nlp-bilingual-specialist` — the agent that owns transliteration — transliterates
+  only names that have no native form, and never normalizes an authoritative spelling away.
+
+### Added
+- `hooks/guard-attribution-canon.sh` — PreToolUse guard on `Write|Edit|MultiEdit` and
+  `Bash`. Blocks a write carrying a wrong form, on the tool-call and shell channels both,
+  and answers with the canonical string so the fix is a copy. Two properties it is built
+  around: reads are never blocked (`grep ناباد -r .` is how an operator diagnoses this),
+  and matching is Arabic-word-boundary anchored, never bare substring — `نباد` is a
+  substring of the everyday verbs `نبادل` and `نبادر`, and blocking ordinary Arabic copy
+  would be a worse defect than the one being fixed. Real words that are merely the wrong
+  *name* (`نابض`) are flagged only in company-name position, so `نبض الوصاية` in SAEED's
+  own docs stays legal. 11 behavioural cases join the check-8 hook contract.
+- **Validator check 14 — attribution string canon.** Three rules: the canonical EN + AR
+  strings are intact in the canon file; every Arabic credit line in the repo (anything
+  reading `<name> لحلول الكمبيوتر`) names `نبض`; and the known-wrong forms appear nowhere
+  except as backtick-quoted mentions in files that reference the canon. Rule two is the
+  one that matters — it is written against the *shape* of a credit line rather than a
+  list of misspellings, so it catches wrong forms nobody thought to ban (verified: an
+  invented `نابادو` fails the build). Use-vs-mention is honoured so doctrine can still
+  name what it forbids; the four files that *are* the ban list are the registry and are
+  skipped wholesale.
+
+### Changed
+- `SECURITY.md`, `skills/agentic-security/SKILL.md`, `README.md`, `CONTRIBUTING.md`, and
+  `docs/CHEATSHEET.md` (EN + AR) restate the guardrail set as three hooks, not two — the
+  stale-bookkeeping class this repo polices applies to its own hook roster too.
+
 ## 1.16.0 - 2026-08-06
 
 Same-day operator tip absorbed, from the standing stream of field advice the operator

@@ -20,6 +20,7 @@ You make the product feel native in Arabic and English. You own RTL layout, bidi
 - Externalize all strings; no hard-coded copy. Support pluralization and interpolation.
 - Format by locale, not by hard-coded assumptions (Hijri/Gregorian, numerals, currency).
 - Handle mixed-direction content (Arabic + Latin + numbers) correctly.
+- **Brand and proper nouns are fixed assets, not translatable copy.** A company, product, or person name gets its real form in each locale, copied from the source of truth; it is never machine-translated and never transliterated into the other script to fill a key. The house case: the credit line is EN `Developed by NABAD Computer Solutions L.L.C.` / AR `تطوير نبض لحلول الكمبيوتر ذ.م.م.` — the Arabic name is the word `نبض`, never the Latin "NABAD" respelled in Arabic letters (never `ناباد`). Full rules and the banned forms: `skills/attribution/SKILL.md`.
 
 ## Elite Design Mandate (auto-applied to any user-facing work)
 

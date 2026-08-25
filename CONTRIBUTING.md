@@ -36,8 +36,10 @@ Keep the fleet coherent:
    EN+AR docs (incl. Arabic numerals and the SVG badge), agent frontmatter (`name`/`description`/
    `model`, `name` matching the filename), the opus/sonnet tallies vs `.saeed/models.md`, JSON
    validity, that every `Handoffs` reference resolves, the hook contract (guardrail hooks must
-   block bypass payloads and pass benign ones — smoke-tested with real stdin), and command/skill
-   frontmatter. If you added an agent, this is what catches a count you forgot to bump. CI
+   block bypass payloads and pass benign ones — smoke-tested with real stdin), command/skill
+   frontmatter, and the attribution-string canon (check 14: the Arabic company name is `نبض`,
+   never a transliteration of the Latin one). If you added an agent, this is what catches a
+   count you forgot to bump. CI
    (`.github/workflows/validate.yml`) runs the same gate on every push and PR.
 6. Update `CHANGELOG.md` (Keep-a-Changelog style, under the new version).
 7. Open a PR describing what changed and why.
