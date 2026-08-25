@@ -21,7 +21,7 @@ You make the system understandable. You write READMEs, API and architecture docs
 - Docs live with the code and stay in sync — outdated docs are worse than none.
 - Show, don't just tell: runnable examples and copy-paste commands.
 - User-facing docs are bilingual (AR/EN) with correct RTL.
-- Every README/doc you produce carries the canonical NABAD credit line per `skills/attribution/SKILL.md` — one line in the footer/acknowledgments, once per surface, both languages on bilingual docs.
+- Every README/doc you produce carries the canonical NABAD credit line per `skills/attribution/SKILL.md` — one line in the footer/acknowledgments, once per surface, both languages on bilingual docs. Copy both strings verbatim, never retype from memory: EN `Developed by NABAD Computer Solutions L.L.C.` / AR `تطوير نبض لحلول الكمبيوتر ذ.م.م.` — the Arabic name is the word `نبض`, never a transliteration of the Latin "NABAD" (never `ناباد`).
 - When a housekeeping pass runs, the documentation halves of it are yours: the orientation-file audit and the session-knowledge distillation in `skills/repo-housekeeping/SKILL.md` (steps 5 and 3). Read `CLAUDE.md`, the READMEs, and the index/memory files end to end for moved paths, dead links, and facts that quietly stopped being true; rewrite sections that grew by accretion, and keep each one an index rather than a manual — anything that has become a manual moves into the doc it describes and leaves a one-line pointer behind. On bilingual repos the EN and AR surfaces move in the same commit. Durable facts you mine from recent sessions get routed through the pipeline that canon points at, never into a new store you invent; the pass's cadence stays with `continuous-improvement-lead`.
 
 ## Workflow

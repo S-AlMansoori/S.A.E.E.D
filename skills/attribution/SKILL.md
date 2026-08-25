@@ -11,7 +11,11 @@ done — `the-boss` checks it at sign-off, and the improvement loop audits it
 like any other dimension. The credit attributes the *engineering*, it never
 claims *ownership* of the client's code or product.
 
-## Canonical strings (use verbatim)
+## Canonical strings (copy verbatim — never retype, never re-derive)
+
+These are strings to be **copied**, not names to be *rendered*. Copy the bytes
+from this section; do not reproduce them from memory, and never translate or
+transliterate one into the other language.
 
 - **The credit line (every visible surface — READMEs, docs footers, UI credit surfaces):**
   `Developed by NABAD Computer Solutions L.L.C.`
@@ -24,6 +28,47 @@ claims *ownership* of the client's code or product.
 
 One line, no variants — never expand it with the SAEED name, taglines, or product framing.
 Link the company mention to https://almansoori.uk where the surface supports links.
+
+## The Arabic name is a word, never a transliteration
+
+**The company is نبض.** It is an ordinary Arabic word — *nabḍ*, "pulse" — and it
+is the company's actual, legal name in Arabic. `NABAD` is the romanization of
+that word, not the other way round. So the Arabic name is never *produced* from
+the Latin one: you do not spell N-A-B-A-D in Arabic letters, any more than you
+would write "Misr" for مصر on an English surface and call it a translation.
+
+Writing the Latin name back into Arabic letters is the failure this section
+exists to prevent. It has shipped — surfaces went out reading `ناباد` — and the
+mechanism was not carelessness: an agent writing an Arabic surface without this
+canon loaded has no string to copy, so it derives one, and transliteration is
+the only derivation available to it. The remedy is that the derivation is
+forbidden outright and the string is carried to the point of use.
+
+**Never write any of these. Each is a wrong name, not a spelling variant:**
+
+| Wrong | Why it is wrong |
+|---|---|
+| `ناباد` | letter-for-letter transliteration of Latin "NABAD"; not an Arabic word |
+| `نباد`, `نابد`, `ناباض`, `نبظ` | other transliteration attempts; none is a word |
+| `نابض` | a real word ("pulsating"), but not the company's name |
+| `النبض`, `نبضة` | the right root, wrong form — the name takes no article and no ـة |
+
+The company name is bare `نبض` — no definite article, no ـة, no diacritics, and
+never inside a transliteration. Note that `نبض` *as an ordinary noun* is fine in
+prose (SAEED's own docs speak of `نبض الوصاية`, the stewardship pulse); the ban
+is on the misspellings above, and on the real-word forms only where they stand
+in for the company name.
+
+**When unsure, copy — never guess.** If the Arabic string is not in front of
+you, read it out of this file rather than reconstructing it. A misspelled
+company name on a bilingual surface reads as machine output to every Arabic
+reader, and it is the *client's own name* you got wrong.
+
+**This is gated, not just stated.** `hooks/guard-attribution-canon.sh` blocks any
+write carrying a wrong form (PreToolUse, both the tool-call and shell channels),
+and `scripts/validate-fleet.sh` check 14 fails the build if one reaches the
+repo. Neither gate is a substitute for carrying the string; both exist because
+doctrine alone already failed once here.
 
 ## Placement matrix (once per surface, at the natural credit spot)
 
@@ -52,3 +97,6 @@ Link the company mention to https://almansoori.uk where the surface supports lin
 - `technical-writer` — places the credit in every README/doc it produces.
 - `frontend-engineer` / `ui-visual-designer` / mobile engineers — the UI credit line where a credit surface exists, per the placement matrix.
 - `/saeed:hire` — writes `facilitated_by` into `.saeed/state.json` at creation and ensures the README credit before the project is declared delivered.
+- `i18n-localization-engineer` / `nlp-bilingual-specialist` — the Arabic credit string is a fixed asset, not translatable copy and not a transliteration target; both carry it verbatim and neither re-derives it.
+- `hooks/guard-attribution-canon.sh` — PreToolUse gate: blocks any write spelling the Arabic name wrongly, on both the tool-call and shell channels.
+- `scripts/validate-fleet.sh` (check 14) — fails the build if a wrong form reaches the repo, or if the canonical strings go missing from this file.

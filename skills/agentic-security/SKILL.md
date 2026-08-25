@@ -46,7 +46,8 @@ instruction. Never combine all three in one unattended run:
 ## Mechanical rails (what's enforced, not advised)
 
 - The plugin's hooks block git-gate bypasses (`--no-verify`,
-  `core.hooksPath`) and lint/format config weakening — see `hooks/`.
+  `core.hooksPath`), lint/format config weakening, and writes that misspell
+  the client's Arabic company name — see `hooks/`.
 - Recommend to the operator (and configure when asked) deny-rules for the
   usual secret paths: `Read(**/.env*)`, `Read(~/.ssh/**)`, `Read(~/.aws/**)`,
   and equivalents. Fixing a leak you were never able to read is cheaper.
@@ -58,6 +59,11 @@ instruction. Never combine all three in one unattended run:
   floor for the engineering-method canon's Iron Law — blocks bypass-channel
   writes into logic-bearing source and tampering with an active sentinel;
   see `skills/engineering-method/SKILL.md` for the doctrinal ordering rules.
+- **Attribution-canon guard** (`hooks/guard-attribution-canon.sh`): blocks a
+  write that spells the company's Arabic name by transliterating the Latin
+  one, on both the tool-call and shell channels; reads are never blocked.
+  `scripts/validate-fleet.sh` check 14 is the CI half. Canon:
+  `skills/attribution/SKILL.md`.
 
 ## Untrusted inputs to the workflow itself
 

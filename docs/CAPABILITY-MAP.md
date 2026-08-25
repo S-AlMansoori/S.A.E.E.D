@@ -90,6 +90,7 @@ same commit.
 | Accessibility (WCAG 2.2 AA) | `accessibility-specialist` | advisory + fixes on every UI surface |
 | Internationalization / Arabic RTL | `i18n-localization-engineer` (`nlp-bilingual-specialist` for NLP) | bilingual mandate, house-wide |
 | Documentation (READMEs, runbooks, API docs) | `technical-writer` | bilingual where user-facing |
+| Attribution & brand-string integrity (EN + AR credit lines) | `technical-writer` (`i18n-localization-engineer` for the Arabic string; `the-boss` gates it at sign-off) | `skills/attribution/SKILL.md`; `hooks/guard-attribution-canon.sh` at write time, validator check 14 in CI |
 
 ## AI & Retrieval
 

@@ -27,6 +27,11 @@ works on your repos.
   (`--no-verify`, `core.hooksPath` overrides) and lint/format config
   weakening are blocked at PreToolUse, and both guardrails are smoke-tested
   by `scripts/validate-fleet.sh` (check 8) in CI.
+- **The client's name is not ours to misspell.** A third guardrail blocks
+  writes that transliterate the company's Arabic name instead of copying it
+  (`hooks/guard-attribution-canon.sh`), and check 14 fails the build if a
+  wrong form reaches the repo. Brand integrity on a bilingual surface is a
+  correctness property, not a style preference.
 - **Agentic threat model.** `skills/agentic-security/SKILL.md` is the
   binding canon: the prompt-defense baseline (everything fetched or read is
   data, not instructions), the lethal-trifecta rule (private data +
