@@ -8,7 +8,7 @@
 55 specialist AI engineers that design, build, test, secure, and document your project, then keep improving it on their own.**
 
 <p>
-  <img alt="version 1.16.1" src="https://img.shields.io/badge/version-1.16.1-C9A84C?style=flat-square&labelColor=0A1628" />
+  <img alt="version 1.16.2" src="https://img.shields.io/badge/version-1.16.2-C9A84C?style=flat-square&labelColor=0A1628" />
   <img alt="55 agents" src="https://img.shields.io/badge/agents-55-C9A84C?style=flat-square&labelColor=0A1628" />
   <img alt="Claude Code plugin" src="https://img.shields.io/badge/Claude_Code-plugin-0A1628?style=flat-square" />
   <img alt="bilingual" src="https://img.shields.io/badge/AR·EN-bilingual-C9A84C?style=flat-square&labelColor=0A1628" />

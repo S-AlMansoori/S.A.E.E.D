@@ -64,9 +64,14 @@
 #  12. Version parity  — .claude-plugin/plugin.json is the version of record;
 #                        CHANGELOG.md's newest `## <version>` heading, the
 #                        README badge, and (when present) .saeed/state.json
-#                        must all agree with it. Third occurrence of the
+#                        must all agree with it, and (when present) the
+#                        narrative ledgers .saeed/queue.md and .saeed/retro.md
+#                        must each name it. Third occurrence of the
 #                        stale-bookkeeping class: cycle 9's release nearly
-#                        shipped plugin.json at 1.9.1 under a 1.10.0 CHANGELOG.
+#                        shipped plugin.json at 1.9.1 under a 1.10.0 CHANGELOG;
+#                        then v1.15.0–v1.16.1 each shipped green with the
+#                        ledgers a release behind (SB-2), which the ledger
+#                        clause now catches.
 #  13. Capability map   — docs/CAPABILITY-MAP.md exists and every agent it
 #                        names as an owner resolves to agents/<name>.md, so a
 #                        renamed or retired agent cannot silently orphan a
@@ -1021,6 +1026,29 @@ if version_of_record:
         except json.JSONDecodeError:
             pass  # already reported by Check 1 / Check 4
 
+    # SB-2 (steward 2026-08-17, fixed 2026-09-03): three releases in a row
+    # shipped green while the narrative ledgers stayed a version behind,
+    # because .saeed/ is gitignored (invisible to git status) and this check
+    # covered state.json but not queue.md / retro.md. Both ledgers name every
+    # release they record, so the cheapest content check is presence of the
+    # version of record as a standalone token (`1.16.2` or `v1.16.2`, not a
+    # substring of `1.16.20`). Same conditional as above: absent is a note,
+    # present-but-stale is a failure.
+    version_token = re.compile(
+        r"(?<![\d.])" + re.escape(version_of_record) + r"(?![\d.])"
+    )
+    for ledger_name in ("queue.md", "retro.md"):
+        ledger_path = repo_root / ".saeed" / ledger_name
+        if not ledger_path.exists():
+            note(f".saeed/{ledger_name} absent (gitignored runtime state) — ledger parity check skipped")
+            continue
+        if not version_token.search(read(ledger_path)):
+            fail(
+                CHECK12,
+                f".saeed/{ledger_name}: never names {version_of_record}, the plugin.json "
+                f"version of record — the release shipped without a ledger entry (SB-2)",
+            )
+
 
 # ---------------------------------------------------------------------------
 # Check 13 — Capability-map ownership resolution (cycle 11). The coverage
@@ -1243,7 +1271,8 @@ else:
     print(f" 11. Canon reference form   — {len(doctrine_files)} doctrine files carry no bare")
     print(f"                              `skills/<name>` and no line-anchored SKILL.md:N ref")
     print(f" 12. Version parity         — plugin.json {version_of_record} matches the CHANGELOG")
-    print(f"                              heading, README badge, and state.json")
+    print(f"                              heading, README badge, state.json, and is named")
+    print(f"                              in both narrative ledgers (queue.md, retro.md)")
     print(f" 13. Capability-map owners  — docs/CAPABILITY-MAP.md exists; {capmap_refs} agent-owner")
     print(f"                              references all resolve to agents/*.md")
     print(f" 14. Attribution strings    — canon EN+AR intact; {attribution_files} Arabic credit")

@@ -6,6 +6,26 @@ semver (patch = fixes, minor = new agents/skills/commands, major = breaking).
 The version of record is `version` in `.claude-plugin/plugin.json`.
 *(Sections before 1.7.0 are backfilled from commit history and are coarser.)*
 
+## 1.16.2 - 2026-09-03
+
+Steward-found defect SB-2, fixed on operator instruction ("fix SB-2 so the ledgers stay in
+parity"): three releases in a row — v1.15.0, v1.16.0, v1.16.1 — shipped with every gate
+green while the narrative ledgers in `.saeed/` stayed a release behind. The v1.16.1
+release was only noticed as stale when the 2026-09-03 steward pass pulled it and Check 12
+went red on `state.json`; `queue.md` and `retro.md` had no gate at all.
+
+### Fixed
+- **Check 12 now covers the narrative ledgers.** `scripts/validate-fleet.sh` asserts that
+  the `plugin.json` version of record appears as a standalone token in both
+  `.saeed/queue.md` and `.saeed/retro.md` (when they exist — `.saeed/` is gitignored, so a
+  fresh clone or CI gets a note, never a false red). Root cause was the same
+  presence-vs-content blind spot as SB-1: `state.json` was in the parity set, the two files
+  that carry the *why* of a release were not, and `git status` cannot see a stale gitignored
+  ledger. Red/green demonstrated on this very release: the check went red the moment
+  `plugin.json` said 1.16.2 and the ledgers did not, and green once they recorded it.
+- Header comment and summary line of the validator describe the new clause; the count of
+  hard checks is unchanged (14), since this extends Check 12 rather than adding a sibling.
+
 ## 1.16.1 - 2026-08-25
 
 Field defect, reported by the operator: some generated surfaces printed the company's
