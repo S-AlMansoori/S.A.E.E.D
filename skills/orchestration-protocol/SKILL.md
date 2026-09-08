@@ -25,11 +25,11 @@ Work runs in **sequential waves; parallel within a wave is the default and the w
 
 ## Worktree isolation (mandatory for parallel mutation)
 
-Parallel agents that write files each run in their **own git worktree** (`isolation: "worktree"`) on their own branch. They own one module's globs, append (never rewrite) one line per shared seam, commit to their branch, and **never push**. This is what makes parallelism safe rather than a merge disaster. The main working tree is read-only for sub-agents — no `checkout`/`merge`/`rebase`/`stash pop` in it. Two tasks that touch the same files are serialized, not parallelized.
+Parallel agents that write files each run in their **own git worktree** (`isolation: "worktree"`) on their own branch. They own one module's globs, append (never rewrite) one line per shared seam, and commit to their branch. Publishing is capability- and authorization-bound: a worker may push only when the current user/project instructions authorize it and its brief names the exact remote and result branch. Otherwise it returns the local commit for the controller to integrate. Workers never push `main`, a shared integration branch, or another worker's branch, and never force-push. The main working tree is read-only for sub-agents — no `checkout`/`merge`/`rebase`/`stash pop` in it. Two tasks that touch the same files are serialized, not parallelized.
 
 ## The shared ticket queue
 
-The queue is the only shared state between parallel agents. SAEED keeps it under `.saeed/` (`queue.md` as the human ledger; a `.saeed/tasks/{inbox,in-progress,done,escalated}/` tree when a run is large). Every ticket carries frontmatter:
+The repository-backed queue is the durable shared state between parallel agents; chat, browser tabs, and remote shells are delivery channels, not the record. SAEED keeps the queue under `.saeed/` (`queue.md` as the human ledger; a `.saeed/tasks/{inbox,in-progress,done,escalated}/` tree when a run is large). Every ticket carries frontmatter:
 
 ```yaml
 id: w<wave>-<workstream>-<seq>        # e.g. w1-real-api-03
@@ -41,6 +41,10 @@ finding_ref: <path#anchor or n/a>
 ```
 
 Lifecycle: `inbox → in-progress` (on pickup, stamp branch + start) `→ done` (stamp `## Resolution`: what changed, commit SHA, gate result) or `→ escalated` (stamp reason). A producer never edits its own ticket after writing it; corrections go in a new ticket.
+
+Before dispatching to another account, host, device, or long-lived session, the controller records a sanitized capability receipt: worker/surface label, channel actually tested, observation time, task id, source or target, result branch when applicable, and allowed actions. An account name, subscription label, saved SSH alias, old readiness report, or reachable peer does not prove current capability. The worker acknowledges the exact task id, source or target, and result branch when applicable before the task becomes active. Recheck stale receipts before reuse; never store credentials, private addresses, session tokens, or pairing data in the repository.
+
+Only one controller drives a given browser profile, native application, terminal session, or remote device at a time. Transfer control with an explicit release and acknowledgment; other workers use isolated sessions or return advice and artifacts without touching that UI. A controller may use bounded waits while its session is active. Do not invent a daemon, scheduled watcher, or permanent connection when the operator did not request one.
 
 ## Self-contained, targeted briefs
 
@@ -69,26 +73,26 @@ Gates are **executable and run by the orchestrator/the-boss — never trust an a
 - **Conventional commits** only: `feat(api):`, `fix(web):`, `test(ios):`, `chore(orch):`, `docs:`, `perf:`, `refactor:`. Body explains WHY; footer carries `Closes:` and `Risk: HIGH|MEDIUM|LOW`.
 - **Logical-boundary commits**, one per closed ticket — never a single end-of-session mega-commit, never "WIP"/"checkpoint" left in the tip.
 - **Every commit is independently green** (typecheck + lint exit 0 at each SHA).
-- Branch naming `<track>/<phase>-<slug>`. **Never** push, force-push, `--no-verify`, amend, or auto-merge across branches. Only the integration run rewrites history, and only on a fresh `*-atomic` branch.
+- Branch naming `<track>/<phase>-<slug>`. Publish only to the named branch and remote allowed by the task and current project authority. Never force-push, use `--no-verify`, amend shared history, or auto-merge across branches. Only the integration run may deliberately re-emit history, and only on a fresh `*-atomic` branch.
 
 ## Integration is a separate, gated run
 
 Never merge feature branches inside a build/discovery run. Integration is its own deliberate pass:
-1. **Pre-merge review gate** — a senior (Opus) reviewer over the candidate branches; its critical findings become tickets drained before any history rewrite.
+1. **Pre-merge review gate** — an independent reviewer with sufficient verified reasoning capability reviews the candidate branches; its critical findings become tickets drained before any history rewrite.
 2. **Baseline + tag** a checkpoint before touching anything.
 3. **Merge in documented order**; `.gitattributes merge=union` pre-resolves append-only-doc conflicts.
 4. **Re-emit as atomic commits** — cherry-pick by file-set onto a fresh `*-atomic` branch, each commit independently green, conventional messages with `Closes:`/`Risk:`.
 5. **Regenerate shared artifacts once** (contracts version bump, OpenAPI/types) — the version bump is the only cross-track coordination signal.
-6. **Gate the whole thing** and produce an INTEGRATION-REPORT (input branches, conflicts, atomic-commit plan, gate results, recommended merge order). Do NOT push or open a PR — hand the operator a clean, reviewed branch.
+6. **Gate the whole thing** and produce an INTEGRATION-REPORT (input branches, conflicts, atomic-commit plan, gate results, recommended merge order). If current owner/project instructions authorize publication, push the named integration branch and open or update its review PR; otherwise hand the operator a clean local branch. A successful build never implies merge or deployment authority.
 
 ## Adversarial parallel QA (heavy browser testing)
 
-For serious QA, a cheap tester fleet plus an expensive adversarial reviewer:
-- **One orchestrator (Opus)** plans personas and re-verifies; **N browser-testers (Sonnet)** confined to browser-only tools (Playwright MCP), each emitting findings as its final message (testers cannot write files, so the log tail IS the deliverable).
+For serious QA, use a tester fleet plus an independent adversarial reviewer:
+- **One orchestration/review surface with the strongest verified reasoning fit** plans personas and re-verifies; **N test-capable workers** use isolated browser sessions and emit findings through the durable task record. Assign only tools and write access actually available on each surface.
 - **Rollout: canary one persona → cap ~4 concurrent → two waves.** Synthetic seed data only; never regulated/PII on a non-approved box.
 - **Mandatory Phase-3 adversarial verification:** do not pass tester findings through raw. Re-verify every Critical and every RBAC/authz claim in your own authenticated session — capture the **POST/PUT/PATCH status code AND hard-reload** to prove persistence, not optimistic UI. Build the **corroboration matrix** (VERIFIED / CORROBORATED / SINGLE / DOWNGRADED) and record the reason for every downgrade before writing the report. Confirmed findings become queue tickets routed by `consumer_role`.
 
-This is the trust layer: a cheap model optimistic-passes and severity-inflates; the report is only trustworthy because Opus treated every claim as a hypothesis until POST-status-plus-reload evidence.
+This is the trust layer: worker claims remain hypotheses until the independent reviewer checks POST-status-plus-reload evidence. Trust comes from corroboration, not a provider name, account tier, or assumed model capability.
 
 ## Corpus ingestion (BRD → agent-searchable KB)
 
@@ -96,7 +100,7 @@ When requirements arrive as a multi-format corpus (`.docx/.pptx/.pdf/.xlsx/.vsdx
 
 ## Memory-on-opinion
 
-When the operator states a preference, a non-obvious project fact, or corrects a recommendation mid-run, write it to project memory immediately (`~/.claude/projects/<project>/memory/` + a pointer in `MEMORY.md`). Preferences do not survive on transcript alone.
+When the operator states a preference, a non-obvious project fact, or corrects a recommendation mid-run, write it to the repository's governed project ledger (normally `.saeed/`, following the project's own instructions). A surface-specific memory may mirror that fact when available, but it is not the sole record. Preferences do not survive on transcript alone.
 
 ## Cross-session safety & cleanup
 
@@ -114,10 +118,10 @@ The wave model above says *who* runs in parallel. This section says *how one con
 
 Conversation memory does not survive compaction. Controllers that lost their place have re-dispatched entire completed task sequences — the single most expensive controller failure on record. **Todos are not a record. The ledger is.**
 
-- Each run owns one git-ignored directory (`.saeed/tasks/<run-id>/`, alongside the ticket queue): briefs, reports, review packages, and `ledger.md` for THIS run and no other. Another run's directory is never yours to read or write.
+- Each run may own a git-ignored scratch directory (`.saeed/tasks/<run-id>/`) for bulky briefs, private machine observations, raw logs, and review packages. Durable, sanitized facts — task/source identity, status, result commit, gate verdict, next action, and publication state — also land in the repository's tracked state/queue or coordination record. Another run's scratch directory is never yours to read or write.
 - The ledger's first line is its identity — `# Run ledger — plan: <path>`. A ledger naming a different plan is someone else's progress: leave it in place and start your own, fresh.
 - **Resume rules.** A task carrying a `Task <N>: complete` line is DONE — never re-dispatch it; resume at the first task without one. A task whose last line is a fix round is mid-loop — resume at the next round.
-- After compaction, trust the ledger and `git log` over your own recollection: the commits it names exist in git even when your context no longer remembers creating them. The workspace is scratch (`git clean -fdx` deletes it); the git history is the durable record.
+- After compaction, trust the durable ledger and `git log` over your own recollection: the commits it names exist in git even when your context no longer remembers creating them. Scratch may be deleted; Git-backed sanitized state is the resume record.
 - Every dispatch, every fix round, every ruling appends one line. A silent discard is forbidden.
 
 ### Dispatch discipline
@@ -146,9 +150,9 @@ A fix round is one fix dispatch plus one scoped re-review. **Five rounds maximum
 - **Adjudicate only at the cap.** Adjudicating early to end a loop is pre-judging under a different name.
 - The final whole-branch review gets **one** fix wave (a single sub-agent carrying the complete findings list — never one fixer per finding, which rebuilds context and re-runs suites N times) and exactly one scoped re-review. There is no second wave; residuals are adjudicated the same way and surfaced to the operator.
 
-### Model economics at dispatch time
+### Runtime and model selection at dispatch time
 
-Pick the **least capable model that can hold the role**, and **always name it explicitly** — an omitted model inherits the session's, usually the most expensive, which quietly defeats this whole section. This governs how a controller dispatches; it changes no agent's declared `model:`.
+Inspect the models, tools, authentication state, context limits, and execution channel actually available on the target surface. Choose the least costly verified option that can meet the role, but do not infer capability from an account label or historical model name. Set an explicit model only when the target supports that exact identifier and an override improves the assignment; otherwise preserve the surface's configured default and record what actually ran. This governs controller dispatch and changes no agent's declared `model:`.
 
 - Transcription-grade work (the brief already contains the code to write; single-file mechanical fixes) → cheapest tier.
 - Implementers working from prose, and all reviewers → mid tier as the **floor**. **Turn count beats token price:** the cheapest models routinely take 2–3× the turns on multi-step work and cost more overall.
