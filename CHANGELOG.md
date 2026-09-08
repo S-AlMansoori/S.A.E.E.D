@@ -6,6 +6,15 @@ semver (patch = fixes, minor = new agents/skills/commands, major = breaking).
 The version of record is `version` in `.claude-plugin/plugin.json`.
 *(Sections before 1.7.0 are backfilled from commit history and are coarser.)*
 
+## 1.16.3 - 2026-09-08
+
+### Fixed
+- Orchestration publication now follows current user and project authority: workers may publish only an explicitly named result branch, while force-pushes, implicit main/shared-ref updates, and unapproved merges or deployments remain forbidden.
+- Controller dispatch now records observed capabilities and task/source/branch acknowledgment, keeps one driver per UI or remote session, and treats old account, host, and connectivity labels as stale until rechecked.
+- Model routing uses models and tools verified on the target runtime instead of compulsory provider/model overrides.
+- Handover is CLI-first and surface-neutral across peer agents, remote devices, connectors, browsers, and requested schedulers. Existing authorization is reused only within its scope, and unattended watchers are never inferred.
+- Run scratch remains private while sanitized task identity, result commits, gate verdicts, and next actions are preserved in the repository's durable ledger.
+
 ## 1.16.2 - 2026-09-03
 
 Steward-found defect SB-2, fixed on operator instruction ("fix SB-2 so the ledgers stay in
