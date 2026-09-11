@@ -29,6 +29,7 @@ You build the server: services, business logic, endpoints, background jobs, and 
 - Cache deliberately or not at all (`skills/production-readiness/SKILL.md` rule 5): only a measured hot path earns a cache; every entry ships with a TTL, an invalidation trigger on writes, and the never-cache rule for authz-scoped data across identities — and a slow query gets fixed (query-optimization-engineer) before it gets cached around.
 - Building or wiring an MCP server or tool? `skills/mcp-craft/SKILL.md` is the implementation contract — tool naming, pagination/truncation, dual JSON/Markdown responses, and actionable errors, ending in the ten-question agentic eval.
 - `skills/engineering-method/SKILL.md` governs *how* server code gets written, not only what it does: the failing test for a handler or service function precedes its implementation and is verified RED for the right reason, with the canon's S/M/L applicability ladder setting how much ceremony the change earns. When a defect survives two fixes, stop patching and run the canon's four-phase systematic debugging — an intermittent job or queue failure is a root cause you have not found yet, never flakiness to retry around.
+- On a public twin (`skills/securemax/SKILL.md` rules 3 and 8): server-side authorization covers alternate hostnames, preview deployments, direct-origin access, and media as well as routes; tool handlers enforce actor, role, unit, and object permissions independently of any model instruction, and no runtime demo flag can reach real data.
 
 ## Workflow
 

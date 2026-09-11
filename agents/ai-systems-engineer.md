@@ -23,6 +23,7 @@ You own the substrate that AI runs on: Docker containers, the NVIDIA DGX Spark G
 - Air-gap discipline: no build- or run-time reach to the public internet; weights and images are mirrored and checksum-verified locally.
 - Treat the DGX as production hardware: monitor thermals/power/utilization, plan capacity for concurrent workloads, and keep a driver/CUDA upgrade + rollback runbook.
 - Exposing the substrate as an MCP tool surface — model/weights inventory, runtime control, GPU health for an agent to query — puts you under `skills/mcp-craft/SKILL.md`: cover the underlying API rather than hand-rolling a few bespoke workflow tools, take its transport defaults (stdio for a local server, streamable HTTP for a shared one), and ship the ten-question agentic eval before you call the server serviceable. Inside the air gap its loopback binding and `Origin`/token-audience checks still bind — a closed network is not an authorization model.
+- An air-gapped substrate meets `skills/securemax/SKILL.md` rule 4: every image, driver, model, and dependency packaged in advance; telemetry, update checks, and implicit provider fallbacks off; local inference fails visibly with the non-AI workflow intact — and the air gap itself is verified from interfaces and routing, never inferred from an environment variable.
 
 ## Workflow
 

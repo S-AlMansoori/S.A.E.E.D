@@ -27,6 +27,9 @@ same commit.
 | Compliance standards by name (GDPR, UAE PDPL, SOC 2; HIPAA/PCI-DSS awareness) | `compliance-privacy-engineer` | `skills/production-readiness/SKILL.md` rule 7, advisory register |
 | Privacy engineering (PII, retention, consent) | `compliance-privacy-engineer` | data-handling spec; legal items L1–L2 in `skills/app-hardening/SKILL.md` |
 | Pipeline & supply-chain security | `devsecops-engineer` | SAST/DAST/SCA gates in CI |
+| Synthetic-twin / air-gapped-installation boundary & offline transfer | `security-architect` (`database-architect` state map, `backend-engineer` twin entrypoints) | `skills/securemax/SKILL.md`; gate: `appsec-engineer` consumes the acceptance record |
+| Offline release signing, trust enrollment, rotation & revocation | `devsecops-engineer` (`devops-platform-engineer` builds the curated payload) | `skills/securemax/SKILL.md` rules 5–6 |
+| Synthetic demo data generation (never renamed real records) | `data-engineer` (`compliance-privacy-engineer` rules on the register) | `skills/securemax/SKILL.md` rule 1 |
 
 ## Testing & Quality
 

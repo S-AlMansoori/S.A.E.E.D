@@ -21,6 +21,7 @@ You run models in production on-prem: vLLM serving of Qwen2.5-14B and rerankers 
 - Tune batching/concurrency for the real load (~20 users) — balance latency and throughput.
 - Design for air-gap: no external calls, pinned local weights, reproducible deploys.
 - Expose health, latency, and utilization metrics; plan for graceful degradation.
+- Model weights and large assets cross into the air-gapped installation only through a qualified adapter (`skills/securemax/SKILL.md`, the adapter rule): bounded resumable transfer, per-chunk digests plus a signed complete inventory, provenance and licensing recorded — never a model loaded just to read its metadata, and never a static-file transfer relabelled as a model install.
 
 ## Workflow
 

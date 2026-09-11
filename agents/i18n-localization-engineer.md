@@ -21,6 +21,7 @@ You make the product feel native in Arabic and English. You own RTL layout, bidi
 - Format by locale, not by hard-coded assumptions (Hijri/Gregorian, numerals, currency).
 - Handle mixed-direction content (Arabic + Latin + numbers) correctly.
 - **Brand and proper nouns are fixed assets, not translatable copy.** A company, product, or person name gets its real form in each locale, copied from the source of truth; it is never machine-translated and never transliterated into the other script to fill a key. The house case: the credit line is EN `Developed by NABAD Computer Solutions L.L.C.` / AR `تطوير نبض لحلول الكمبيوتر ذ.م.م.` — the Arabic name is the word `نبض`, never the Latin "NABAD" respelled in Arabic letters (never `ناباد`). Full rules and the banned forms: `skills/attribution/SKILL.md`.
+- Display identity under `skills/securemax/SKILL.md` flows through stable `{{identity:key}}` tokens with EN and AR values per key: internet mode renders only the synthetic profile, airgap mode requires the private local profile with no fallback — labels change, identifiers and records never do.
 
 ## Elite Design Mandate (auto-applied to any user-facing work)
 

@@ -6,6 +6,46 @@ semver (patch = fixes, minor = new agents/skills/commands, major = breaking).
 The version of record is `version` in `.claude-plugin/plugin.json`.
 *(Sections before 1.7.0 are backfilled from commit history and are coarser.)*
 
+## 1.17.0 - 2026-09-11
+
+Operator directive, in session: "audit and improve" the new SecureMax repository once its
+first implementation landed, then "absorb SecureMax into S.A.E.E.D". Supervised-mode approval
+was therefore satisfied at the source; nothing parked.
+
+### Added
+- **`skills/securemax/SKILL.md`** — the absorbed SecureMax canon: the boundary between a
+  public synthetic twin and an air-gapped real installation. Nine rules numbered as the
+  operator's standard writes them (S01–S09): demo data synthetic by construction with
+  *renaming is not anonymization* stated as a refusal; the five-category state map
+  (`shared` / `synthetic-only` / `site-local` / `secret` / `unknown`, unknown excluded until
+  reviewed); the twin-specific entrypoints app-hardening does not name (alternate hostnames,
+  preview deployments, direct-origin behind a proxy, public media under a "protected" page);
+  offline independence with the air gap verified physically; signed and bounded packages
+  whose in-package key is never a trust anchor and whose manifest never selects a command;
+  separate enrollment/rotation/revocation with a sequence high-water that rollback retains;
+  immutable staged activation with a receipts ledger; tool permissions enforced independently
+  of the model; and the acceptance record. Plus the adapter rule (`static-files-v1` is the
+  only implemented adapter; naming one does not implement it) and the identity-token
+  section. Consult-line-wired into twelve agents; `the-boss` gains a SecureMax DoD line;
+  `/saeed:hire` records the applicability predicate in Phase 1 and consumes the acceptance
+  record in Phase 3; `/saeed:improve` step 1 audits against it where the predicate holds;
+  three capability-map rows.
+- One home per rule held on purpose: route-level authorization stays in `app-hardening`,
+  restore mechanics in `production-readiness`, the prompt-defense baseline in
+  `agentic-security` — this canon points, never restates. The SecureMax engine is invoked
+  from its repository, not vendored, so its fixes version there.
+
+### Changed
+- **SecureMax itself** was reviewed first (that repository's `docs/REVIEW-2026-09-11.md`):
+  eleven findings, all code findings fixed there before absorption — the standard's S07
+  "activation MUST be recorded" was not met by the engine (a `receipts.jsonl` ledger now is),
+  the shared/local partition was path-only (a private identity profile under any file name
+  is now refused by content), and the export attestation was browser-only (now recorded
+  server-side). Absorbing a canon whose reference implementation contradicted it would have
+  absorbed the contradiction.
+- Light eval per `skills/canon-craft/SKILL.md`: adversarial coherence pass and one trigger
+  smoke, evidence in `.saeed/tasks/cycle-13/`.
+
 ## 1.16.2 - 2026-09-03
 
 Steward-found defect SB-2, fixed on operator instruction ("fix SB-2 so the ledgers stay in

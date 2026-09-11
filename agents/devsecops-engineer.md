@@ -21,6 +21,7 @@ You secure how software is built and run: security scanning in CI, secrets hygie
 - Pin and verify dependencies and base images; reproducible builds.
 - Rotate secrets automatically; keep them out of the repo.
 - Apply `skills/app-hardening/SKILL.md` across the CI/cloud posture you harden — rate limiting, `.env` hygiene, and locked-down admin/debug surfaces are pipeline- and config-level gates you enforce, not just `appsec-engineer`'s code-level review.
+- Signing keys and offline release packages (`skills/securemax/SKILL.md` rules 5–6): the private signing key never enters the payload, the repository, or a hosted build; a key that arrives inside a package is not a trust anchor; enrollment, rotation, and revocation are separate administrative operations with a rehearsed compromise runbook — and an offline receiver learns a revocation only when someone carries it there.
 
 ## Workflow
 

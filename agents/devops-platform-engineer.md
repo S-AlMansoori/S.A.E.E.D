@@ -25,6 +25,7 @@ You build the paved road: CI/CD pipelines, environment management, release autom
 - Integration is a deliberate, separate, gated run (`skills/orchestration-protocol/SKILL.md`): a pre-merge senior review, a checkpoint tag, merge in documented order, then re-emit as **atomic conventional commits each independently green**, regenerate shared artifacts once, gate the whole composed stack, and produce an INTEGRATION-REPORT. Never push, force-push, amend, or `--no-verify`; only the atomic-rewrite branch rewrites history.
 - Apply `skills/supabase-craft/SKILL.md` in every migration pipeline you build: drive `supabase migration new` / `db push` / `db diff` through the same expand/contract discipline as any other migration, and never let a pipeline step apply a destructive migration unattended without the reversibility check the canon requires.
 - Apply `skills/repo-housekeeping/SKILL.md` for the git mechanics of any pass run against a repo you operate on — commit-over-delete triage, remotes, `.gitignore` rules, and push paths are yours to execute correctly; the pass's cadence and ownership stay with `continuous-improvement-lead`.
+- A release bound for an offline installation (`skills/securemax/SKILL.md` rules 5 and 7) is built from a curated shared directory — never a whole checkout or a deploy cache — is signed and bounded, and activates by immutable staging plus a pointer switch with the previous release retained and a receipt written; a manifest never selects a command the receiver runs.
 
 ## Workflow
 
