@@ -6,6 +6,89 @@ semver (patch = fixes, minor = new agents/skills/commands, major = breaking).
 The version of record is `version` in `.claude-plugin/plugin.json`.
 *(Sections before 1.7.0 are backfilled from commit history and are coarser.)*
 
+## 1.18.0 - 2026-09-25
+
+Operator directive, in session: "run a full /saeed:upgrade and audit on the repo", then "I use
+codex now sometimes / a lot". Steps 1–5 of the upgrade ran as role-scoped reviews (model-scout,
+self-eval-critic, continuous-improvement-lead audit, appsec/code-review of every executable
+file, and a Codex-compatibility research pass). The change set lands as a PR, which is the
+supervised-mode approval gate; decisions that change the team's cost or doctrine are parked
+below instead of applied.
+
+### Added
+- **OpenAI Codex compatibility layer** (`docs/CODEX.md`). `.codex-plugin/plugin.json` (version
+  and counts mirrored from the Claude manifest), `.agents/plugins/marketplace.json`, and
+  `scripts/gen-codex.sh`, which generates `codex/agents/*.toml` (55 Codex custom agents; model
+  tier → reasoning effort, agents with no Write/Edit/Bash → `sandbox_mode = "read-only"`) and
+  `codex/skills/` (the 19 canons as symlinks plus the 7 commands as `$saeed-*` skills with
+  implicit invocation off), with `--check` drift detection and an idempotent `--install`.
+  `AGENTS.md` gives Codex (and any AGENTS.md-aware agent) the contributor rules for this repo.
+- **Guardrail hooks understand Codex edits.** Codex routes every file edit through
+  `apply_patch`, with no `file_path`; the three edit guards fail open on that shape. A shared
+  stdlib module, `hooks/lib/hookio.py`, parses the patch envelope into per-file records and is
+  the one home for shell write-target extraction (quote-aware, `cd`-tracking).
+- **Validator Checks 15–17.** 15: every README/CHEATSHEET roster row's Model column matches
+  frontmatter (the class that let `team-orchestrator` read `opus` for three releases after its
+  move to Fable). 16: handoff reciprocity — every agent is named in another agent's Handoffs.
+  17: the generated Codex layer is in sync. Check 13 is now two-way (every agent appears in
+  the capability map), Check 1 covers the Codex docs' agent count, and the PASS summary says
+  which `.saeed/` clauses were skipped instead of claiming them.
+- **31 new Check 8 regression fixtures**, each a bypass reproduced against the previous hooks
+  (exit 0 then, exit 2 now) or a benign case pinning the false-positive floor. Verified by
+  swapping the old hooks back in: the validator goes red on all 31.
+
+### Fixed
+- **`guard-git-bypass.sh`** now tokenizes with `shlex` the way the shell will. Previously
+  bypassed: `--no-verify` between apostrophe-bearing messages (the single-quote regex ran
+  first), shell-quoted flags (`--"no-verify"`, `-c "core.hooksPath=…"`, `git config
+  "core.hooksPath"`), git's accepted abbreviation `--no-verif`, `-n` inside clusters like `-en`,
+  `GIT_CONFIG_KEY_n` / `GIT_CONFIG_PARAMETERS` / `--config-env`, and `HUSKY=0`.
+- **`guard-tdd-mode.sh`**: sentinel tamper via `tee`, `sed -i`, `truncate`, `mv`, a doubled
+  slash, a `./` segment, a glob (`TD?`), and `cd .saeed && rm TDD` all passed under `enforce`.
+  Paths are now normalized and compared case-insensitively (APFS). The sentinel is found by
+  walking up from the payload's `cwd`, so a subdirectory session is covered, and git runs in the
+  target's repo. `cat > src/x.py <<EOF` is a bypass write like `echo >>`. `git status
+  --porcelain -z` stops a spaced test path being misread as "no test".
+- **`guard-attribution-canon.sh`**: any Bash command that merely *mentioned* an exempt filename
+  was exempt, and `NOTCHANGELOG.md` matched the `CHANGELOG.md` suffix; tatweel and zero-width
+  characters hid a banned form. The exemption now requires every write target to be exempt; text
+  is NFKC-normalized with invisible characters stripped.
+- **`guard-config-protection.sh`** is registered on Bash as well (`sed -i`/redirect/`rm` on an
+  existing lint config), compares names case-insensitively, and protects `.eslintignore`,
+  `.prettierignore`, `eslint.config.{mts,cts}` and `prettier.config.{ts,mts,cts}`.
+- Every guard prints a one-line stderr warning when python3 is missing instead of failing open
+  silently. `saeed-loop.sh` rejects non-numeric `max_cycles`/`sleep_seconds`.
+- **Model-tier drift:** README and CHEATSHEET listed `team-orchestrator` as `opus`; the README
+  tier sentence omitted Fable; `docs/SUCCESSION.md` still said the fable tier had no alias.
+  `model-scout` now owns the doc surfaces that restate a tier.
+- **Orphaned agents:** `lottie-engineer`, `pwa-offline-engineer`, `python-engineer` and
+  `typescript-specialist` had no inbound handoff; reciprocal handoffs added from the agents
+  they hand to. `python-engineer` and `typescript-specialist` gain capability-map rows, and the
+  map gains rows for handover, context discipline, housekeeping and the Codex layer.
+- Doc accuracy: the opt-in TDD guard is documented in SECURITY/README, the `.saeed/TDD` sentinel
+  in the `.saeed/` tables (EN + AR); `help.md` names the steward; `continuous-improvement-lead`'s
+  audit dimensions match `/saeed:improve`; CONTRIBUTING and `roster-maintainer` list every
+  surface a roster change touches; "opus/sonnet tallies" → fable/opus/sonnet. The NABAD credit
+  footer is added to SECURITY, CAPABILITY-MAP and SUCCESSION.
+
+### Changed
+- CI runs the gate on `ubuntu-latest` and `macos-latest` (bash 3.2, BSD userland,
+  case-insensitive filesystem), with a timeout and a concurrency group.
+
+### Awaiting operator (parked, not applied)
+- **MS-1, model re-tier:** doctrine reads as top tier for architecture/security/RAG design and
+  the boss. Literally applied, `the-boss`, `principal-architect`, `security-architect` and
+  `rag-architect` move opus → fable, and `ai-systems-engineer` sonnet → opus. Fable 5.1 is 2.5×
+  Opus 5.5's price; no evidence yet that these roles fail on Opus. No `model:` value changed —
+  all three aliases are valid and track Fable 5.1 / Opus 5.5 / Sonnet 5.
+- **AI-feature security canon:** no doctrine owns prompt injection, untrusted retrieved content,
+  or tool/output validation *in the product* (app-hardening excludes it; agentic-security covers
+  the team's own runs). A capability-map row now names the gap and interim owner; authoring the
+  rule is a material canon change under `skills/canon-craft/SKILL.md` and owes an eval.
+- **Roster redundancy review** for `python-engineer`, `typescript-specialist` and
+  `prompt-engineer` (overlap with backend/frontend and llm-engineer/agent-optimizer). No usage
+  data exists to justify a retirement, so they were wired in rather than cut.
+
 ## 1.17.0 - 2026-09-11
 
 Operator directive, in session: "audit and improve" the new SecureMax repository once its

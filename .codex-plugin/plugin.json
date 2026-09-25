@@ -1,0 +1,28 @@
+{
+  "name": "saeed",
+  "version": "1.18.0",
+  "description": "SAEED (سعيد) — Self-Advancing Elite Engineering Directorate: 19 engineering canons as skills, the /saeed:* commands as $saeed-* skills, guardrail hooks, and 55 specialist agents installable as Codex custom agents. Bilingual Arabic/English. A product of NABAD Computer Solutions L.L.C.",
+  "author": {
+    "name": "Saeed AlMansoori",
+    "url": "https://almansoori.uk"
+  },
+  "homepage": "https://github.com/S-AlMansoori/S.A.E.E.D",
+  "repository": "https://github.com/S-AlMansoori/S.A.E.E.D",
+  "license": "LicenseRef-NABAD-NonCommercial-1.0",
+  "keywords": [
+    "subagents",
+    "multi-agent",
+    "verification",
+    "security",
+    "guardrails",
+    "bilingual",
+    "arabic",
+    "self-improving"
+  ],
+  "skills": "./codex/skills/",
+  "hooks": "./hooks/hooks.json",
+  "interface": {
+    "displayName": "SAEED",
+    "category": "Coding"
+  }
+}

@@ -8,7 +8,7 @@
 55 specialist AI engineers that design, build, test, secure, and document your project, then keep improving it on their own.**
 
 <p>
-  <img alt="version 1.17.0" src="https://img.shields.io/badge/version-1.17.0-C9A84C?style=flat-square&labelColor=0A1628" />
+  <img alt="version 1.18.0" src="https://img.shields.io/badge/version-1.18.0-C9A84C?style=flat-square&labelColor=0A1628" />
   <img alt="55 agents" src="https://img.shields.io/badge/agents-55-C9A84C?style=flat-square&labelColor=0A1628" />
   <img alt="Claude Code plugin" src="https://img.shields.io/badge/Claude_Code-plugin-0A1628?style=flat-square" />
   <img alt="bilingual" src="https://img.shields.io/badge/AR·EN-bilingual-C9A84C?style=flat-square&labelColor=0A1628" />
@@ -106,6 +106,16 @@ Requires the Claude Code CLI.
 ```
 
 Restart the session, then run `/agents` to see all 55.
+
+### Using OpenAI Codex?
+
+SAEED also runs as a Codex plugin: `codex plugin marketplace add S-AlMansoori/S.A.E.E.D`, then
+install **SAEED** from the plugin browser. The 19 canons become Codex skills, the commands become
+`$saeed-hire`, `$saeed-verify`, `$saeed-improve` and so on, and the same guardrail hooks run —
+including on Codex's `apply_patch` edits. Codex plugins can't bundle agents, so install the
+specialists from a clone with `scripts/gen-codex.sh --install --user`. Everything Codex-specific
+is generated from the Claude sources and drift-checked by the validator; details and caveats in
+[docs/CODEX.md](docs/CODEX.md).
 
 ## 🎛️ Commands
 
