@@ -61,6 +61,9 @@ Working, typed components with all states handled, tests, and a short usage note
 - `frontend-performance-engineer` — for render/bundle issues.
 - `accessibility-specialist` — for an a11y audit.
 - `design-reviewer` — the design-excellence gate a user-facing change must pass before it is DONE.
+- `lottie-engineer` — any Lottie asset or player work (retheme, retime, optimize, embed, debug); it owns everything inside the player boundary.
+- `pwa-offline-engineer` — service workers, caching strategy, installability, and background sync.
+- `typescript-specialist` — when a type model gets hard (generics, discriminated unions, eliminating untyped escapes).
 
 ## Guardrails
 

@@ -50,6 +50,7 @@ Token definitions, documented components with variants/states, and a11y+RTL test
 - `frontend-engineer` — as consumers of the library.
 - `accessibility-specialist` — for component audits.
 - `design-reviewer` — the design-excellence gate for user-facing components.
+- `lottie-engineer` — motion/color tokens that must flow into Lottie assets.
 
 ## Guardrails
 

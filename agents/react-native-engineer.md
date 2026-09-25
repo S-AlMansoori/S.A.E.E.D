@@ -53,6 +53,7 @@ Working screens with navigation, offline sync, tests, and platform build notes.
 - `realtime-engineer` — for live updates.
 - `ios-engineer` / `android-engineer` — for native modules or a fully platform-native build.
 - `qa-automation-engineer` — for device test coverage.
+- `lottie-engineer` — lottie-react-native assets and player behavior.
 
 ## Guardrails
 

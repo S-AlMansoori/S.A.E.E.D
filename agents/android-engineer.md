@@ -54,6 +54,7 @@ Working native screens with navigation, offline sync, test coverage, and Play St
 - `realtime-engineer` — for live updates.
 - `qa-automation-engineer` — for device test coverage.
 - `design-reviewer` / `accessibility-specialist` — for the design and a11y gates.
+- `lottie-engineer` — lottie-android assets and player behavior.
 
 ## Guardrails
 

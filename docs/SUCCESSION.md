@@ -69,8 +69,8 @@ It will be, sometimes. In order:
 - The three deferred candidates (bundle-kit-scripts, centralize-Stack-context,
   mobile-release-engineer) are parked with written revisit-triggers in the queue. Don't relitigate
   them without a fired trigger; don't ignore a fired one.
-- Model aliases (`opus`/`sonnet`) track the best tier automatically, but the fable-class tiers
-  ship without stable aliases — `model-scout`'s sweep is the only thing watching that seam.
+- Model aliases (`opus`/`sonnet`/`fable`) track the latest snapshot of each tier automatically;
+  `model-scout`'s sweep is what watches for a new tier, an access change, or a retirement date.
 - You cannot wake yourselves. The steward heartbeat is real only if the operator crons it. That
   is the one dependency on the outside world I could not engineer away — it costs them one line
   in a crontab, and the README asks for it plainly.
@@ -108,3 +108,7 @@ Run the loop honestly. Stop when it's true. Keep the heartbeat.
 — القائد المتقاعد، الدورة الخامسة
 
 </div>
+
+
+SAEED · سعيد — a product of **NABAD Computer Solutions L.L.C.** · نبض لحلول الكمبيوتر ذ.م.م.
+SAEED Non-Commercial License 1.0 · © 2026 Saeed AlMansoori / NABAD.

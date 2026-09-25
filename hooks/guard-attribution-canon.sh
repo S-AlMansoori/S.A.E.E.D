@@ -53,6 +53,7 @@
 
 PY="$(command -v python3 || true)"
 if [[ -z "${PY}" ]]; then
+  echo "SAEED guard-attribution-canon: python3 not found; guard inactive (fail-open)." >&2
   exit 0
 fi
 
@@ -63,10 +64,18 @@ PAYLOAD="$(mktemp)"
 trap 'rm -f "${PAYLOAD}"' EXIT
 cat > "${PAYLOAD}" 2>/dev/null || true
 
-"${PY}" - "${PAYLOAD}" <<'PYEOF'
+"${PY}" - "${PAYLOAD}" "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/lib" <<'PYEOF'
 import json
 import re
 import sys
+import unicodedata
+
+sys.path.insert(0, sys.argv[2] if len(sys.argv) > 2 else "")
+try:
+    from hookio import parse_apply_patch, patch_text, write_targets
+except ImportError:
+    print("SAEED guard-attribution-canon: hooks/lib/hookio.py missing — guard inactive.", file=sys.stderr)
+    sys.exit(0)
 
 try:
     with open(sys.argv[1], encoding="utf-8") as f:
@@ -122,7 +131,17 @@ EXEMPT_SUFFIXES = (
 
 def is_exempt_path(path):
     p = (path or "").replace("\\", "/")
-    return any(p.endswith(suffix) for suffix in EXEMPT_SUFFIXES)
+    return any(p == suffix or p.endswith("/" + suffix) for suffix in EXEMPT_SUFFIXES)
+
+
+# Characters that render as nothing (or as a stretched join) inside an Arabic
+# word — tatweel, zero-width and bidi controls, BOM. Stripped before matching
+# so a banned form cannot hide behind an invisible code point.
+INVISIBLE_RE = re.compile("[\u0640\u200b-\u200f\u202a-\u202e\u2066-\u2069\ufeff\u061c]")
+
+
+def normalize(text):
+    return INVISIBLE_RE.sub("", unicodedata.normalize("NFKC", text))
 
 
 # A Bash command only matters if it WRITES. Reading (grep/cat/rg) must stay
@@ -139,11 +158,20 @@ def written_text():
         cmd = tool_input.get("command")
         if not isinstance(cmd, str) or not cmd.strip():
             return None
-        if is_exempt_path(cmd) or any(s in cmd for s in EXEMPT_SUFFIXES):
-            return None
         if not WRITES_RE.search(cmd):
             return None
+        # Exempt only when every file the command writes is a ban-list file —
+        # merely MENTIONING one (e.g. in a trailing comment) exempts nothing.
+        targets = [t for t, _ in write_targets(cmd)]
+        if targets and all(is_exempt_path(t) for t in targets):
+            return None
         return cmd
+    if tool_name == "apply_patch":
+        # OpenAI Codex: one patch may touch several files; check the added
+        # lines of every non-exempt one.
+        recs = parse_apply_patch(patch_text(tool_input))
+        added = [txt for pth, op, txt in recs if op != "delete" and not is_exempt_path(pth)]
+        return "\n".join(added) if added else None
     # Write / Edit / MultiEdit
     if is_exempt_path(tool_input.get("file_path")):
         return None
@@ -163,6 +191,7 @@ def written_text():
 text = written_text()
 if not text:
     sys.exit(0)
+text = normalize(text)
 
 found = None
 m = ALWAYS_RE.search(text)

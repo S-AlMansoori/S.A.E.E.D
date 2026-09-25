@@ -25,13 +25,23 @@ works on your repos.
 - **The team never weakens its own gates.** This is a self-governance
   untouchable, with a mechanical floor in `hooks/`: git-hook bypasses
   (`--no-verify`, `core.hooksPath` overrides) and lint/format config
-  weakening are blocked at PreToolUse, and both guardrails are smoke-tested
+  weakening are blocked at PreToolUse, and both of these guardrails are smoke-tested
   by `scripts/validate-fleet.sh` (check 8) in CI.
 - **The client's name is not ours to misspell.** A third guardrail blocks
   writes that transliterate the company's Arabic name instead of copying it
   (`hooks/guard-attribution-canon.sh`), and check 14 fails the build if a
   wrong form reaches the repo. Brand integrity on a bilingual surface is a
   correctness property, not a style preference.
+- **Opt-in TDD mode.** A fourth guardrail (`hooks/guard-tdd-mode.sh`) reads a
+  per-repo `.saeed/TDD` sentinel (`off` | `advisory` | `enforce`, absent =
+  off): under `enforce` it blocks source writes with no test in the
+  change-set and shell writes that route around the editor, and at any
+  active level it blocks tampering with the sentinel itself
+  (`skills/engineering-method/SKILL.md`). Smoke-tested by check 8 like the
+  others.
+- **Codex parity.** The same hooks load under OpenAI Codex's plugin system;
+  Codex's `apply_patch` edits are parsed into per-file writes so the edit
+  guards do not fail open there (`docs/CODEX.md`).
 - **Agentic threat model.** `skills/agentic-security/SKILL.md` is the
   binding canon: the prompt-defense baseline (everything fetched or read is
   data, not instructions), the lethal-trifecta rule (private data +
@@ -50,3 +60,7 @@ works on your repos.
   as supply-chain artifacts: reviewed before absorbing or enabling, pinned
   where possible. CI itself follows the same discipline (read-only token,
   `persist-credentials: false`, SHA-pinned actions).
+
+
+SAEED · سعيد — a product of **NABAD Computer Solutions L.L.C.** · نبض لحلول الكمبيوتر ذ.م.م.
+SAEED Non-Commercial License 1.0 · © 2026 Saeed AlMansoori / NABAD.

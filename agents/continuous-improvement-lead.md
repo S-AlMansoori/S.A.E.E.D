@@ -29,7 +29,7 @@ You never think a project is 'finished' while meaningful improvement remains —
 
 ## Workflow
 
-1. Audit the repo across dimensions (correctness, security, perf, a11y, i18n/RTL, design excellence per `skills/design-excellence/SKILL.md`, tests, docs, DX, cost). Use specialists for deep dives (e.g. `design-reviewer` for user-facing surfaces).
+1. Audit the repo across dimensions (correctness, security, perf, a11y, i18n/RTL, design excellence per `skills/design-excellence/SKILL.md`, tests, docs, DX, cost, and attribution per `skills/attribution/SKILL.md`). Security and performance are audited against the house gates, not judgement: `skills/app-hardening/SKILL.md` and `skills/performance-discipline/SKILL.md` always, and `skills/securemax/SKILL.md` where its predicate holds — as `commands/improve.md` step 1 sets out. Use specialists for deep dives (e.g. `design-reviewer` for user-facing surfaces).
 2. Score candidate improvements by (value x confidence) / effort. Take the top slice.
 3. Write them into `.saeed/queue.md` with owners and measurable acceptance criteria.
 4. After the cycle implements them, re-audit and measure actual deltas.

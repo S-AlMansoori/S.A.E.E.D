@@ -85,6 +85,15 @@
 #                        shipped ناباد — the Latin "NABAD" respelled in Arabic
 #                        letters — because the Arabic string lived in one canon
 #                        file and every other surface only said "bilingual".
+#  15. Roster models    — every `| \`agent\` | tier |` row in the README and
+#                        CHEATSHEET roster tables matches that agent's
+#                        frontmatter, and each lists every agent exactly once.
+#  16. Handoff reciprocity — every agent is named in at least one OTHER
+#                        agent's `## Handoffs` section (no unreachable agent).
+#  17. Codex layer sync — `scripts/gen-codex.sh --check` passes: the generated
+#                        codex/ tree and .codex-plugin/plugin.json match
+#                        agents/, commands/, skills/ and the Claude manifest.
+#  (Check 13 is two-way since v1.18.0: every agent must appear in the map.)
 #
 # NOTE on .saeed/: it is per-project runtime state and gitignored, so a fresh
 # clone (and CI) has none. Checks that read .saeed/state.json or models.md are
@@ -95,7 +104,7 @@
 #                                       # resolved relative to this script.
 #
 # EXIT STATUS
-#   0  — all hard checks (1-5, 7-14) passed. Check 6 is advisory and never
+#   0  — all hard checks (1-5, 7-17) passed. Check 6 is advisory and never
 #        fails the build; it only prints a warning.
 #   1  — one or more hard checks failed. Every violation is printed with the
 #        file and expected-vs-found detail before the FAIL summary line.
@@ -262,6 +271,11 @@ if marketplace_text is not None:
 # docs/WHAT-IS-SAEED.md — English + Arabic
 what_is_md = repo_root / "docs" / "WHAT-IS-SAEED.md"
 check_regex_matches_N(what_is_md, r"\*\*(\d+) specialist AI agents\*\*", "EN bold agent count", str(N))
+# The Codex surfaces (v1.18.0) restate the count too; .codex-plugin/plugin.json
+# is generated from it and covered by Check 17, the prose here is not.
+for _codex_doc in ("AGENTS.md", "docs/CODEX.md"):
+    check_regex_matches_N(repo_root / _codex_doc, r"\b(\d+)\s+(?:specialist\s+)?(?:sub)?agents\b",
+                          "Codex docs agent count", str(N))
 check_regex_matches_N(what_is_md, r"### The team \((\d+) specialists\)", "EN team heading", str(N))
 check_text_contains(what_is_md, f"**{N_AR} وكيلاً ذكائياً متخصصاً**", "AR bold agent count")
 check_text_contains(what_is_md, f"### الفريق ({N_AR} متخصصاً)", "AR team heading")
@@ -782,6 +796,93 @@ if (repo_root / GUARD_TDD).exists():
         # 5. non-JSON input -> fail open.
         expect_hook(GUARD_TDD, "not json", 0, "must fail OPEN on unparseable input", cwd=repo)
 
+        # 6. v1.18.0 audit regressions: tamper channels the heuristic used to
+        #    miss, the subdirectory case, cat-heredoc writes, and Codex patches.
+        for cmd, label in [
+            ("echo off | tee .saeed/TDD", "tee into the sentinel"),
+            ("sed -i s/enforce/off/ .saeed/TDD", "sed -i on the sentinel"),
+            ("truncate -s0 .saeed/TDD", "truncate of the sentinel"),
+            ("rm .saeed//TDD", "a doubled-slash sentinel path"),
+            ("rm .saeed/TD?", "a glob matching the sentinel"),
+            ("echo off >.saeed/./TDD", "a dot-segment sentinel path"),
+            ("cd .saeed && rm TDD", "rm after cd into .saeed"),
+            ("mv /tmp/x .saeed/TDD", "mv over the sentinel"),
+        ]:
+            expect_hook(GUARD_TDD, json.dumps({"tool_name": "Bash", "tool_input": {"command": cmd}, "cwd": str(repo)}),
+                        2, f"must BLOCK {label}", cwd=repo)
+        expect_hook(GUARD_TDD, json.dumps({"tool_name": "Edit", "tool_input": {"file_path": f"{repo}/.saeed/./TDD"}}),
+                    2, "must BLOCK an Edit to a dot-segment sentinel path", cwd=repo)
+        (repo / "src" / "foo.test.ts").unlink()
+        (repo / "sub").mkdir()
+        expect_hook(GUARD_TDD, json.dumps({"tool_name": "Write", "tool_input": {"file_path": "../src/foo.ts"}, "cwd": str(repo / "sub")}),
+                    2, "must find the sentinel from a subdirectory cwd", cwd=repo / "sub")
+        expect_hook(GUARD_TDD, json.dumps({"tool_name": "Bash", "tool_input": {"command": "cat > src/foo.ts <<'EOF'\nexport const foo = 2;\nEOF"}}),
+                    2, "enforce mode must BLOCK a cat-heredoc write into logic-bearing source", cwd=repo)
+        expect_hook(GUARD_TDD, json.dumps({"tool_name": "apply_patch", "tool_input": {"command": "*** Begin Patch\n*** Update File: .saeed/TDD\n@@\n-enforce\n+off\n*** End Patch"}}),
+                    2, "must BLOCK a Codex apply_patch on the sentinel", cwd=repo)
+        expect_hook(GUARD_TDD, json.dumps({"tool_name": "apply_patch", "tool_input": {"command": "*** Begin Patch\n*** Update File: src/foo.ts\n@@\n-a\n+b\n*** End Patch"}}),
+                    2, "enforce mode must BLOCK a Codex apply_patch source edit with no test", cwd=repo)
+        expect_hook(GUARD_TDD, json.dumps({"tool_name": "apply_patch", "tool_input": {"command": "*** Begin Patch\n*** Add File: src/foo.test.ts\n+test('x', () => {});\n*** Update File: src/foo.ts\n@@\n-a\n+b\n*** End Patch"}}),
+                    0, "must ALLOW a Codex apply_patch that adds a test alongside the source", cwd=repo)
+        expect_hook(GUARD_TDD, json.dumps({"tool_name": "Bash", "tool_input": {"command": "cat .saeed/TDD && ls .saeed"}}),
+                    0, "must ALLOW reading the sentinel", cwd=repo)
+        (repo / "tests").mkdir()
+        (repo / "tests" / "a b.py").write_text("x\n", encoding="utf-8")
+        expect_hook(GUARD_TDD, json.dumps({"tool_name": "Write", "tool_input": {"file_path": str(src_file)}}),
+                    0, "must count an untracked test whose path has a space (porcelain -z)", cwd=repo)
+
+# v1.18.0 audit regressions for the other guards. Every bypass below was
+# reproduced against the previous hooks (exit 0); the benign rows pin the
+# false-positive floor so a hardening pass cannot quietly start blocking
+# ordinary work.
+for cmd, rc, label in [
+    ('git commit -m "don\'t" --no-verify -m "won\'t"', 2, "--no-verify between apostrophe-bearing messages"),
+    ('git commit -m z --"no-verify"', 2, "a shell-quoted --no-verify"),
+    ("git commit --no-verif -m x", 2, "an abbreviated --no-verify"),
+    ("git commit -en -m x", 2, "-n inside a short-option cluster"),
+    ('git -c "core.hooksPath=/dev/null" commit -m x', 2, "a quoted -c core.hooksPath"),
+    ('git config "core.hooksPath" /dev/null', 2, "a quoted git config core.hooksPath"),
+    ("GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=core.hooksPath GIT_CONFIG_VALUE_0=/dev/null git commit -m x", 2,
+     "core.hooksPath via GIT_CONFIG_KEY_n"),
+    ("HUSKY=0 git commit -m x", 2, "HUSKY=0"),
+    ("git --config-env=core.hooksPath=HP commit -m x", 2, "--config-env core.hooksPath"),
+    ('git commit -m "don\'t skip -n or --no-verify"', 0, "flags mentioned inside a message"),
+    ("git commit -m -n", 0, "-n as the -m value"),
+    ("git commit -Snkey -m x", 0, "a glued -S key id containing n"),
+    ("git push -n origin main", 0, "push's -n (dry run)"),
+    ("git config --get core.hooksPath", 0, "reading core.hooksPath"),
+    ("git commit -m \"$(cat <<'EOF'\nfeat: it's done\nEOF\n)\"", 0, "a heredoc commit message"),
+]:
+    expect_hook(GUARD_GIT, json.dumps({"tool_name": "Bash", "tool_input": {"command": cmd}}), rc,
+                ("must BLOCK " if rc else "must ALLOW ") + label)
+
+with tempfile.TemporaryDirectory() as td:
+    (Path(td) / ".eslintrc.json").write_text("{}\n", encoding="utf-8")
+    for payload, rc, label in [
+        ({"tool_name": "Bash", "tool_input": {"command": "sed -i s/error/off/ .eslintrc.json"}}, 2, "sed -i on an existing lint config"),
+        ({"tool_name": "Bash", "tool_input": {"command": "echo '{}' > .eslintrc.json"}}, 2, "a redirect over an existing lint config"),
+        ({"tool_name": "apply_patch", "tool_input": {"command": "*** Begin Patch\n*** Update File: .ESLINTRC.JSON\n@@\n-a\n+b\n*** End Patch"}}, 2,
+         "a Codex apply_patch on a case-variant lint config"),
+        ({"tool_name": "Bash", "tool_input": {"command": "cat .eslintrc.json && npx eslint ."}}, 0, "reading and running the linter"),
+        ({"tool_name": "Bash", "tool_input": {"command": "cp .eslintrc.json /tmp/eslintrc.bak"}}, 0, "copying a lint config out (a read)"),
+        ({"tool_name": "Write", "tool_input": {"file_path": str(Path(td) / ".prettierignore")}}, 0, "creating a new ignore file"),
+    ]:
+        payload["cwd"] = td
+        expect_hook(GUARD_CFG, json.dumps(payload), rc, ("must BLOCK " if rc else "must ALLOW ") + label, cwd=td)
+
+_BAD = "نا" + "باد"
+for payload, rc, label in [
+    ({"tool_name": "Bash", "tool_input": {"command": f"echo {_BAD} > README.md # CHANGELOG.md"}}, 2,
+     "a write whose only exemption is a mentioned filename"),
+    ({"tool_name": "Write", "tool_input": {"file_path": "/x/NOTCHANGELOG.md", "content": _BAD}}, 2, "a suffix-lookalike of an exempt file"),
+    ({"tool_name": "Write", "tool_input": {"file_path": "/x/a.md", "content": "نابـ" + "ـاد"}}, 2, "a tatweel-padded banned form"),
+    ({"tool_name": "Write", "tool_input": {"file_path": "/x/a.md", "content": "نا‌" + "باد"}}, 2, "a zero-width-split banned form"),
+    ({"tool_name": "apply_patch", "tool_input": {"command": f"*** Begin Patch\n*** Add File: a.md\n+{_BAD}\n*** End Patch"}}, 2,
+     "a banned form added by a Codex apply_patch"),
+    ({"tool_name": "Bash", "tool_input": {"command": f"echo {_BAD} >> CHANGELOG.md"}}, 0, "writing the ban-list file itself"),
+]:
+    expect_hook(GUARD_ATTRIB, json.dumps(payload), rc, ("must BLOCK " if rc else "must ALLOW ") + label)
+
 
 # ---------------------------------------------------------------------------
 # Check 9 — Command & skill frontmatter (absorbed from ECC's validate-commands
@@ -1082,6 +1183,14 @@ else:
             )
     if capmap_refs == 0:
         fail(CHECK13, "docs/CAPABILITY-MAP.md: contains no resolvable agent-owner references at all")
+    # Reverse direction: every agent owns (or helps on) at least one row, so
+    # an agent with no capability is visible as a staffing question, not a
+    # silent pass (python-engineer / typescript-specialist had no row until
+    # v1.18.0 and this check stayed green).
+    named = set(BACKTICK_RE.findall(capmap_text))
+    for name in sorted(agent_names - named):
+        fail(CHECK13, f"agents/{name}.md appears nowhere in docs/CAPABILITY-MAP.md — give it a row "
+                      "or take the redundancy to hr-talent-lead")
 
 
 # ---------------------------------------------------------------------------
@@ -1217,6 +1326,82 @@ elif guard_canon_rel not in hook_scripts:
 
 
 # ---------------------------------------------------------------------------
+# Check 15 — Roster-table model parity (v1.18.0). Check 3 compares tallies,
+# so a single agent's tier restated wrongly in a roster table — the README
+# and CHEATSHEET said `opus` for the fable-tier team-orchestrator for three
+# releases — passed every gate. Every `| \`name\` | tier |` row must agree
+# with that agent's frontmatter, and each table must list every agent once.
+# ---------------------------------------------------------------------------
+CHECK15 = "15. Roster-table model parity"
+ROSTER_ROW_RE = re.compile(r"^\|\s*`([a-z0-9-]+)`\s*\|\s*(fable|opus|sonnet|haiku|inherit)\s*\|", re.M)
+agent_model = {}
+for f in agent_files:
+    fm_m = FRONTMATTER_RE.match(read(f))
+    mm = re.search(r"^model:\s*(\S+)\s*$", fm_m.group(1), re.M) if fm_m else None
+    if mm:
+        agent_model[f.stem] = mm.group(1)
+roster_rows = 0
+for rel in ("README.md", "docs/CHEATSHEET.md"):
+    path = repo_root / rel
+    if not path.exists():
+        fail(CHECK15, f"{rel} missing")
+        continue
+    seen = {}
+    for name, tier in ROSTER_ROW_RE.findall(read(path)):
+        roster_rows += 1
+        seen[name] = seen.get(name, 0) + 1
+        if name not in agent_model:
+            fail(CHECK15, f"{rel}: roster row names `{name}`, but agents/{name}.md does not exist")
+        elif tier != agent_model[name]:
+            fail(CHECK15, f"{rel}: roster says `{name}` runs on {tier}, frontmatter says {agent_model[name]}")
+    for name in sorted(agent_names):
+        if seen.get(name, 0) != 1:
+            fail(CHECK15, f"{rel}: `{name}` appears {seen.get(name, 0)} time(s) in the roster tables (expected 1)")
+
+
+# ---------------------------------------------------------------------------
+# Check 16 — Handoff reciprocity (v1.18.0). Check 5 proves every handoff name
+# resolves; nothing proved anyone hands work TO an agent. Four agents —
+# including lottie-engineer, "the mandatory owner of ALL Lottie work" — had
+# zero inbound handoffs, so no route from the rest of the team reached them.
+# Every agent must be named in at least one OTHER agent's Handoffs section.
+# ---------------------------------------------------------------------------
+CHECK16 = "16. Handoff reciprocity"
+inbound = {name: 0 for name in agent_names}
+for f in agent_files:
+    hm = HANDOFFS_SECTION_RE.search(read(f))
+    if not hm:
+        continue
+    for ref in set(BACKTICK_RE.findall(hm.group(1))):
+        if ref in inbound and ref != f.stem:
+            inbound[ref] += 1
+for name in sorted(n for n, c in inbound.items() if c == 0):
+    fail(CHECK16, f"agents/{name}.md: no other agent's Handoffs section names `{name}` — "
+                  "add the reciprocal handoff from the agents it hands work to")
+
+
+# ---------------------------------------------------------------------------
+# Check 17 — Codex layer sync (v1.18.0). codex/ and .codex-plugin/plugin.json
+# are GENERATED from agents/, commands/, skills/ and the Claude manifest by
+# scripts/gen-codex.sh; a hand-edit or a forgotten regeneration is drift.
+# ---------------------------------------------------------------------------
+CHECK17 = "17. Codex layer sync"
+gen_codex = repo_root / "scripts" / "gen-codex.sh"
+if not gen_codex.exists():
+    fail(CHECK17, "scripts/gen-codex.sh does not exist")
+else:
+    try:
+        proc = subprocess.run(["bash", str(gen_codex), "--check"], capture_output=True, text=True,
+                              timeout=120, cwd=repo_root)
+        if proc.returncode != 0:
+            detail = (proc.stdout + proc.stderr).strip().splitlines()
+            fail(CHECK17, "codex/ is out of sync with its sources — run scripts/gen-codex.sh"
+                          + (": " + "; ".join(detail[:6]) if detail else ""))
+    except (OSError, subprocess.TimeoutExpired) as e:
+        fail(CHECK17, f"scripts/gen-codex.sh --check could not run: {e}")
+
+
+# ---------------------------------------------------------------------------
 # Report
 # ---------------------------------------------------------------------------
 print("=" * 78)
@@ -1278,6 +1463,16 @@ else:
     print(f" 14. Attribution strings    — canon EN+AR intact; {attribution_files} Arabic credit")
     print(f"                              line(s) all name نبض; no transliterated form")
     print(f"                              outside the ban-list registry; guard hook wired")
+    print(f" 15. Roster model parity    — {roster_rows} README/CHEATSHEET roster rows match")
+    print(f"                              frontmatter; every agent listed once per table")
+    print(f" 16. Handoff reciprocity    — every agent is handed work by at least one other")
+    print(f" 17. Codex layer sync       — codex/ + .codex-plugin match scripts/gen-codex.sh")
+    skipped = [n_msg for n_msg in notes if "skipped" in n_msg]
+    if skipped:
+        print()
+        print(f"  Not verified on this checkout ({len(skipped)} clause(s) skipped — see the NOTE")
+        print(f"  lines above): the .saeed/* comparisons claimed in checks 1, 3, 7, 10 and 12")
+        print(f"  only run where the gitignored runtime state exists.")
     print("=" * 78)
     print("RESULT: PASS")
     print("=" * 78)
