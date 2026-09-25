@@ -76,7 +76,7 @@ below instead of applied.
   case-insensitive filesystem), with a timeout and a concurrency group.
 
 ### Added (operator decision, same release)
-- **`skills/app-hardening/SKILL.md` gains A1–A7, the gate for AI features the product ships**,
+- **`skills/app-hardening/SKILL.md` gains AI1–AI7, the gate for AI features the product ships**,
   distilled from the OWASP Top 10 for LLM Applications 2025 (LLM01, 05, 06, 07, 08, 10):
   untrusted content is data, authorization and retrieval filtering stay outside the model,
   least agency with confirmation on high-impact actions, model output validated and

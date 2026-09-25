@@ -106,7 +106,7 @@ same commit.
 | Embeddings & vector search | `vector-search-engineer` | hybrid retrieval, index tuning |
 | Classical/deep ML | `ml-engineer` | rigorous splits & metrics |
 | Bilingual NLP (Arabic/English) | `nlp-bilingual-specialist` | dialect/MSA, normalization |
-| Security of shipped AI features (prompt injection, untrusted retrieved content, tool/output validation) | `appsec-engineer` (`llm-engineer` and `rag-architect` apply it, `vector-search-engineer` for permission-aware stores) | `skills/app-hardening/SKILL.md` items A1–A7 (OWASP LLM Top 10 2025); gate: `appsec-engineer` |
+| Security of shipped AI features (prompt injection, untrusted retrieved content, tool/output validation) | `appsec-engineer` (`llm-engineer` and `rag-architect` apply it, `vector-search-engineer` for permission-aware stores) | `skills/app-hardening/SKILL.md` items AI1–AI7 (OWASP LLM Top 10 2025); gate: `appsec-engineer` |
 
 ## Delivery & Governance
 
