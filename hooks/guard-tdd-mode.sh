@@ -89,12 +89,26 @@
 # 'w')..."` — closing those would require real shell semantics this
 # heuristic layer does not have, so they remain an accepted residual gap.
 
-if [[ ! -f ".saeed/TDD" ]]; then
+# Fast path: no sentinel in this directory or any parent -> silent, zero
+# overhead (python3 is never invoked). Walking up means a session whose cwd
+# is a subdirectory of an opted-in repo is still covered.
+_dir="${PWD}"
+_found=""
+while [[ -n "${_dir}" ]]; do
+  if [[ -f "${_dir}/.saeed/TDD" ]]; then
+    _found=1
+    break
+  fi
+  [[ "${_dir}" == "/" ]] && break
+  _dir="$(dirname -- "${_dir}")"
+done
+if [[ -z "${_found}" ]]; then
   exit 0
 fi
 
 PY="$(command -v python3 || true)"
 if [[ -z "${PY}" ]]; then
+  echo "SAEED guard-tdd-mode: python3 not found; guard inactive (fail-open)." >&2
   exit 0
 fi
 
@@ -105,13 +119,20 @@ PAYLOAD="$(mktemp)"
 trap 'rm -f "${PAYLOAD}"' EXIT
 cat > "${PAYLOAD}" 2>/dev/null || true
 
-"${PY}" - "${PAYLOAD}" <<'PYEOF'
+"${PY}" - "${PAYLOAD}" "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/lib" <<'PYEOF'
+import fnmatch
 import json
 import os
 import re
-import shlex
 import subprocess
 import sys
+
+sys.path.insert(0, sys.argv[2] if len(sys.argv) > 2 else "")
+try:
+    from hookio import parse_apply_patch, patch_text, write_targets
+except ImportError:
+    print("SAEED guard-tdd-mode: hooks/lib/hookio.py missing — guard inactive.", file=sys.stderr)
+    sys.exit(0)
 
 
 def read_sentinel(path):
@@ -126,13 +147,19 @@ def read_sentinel(path):
     return None
 
 
-MODE = read_sentinel(".saeed/TDD")
-if MODE not in ("off", "advisory", "enforce"):
-    # Absent is handled by the bash fast-path above; garbage/unknown content
-    # in an existing file fails open the same way (never brick on a typo).
-    sys.exit(0)
-if MODE == "off":
-    sys.exit(0)
+def find_sentinel(start):
+    """Walk up from `start` to the first directory holding `.saeed/TDD`;
+    returns (repo_dir, sentinel_path) or (None, None)."""
+    d = os.path.abspath(start or ".")
+    while True:
+        cand = os.path.join(d, ".saeed", "TDD")
+        if os.path.isfile(cand):
+            return d, cand
+        parent = os.path.dirname(d)
+        if parent == d:
+            return None, None
+        d = parent
+
 
 try:
     with open(sys.argv[1], encoding="utf-8") as f:
@@ -142,6 +169,7 @@ except Exception:
 
 tool_name = data.get("tool_name") or ""
 tool_input = data.get("tool_input") or {}
+CWD = data.get("cwd") if isinstance(data.get("cwd"), str) and data.get("cwd") else os.getcwd()
 
 SOURCE_EXTS = {"ts", "tsx", "js", "jsx", "py", "swift", "kt", "java", "go", "rs", "rb"}
 
@@ -198,228 +226,165 @@ def logic_bearing(path):
 
 
 def is_sentinel_path(path):
-    norm = path.replace("\\", "/")
+    """`.saeed/TDD` or `.saeed/tdd-state*`, after normalization (so
+    `.saeed//TDD` and `.saeed/./TDD` count), case-insensitively (APFS and
+    NTFS resolve `.SAEED/tdd` to the same file), and glob-aware (`TD?`)."""
+    norm = os.path.normpath(path.replace("\\", "/")).replace("\\", "/")
     parts = norm.split("/")
     if len(parts) < 2:
         return False
-    parent, name = parts[-2], parts[-1]
-    if parent != ".saeed":
+    parent, name = parts[-2].lower(), parts[-1].lower()
+    if not fnmatch.fnmatchcase(".saeed", parent):
         return False
-    return name == "TDD" or name.startswith("tdd-state")
+    return (fnmatch.fnmatchcase("tdd", name) or name.startswith("tdd-state")
+            or fnmatch.fnmatchcase("tdd-state", name))
 
 
-def changeset_has_test_file():
+def is_sentinel_dir_removal(path):
+    """True if `path` names the `.saeed` directory itself (not a file
+    beneath it) — removing it takes the sentinel down along with it."""
+    norm = os.path.normpath(path.replace("\\", "/")).replace("\\", "/")
+    return fnmatch.fnmatchcase(".saeed", os.path.basename(norm).lower())
+
+
+def changeset_has_test_file(repo_dir):
     """Deterministic proxy: is any test file part of the pending change-set
     (working tree, per `git status`) in the target's repo? Returns True /
     False, or None when indeterminate (not a git repo) — indeterminate is
-    never treated as a violation."""
+    never treated as a violation. NUL-delimited porcelain, so a path with
+    spaces is not quoted and misread."""
     try:
         root = subprocess.run(
-            ["git", "rev-parse", "--show-toplevel"],
+            ["git", "-C", repo_dir, "rev-parse", "--show-toplevel"],
             capture_output=True, text=True, timeout=5,
         )
         if root.returncode != 0:
             return None
         top = root.stdout.strip()
         status = subprocess.run(
-            ["git", "status", "--porcelain", "--untracked-files=all"],
+            ["git", "status", "--porcelain", "-z", "--untracked-files=all"],
             capture_output=True, text=True, timeout=5, cwd=top,
         )
         if status.returncode != 0:
             return None
-        for line in status.stdout.splitlines():
-            entry_path = line[3:] if len(line) > 3 else ""
-            if " -> " in entry_path:
-                entry_path = entry_path.split(" -> ", 1)[1]
-            if entry_path and is_test_path(entry_path):
+        entries = status.stdout.split("\0")
+        i = 0
+        while i < len(entries):
+            entry = entries[i]
+            i += 1
+            if len(entry) < 4:
+                continue
+            xy, entry_path = entry[:2], entry[3:]
+            if "R" in xy or "C" in xy:
+                i += 1  # the rename/copy source follows as its own NUL field
+            if is_test_path(entry_path):
                 return True
         return False
     except Exception:
         return None
 
 
-def strip_quotes(tok):
-    tok = tok.strip()
-    if len(tok) >= 2 and tok[0] == tok[-1] and tok[0] in ("'", '"'):
-        return tok[1:-1]
-    return tok
+def block_tamper(what):
+    print(
+        f"BLOCKED: `{what}` targets the existing `.saeed/TDD` sentinel "
+        "(or a `.saeed/tdd-state*` file, or the `.saeed` directory itself) — "
+        "modifying, removing or overwriting it from a tool call is gate-weakening, "
+        "a SAEED untouchable. Ask the operator to edit the sentinel directly, "
+        "outside of tool calls, or park the request under '## Awaiting operator' "
+        "in .saeed/queue.md.",
+        file=sys.stderr,
+    )
+    sys.exit(2)
 
 
-def _tokenize(seg):
-    """Quote-aware split of a command segment into shell-word tokens. Falls
-    back to a naive whitespace split (with best-effort quote stripping) on
-    unbalanced-quote input rather than throwing the check away entirely —
-    this is a heuristic layer, not a shell, so it degrades, it doesn't trip."""
-    try:
-        return shlex.split(seg, posix=True)
-    except ValueError:
-        return [strip_quotes(t) for t in seg.split()]
+def verdict(msg, mode):
+    print(msg, file=sys.stderr)
+    if mode == "enforce":
+        sys.exit(2)
 
 
-def _first_word_after(seg, pos):
-    """The next shell word starting at seg[pos:], quote-aware. Used to pull
-    a redirection target: shlex parses the remainder so a quoted path
-    containing spaces stays one token instead of being cut at the first
-    space (the bug this rewrite fixes — this repo's own path has a space)."""
-    rest = seg[pos:]
-    toks = _tokenize(rest)
-    return toks[0] if toks else None
+def mode_for(start):
+    repo, sentinel = find_sentinel(start)
+    if not sentinel:
+        return None, None
+    m = read_sentinel(sentinel)
+    # Garbage/unknown content fails open the same way (never brick on a typo).
+    return (m if m in ("advisory", "enforce") else None), repo
 
 
-BYPASS_CMD_RE = re.compile(r"\b(echo|printf|sed|awk|gawk|perl|tee)\b")
-RM_CMD_RE = re.compile(r"\b(rm|unlink)\b")
-REDIRECT_RE = re.compile(r">>?")
-
-
-def segment_redirect_targets(seg):
-    """Every `>`/`>>` redirection target in one command segment, regardless
-    of which command issued it — quote-aware via _first_word_after."""
-    targets = []
-    for m in REDIRECT_RE.finditer(seg):
-        tgt = _first_word_after(seg, m.end())
-        if tgt:
-            targets.append(tgt)
-    return targets
-
-
-def find_bypass_targets(cmd):
-    """Best-effort: file-path targets a bypass command appears to write to
-    (redirection, tee's own args, or an in-place-edit tool's -i target).
-    Quote-aware throughout so a target path containing spaces is treated as
-    one token instead of being truncated at the first space."""
-    targets = []
-    for seg in re.split(r"&&|\|\||[;&\n|]", cmd):
-        seg = seg.strip()
-        if not seg or not BYPASS_CMD_RE.search(seg):
-            continue
-        targets.extend(segment_redirect_targets(seg))
-        toks = _tokenize(seg)
-        tee_m = re.match(r"^\s*tee\b", seg)
-        if tee_m:
-            tee_idx = next((i for i, t in enumerate(toks) if t == "tee"), None)
-            if tee_idx is not None:
-                for tok in toks[tee_idx + 1:]:
-                    if not tok.startswith("-") and ">" not in tok:
-                        targets.append(tok)
-        if re.search(r"\b(sed|perl|gawk|awk)\b", seg) and re.search(r"(^|\s)-i\b", seg):
-            for tok in reversed(toks):
-                if tok.startswith("-") or tok in ("sed", "perl", "gawk", "awk"):
-                    continue
-                targets.append(tok)
-                break
-    return targets
-
-
-def find_rm_removal_targets(cmd):
-    """Segments whose literal command word is `rm`/`unlink`: every non-flag
-    argument, quote-aware. Wrappers (`xargs rm`, `find -delete`, `sudo rm`,
-    `env rm`) are not recognized — documented residual gap, not silently
-    claimed as covered."""
-    targets = []
-    for seg in re.split(r"&&|\|\||[;&\n|]", cmd):
-        seg = seg.strip()
-        if not seg or not RM_CMD_RE.search(seg):
-            continue
-        toks = _tokenize(seg)
-        if not toks or os.path.basename(toks[0]) not in ("rm", "unlink"):
-            continue
-        for tok in toks[1:]:
-            if not tok.startswith("-"):
-                targets.append(tok)
-    return targets
-
-
-def is_sentinel_dir_removal(path):
-    """True if `path` names the `.saeed` directory itself (not a file
-    beneath it) — removing it takes the sentinel down along with it."""
-    norm = path.replace("\\", "/").rstrip("/")
-    return os.path.basename(norm) == ".saeed"
-
-
-def find_sentinel_tamper(cmd):
-    """NIT N3: sentinel tampering through Bash, not just Write/Edit. Only
-    two deterministic, effectively false-positive-free shapes are covered —
-    see the NIT N3 header note for what is intentionally NOT covered."""
-    for seg in re.split(r"&&|\|\||[;&\n|]", cmd):
-        seg = seg.strip()
-        if not seg:
-            continue
-        for tgt in segment_redirect_targets(seg):
-            if is_sentinel_path(tgt):
-                return tgt
-    for tgt in find_rm_removal_targets(cmd):
-        if is_sentinel_path(tgt) or is_sentinel_dir_removal(tgt):
-            return tgt
-    return None
+def check_file_write(file_path, exists_hint=None, extra_tests=()):
+    """Shared Write/Edit/apply_patch branch for one target file."""
+    abs_path = file_path if os.path.isabs(file_path) else os.path.join(CWD, file_path)
+    mode, repo = mode_for(os.path.dirname(abs_path))
+    if not mode:
+        return
+    if is_sentinel_path(abs_path):
+        exists = exists_hint
+        if exists is None:
+            try:
+                exists = os.path.lexists(abs_path)
+            except OSError:
+                exists = True  # can't inspect it -> fail closed for a sentinel name
+        if exists:
+            block_tamper(file_path)
+        return  # first-time creation of the sentinel is legitimate
+    if not logic_bearing(abs_path):
+        return
+    if any(is_test_path(t) for t in extra_tests):
+        return
+    if changeset_has_test_file(repo) is False:
+        verdict(
+            f"TDD-MODE ({mode}): editing logic-bearing `{os.path.basename(file_path)}` "
+            "with no added/modified test file in the pending change-set (git status). "
+            "TDD-mode expects tests to lead — add or extend a test alongside this change "
+            "(skills/engineering-method/SKILL.md judges the ordering nuance, not this hook).",
+            mode,
+        )
 
 
 if tool_name == "Bash":
     cmd = tool_input.get("command") or ""
     if not isinstance(cmd, str) or not cmd.strip():
         sys.exit(0)
-
-    # Detection 3 (sentinel tamper) applies in any mode except `off`, and
-    # `off` already exited above — so a hit here always blocks.
-    tamper_hit = find_sentinel_tamper(cmd)
-    if tamper_hit:
-        print(
-            f"BLOCKED: `{tamper_hit}` targets the existing `.saeed/TDD` sentinel "
-            "(or its `.saeed` parent directory) — removing or redirect-overwriting "
-            "it via a shell command is gate-weakening, the same channel this hook "
-            "exists to police. Ask the operator to edit the sentinel directly, "
-            "outside of tool calls.",
-            file=sys.stderr,
-        )
-        sys.exit(2)
-
-    hit = next((t for t in find_bypass_targets(cmd) if logic_bearing(t)), None)
-    if hit:
-        msg = (
-            f"TDD-MODE ({MODE}): `{hit}` looks like a bypass-channel write "
-            "(echo/printf/sed/awk/perl/tee) into logic-bearing source. These "
-            "circumvent the Write/Edit hooks so TDD-mode never sees the change — "
-            "use Write/Edit/MultiEdit instead (skills/engineering-method/SKILL.md)."
-        )
-        print(msg, file=sys.stderr)
-        if MODE == "enforce":
-            sys.exit(2)
+    mode, repo = mode_for(CWD)
+    if not mode:
+        sys.exit(0)
+    targets = write_targets(cmd)
+    # Detection 3 (sentinel tamper) blocks in any active mode.
+    for tgt, kind in targets:
+        if is_sentinel_path(tgt) or (kind == "remove" and is_sentinel_dir_removal(tgt)):
+            block_tamper(tgt)
+    # Detection 1: shell write channels into logic-bearing source.
+    for tgt, kind in targets:
+        if kind in ("redirect", "tee", "inplace") and logic_bearing(tgt):
+            verdict(
+                f"TDD-MODE ({mode}): `{tgt}` looks like a bypass-channel write "
+                "(redirection, tee, or an in-place sed/awk/perl edit) into logic-bearing "
+                "source. These circumvent the Write/Edit hooks so TDD-mode never sees the "
+                "change — use the editor tools instead (skills/engineering-method/SKILL.md).",
+                mode,
+            )
+            break
     sys.exit(0)
 
 elif tool_name in ("Write", "Edit", "MultiEdit"):
     file_path = tool_input.get("file_path") or ""
     if not isinstance(file_path, str) or not file_path.strip():
         sys.exit(0)
+    check_file_write(file_path)
+    sys.exit(0)
 
-    if is_sentinel_path(file_path):
-        try:
-            exists = os.path.lexists(file_path)
-        except OSError:
-            exists = True  # can't inspect it -> fail closed for a sentinel name
-        if exists:
-            print(
-                "BLOCKED: modifying the existing `.saeed/TDD` sentinel (or a "
-                "`.saeed/tdd-state*` file) while TDD-mode is active is gate-weakening — "
-                "a SAEED untouchable. Ask the operator to edit the sentinel directly, or "
-                "park the request under '## Awaiting operator' in .saeed/queue.md.",
-                file=sys.stderr,
-            )
-            sys.exit(2)
-        sys.exit(0)  # first-time creation of the sentinel is legitimate
-
-    if not logic_bearing(file_path):
+elif tool_name == "apply_patch":
+    # OpenAI Codex routes every file edit through apply_patch; its Write/Edit
+    # matchers are aliases for it and the patch text arrives as a command.
+    text = patch_text(tool_input)
+    if not text.strip():
         sys.exit(0)
-
-    has_test = changeset_has_test_file()
-    if has_test is False:
-        msg = (
-            f"TDD-MODE ({MODE}): editing logic-bearing `{os.path.basename(file_path)}` "
-            "with no added/modified test file in the pending change-set (git status). "
-            "TDD-mode expects tests to lead — add or extend a test alongside this change "
-            "(skills/engineering-method/SKILL.md judges the ordering nuance, not this hook)."
-        )
-        print(msg, file=sys.stderr)
-        if MODE == "enforce":
-            sys.exit(2)
+    recs = parse_apply_patch(text)
+    tests = [pth for pth, op, _ in recs if op != "delete"]
+    for pth, op, _ in recs:
+        check_file_write(pth, exists_hint=True if op in ("update", "delete") else None,
+                         extra_tests=tests)
     sys.exit(0)
 
 else:

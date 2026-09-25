@@ -11,6 +11,13 @@ REPO="${1:-$(pwd)}"
 MAX_CYCLES="${2:-50}"
 SLEEP_SECONDS="${3:-0}"
 
+for _n in "$MAX_CYCLES" "$SLEEP_SECONDS"; do
+  if [[ ! "$_n" =~ ^[0-9]+$ ]]; then
+    echo "saeed-loop: max_cycles and sleep_seconds must be whole numbers (got '$_n')." >&2
+    exit 64
+  fi
+done
+
 cd "$REPO"
 mkdir -p .saeed
 
