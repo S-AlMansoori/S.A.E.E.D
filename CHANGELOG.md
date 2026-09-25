@@ -91,7 +91,9 @@ below instead of applied.
 
 ### Operator decisions recorded
 - **MS-1 re-tier: declined.** Operator: "opus currently beats fable". No agent moves to Fable.
-  The standing re-tier question is closed until a model release changes that comparison.
+  `team-orchestrator` alone stays on Fable by explicit operator decision ("keep only
+  orchestrator as fable for now"). Every other heavy-reasoning role stays on Opus. The standing
+  re-tier question is closed until a model release changes that comparison.
 - **Roster redundancy review: delegated to the team, decided "keep and wire".**
   `python-engineer`, `typescript-specialist` and `prompt-engineer` stay. The first two now have
   inbound handoffs and capability-map rows. Revisit trigger: usage evidence (the retro shows one
