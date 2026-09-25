@@ -52,6 +52,7 @@ A visual spec: type scale, color roles, spacing system, and per-screen direction
 - `frontend-engineer` — to implement.
 - `accessibility-specialist` — to confirm contrast.
 - `design-reviewer` — the design-excellence gate a user-facing change must pass before it is DONE.
+- `lottie-engineer` — to realize motion direction in a Lottie asset.
 
 ## Guardrails
 

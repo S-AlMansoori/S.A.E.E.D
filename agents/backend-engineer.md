@@ -48,6 +48,8 @@ Typed, validated, observable server code with tests and clear error semantics.
 - `database-architect` — for schema/migration needs.
 - `api-designer` — if the contract must change.
 - `appsec-engineer` — for a security pass on sensitive paths.
+- `python-engineer` — Python/FastAPI service internals, async correctness, and packaging.
+- `typescript-specialist` — shared contract types and advanced type modeling on the TypeScript side.
 
 ## Guardrails
 

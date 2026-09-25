@@ -25,8 +25,13 @@ Keep the fleet coherent:
 ## Workflow
 
 1. Fork and branch.
-2. Add/edit agents or commands. If you add an agent, update the roster table in `README.md`
-   (or regenerate it).
+2. Add/edit agents or commands. If you add or retire an agent, update every surface that
+   restates the roster: the README badge and roster table, both `.claude-plugin/*.json`
+   descriptions, `docs/WHAT-IS-SAEED.md` and `docs/CHEATSHEET.md` (EN + AR, incl. Arabic
+   numerals), `docs/what-is-saeed.html` (donut + division bars), and give it an owner row in
+   `docs/CAPABILITY-MAP.md`. It also needs at least one inbound handoff from another agent.
+   After editing `agents/`, `commands/` or `skills/`, run `scripts/gen-codex.sh` to regenerate
+   the Codex layer (`codex/`, see [docs/CODEX.md](docs/CODEX.md)).
 3. Test locally: `/plugin marketplace add ./` then `/plugin install saeed@saeed-marketplace`,
    restart, and try the agent on a real task.
 4. Bump `version` in `.claude-plugin/plugin.json` (semver: patch for fixes, minor for new
@@ -34,7 +39,7 @@ Keep the fleet coherent:
 5. Run `scripts/validate-fleet.sh` and make sure it exits 0. This is the executable
    fleet-consistency gate: it checks roster-count agreement across the README, manifests, and
    EN+AR docs (incl. Arabic numerals and the SVG badge), agent frontmatter (`name`/`description`/
-   `model`, `name` matching the filename), the opus/sonnet tallies vs `.saeed/models.md`, JSON
+   `model`, `name` matching the filename), the fable/opus/sonnet tallies vs `.saeed/models.md`, JSON
    validity, that every `Handoffs` reference resolves, the hook contract (guardrail hooks must
    block bypass payloads and pass benign ones — smoke-tested with real stdin), command/skill
    frontmatter, and the attribution-string canon (check 14: the Arabic company name is `نبض`,

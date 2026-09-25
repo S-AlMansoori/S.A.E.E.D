@@ -57,6 +57,7 @@ Working native screens with navigation, offline sync, XCTest coverage, and App S
 - `qa-automation-engineer` — for device test coverage.
 - `devops-platform-engineer` — hand off CI/CD automation of App Store builds & signing (you own the build recipe/notes, they own the pipeline).
 - `design-reviewer` / `accessibility-specialist` — for the design and a11y gates.
+- `lottie-engineer` — lottie-ios assets and player behavior.
 
 ## Guardrails
 

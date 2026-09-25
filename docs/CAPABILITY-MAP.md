@@ -56,6 +56,8 @@ same commit.
 | Error handling & logging | `backend-engineer` | `skills/app-hardening/SKILL.md` rules 8, 10 |
 | Realtime & event-driven features | `realtime-engineer` | delivery/ordering guarantees in scope |
 | Data pipelines / ETL | `data-engineer` | provenance-tagged ingestion, `skills/orchestration-protocol/SKILL.md` |
+| Python services & tooling (FastAPI, async, packaging) | `python-engineer` (`backend-engineer` for cross-language service concerns) | typed + tested; no blocking calls in async paths |
+| Advanced TypeScript type modeling (generics, unions, no `any`) | `typescript-specialist` (`api-designer` for shared contract types) | illegal states unrepresentable; `any` only with written justification |
 
 ## Infrastructure & Operations
 
@@ -104,6 +106,7 @@ same commit.
 | Embeddings & vector search | `vector-search-engineer` | hybrid retrieval, index tuning |
 | Classical/deep ML | `ml-engineer` | rigorous splits & metrics |
 | Bilingual NLP (Arabic/English) | `nlp-bilingual-specialist` | dialect/MSA, normalization |
+| Security of shipped AI features (prompt injection, untrusted retrieved content, tool/output validation) | `appsec-engineer` (`llm-engineer` and `rag-architect` apply it) | **doctrine gap, parked for operator:** `skills/app-hardening/SKILL.md` excludes it and `skills/agentic-security/SKILL.md` covers only the team's own runs; until a canon rule lands, apply agentic-security's prompt-defense baseline to the product and gate via `appsec-engineer` |
 
 ## Delivery & Governance
 
@@ -119,3 +122,11 @@ same commit.
 | Inter-agent formats & prompt craft | `prompt-engineer` | shared brief/ticket templates |
 | Model currency | `model-scout` | `.saeed/models.md`, verified availability |
 | Self-governance without a lead | `self-eval-critic` (conscience) + doctrine | `skills/self-governance/SKILL.md` |
+| Capability-first handover (automate before asking the user) | `the-boss` (DoD check) | `skills/handover-protocol/SKILL.md` |
+| Context, compaction & memory discipline | `team-orchestrator` (`continuous-improvement-lead` curates instincts) | `skills/context-discipline/SKILL.md` |
+| Workspace housekeeping (git hygiene, two-copies sync) | `continuous-improvement-lead` | `skills/repo-housekeeping/SKILL.md` |
+| Codex compatibility layer (generated agents/skills) | `devops-platform-engineer` | `scripts/gen-codex.sh`; gate: validator Check 17 |
+
+
+SAEED · سعيد — a product of **NABAD Computer Solutions L.L.C.** · نبض لحلول الكمبيوتر ذ.م.م.
+SAEED Non-Commercial License 1.0 · © 2026 Saeed AlMansoori / NABAD.

@@ -74,6 +74,7 @@ You don't call these; the agents consult them on the right kind of work.
 | `CONVERGED` | Appears when there's nothing worthwhile left to improve (with the reasons + reopen triggers). |
 | `STOP` | You create this to halt the loop. Delete it to resume. |
 | `AUTONOMY` | Autonomy level: absent/`supervised` = self-modification waits for (or parks for) you; `autonomous` = the team lands it unattended, gated + logged. |
+| `TDD` | You create this to opt the repo into TDD mode: `off` / `advisory` / `enforce` (absent = off). A guardrail hook enforces it. |
 
 ## 👥 The 55 specialists — call any of them by name
 
@@ -82,7 +83,7 @@ You don't call these; the agents consult them on the right kind of work.
 | Agent (call by name) | Model | Use when… |
 |---|---|---|
 | `the-boss` | opus | you want work assigned, chased, and signed off — no excuses. |
-| `team-orchestrator` | opus | a job has many parts and needs planning + routing. |
+| `team-orchestrator` | fable | a job has many parts and needs planning + routing. |
 | `hr-talent-lead` | sonnet | the project needs a capability no current specialist covers (staffing/hire). |
 | `roster-maintainer` | sonnet | the team needs a new agent authored, merged, or retired. |
 | `model-scout` | sonnet | you want the team moved onto better/newer AI models. |
@@ -256,6 +257,7 @@ scripts/saeed-loop.sh /path/to/your/repo 50 0
 | `CONVERGED` | يظهر عند انتهاء التحسينات المجدية (مع الأسباب ومحفّزات إعادة الفتح). |
 | `STOP` | تنشئه أنت لإيقاف الحلقة. احذفه للاستئناف. |
 | `AUTONOMY` | مستوى الاستقلالية: غائب/`supervised` = تعديل الفريق لنفسه ينتظر موافقتك (أو يُركَن لحين عودتك)؛ `autonomous` = يُنفَّذ تلقائياً عبر البوابات ومع التسجيل. |
+| `TDD` | تنشئه أنت لتفعيل وضع التطوير المقاد بالاختبارات في المستودع: `off` / `advisory` / `enforce` (غيابه = إيقاف). يفرضه خطّاف حماية. |
 
 > القائمة الكاملة للمتخصصين الـ٥٥ موجودة في الجدول الإنجليزي أعلاه؛ ويمكنك مناداة أيٍّ منهم
 > باسمه مباشرةً.

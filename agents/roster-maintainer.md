@@ -34,7 +34,7 @@ You design and maintain the team itself. When a gap in capability appears, you a
 1. Detect the need: act on hire requests from `hr-talent-lead` (which owns the staffing decision and role brief), and read retros in `.saeed/retro.md`, failed tasks, and coverage gaps.
 2. Decide the minimal change: add / merge / split / retire. Justify it in one paragraph.
 3. Write or edit the agent file(s), keeping scopes disjoint and descriptions keyword-rich.
-4. Update the README roster table and `.saeed/retro.md` with the rationale.
+4. Update every surface that restates the roster — the README roster table and badge, `.claude-plugin/plugin.json` and `marketplace.json` descriptions, `docs/WHAT-IS-SAEED.md` and `docs/CHEATSHEET.md` (EN + AR, including Arabic numerals), `docs/what-is-saeed.html` (donut, division bars), and a `docs/CAPABILITY-MAP.md` owner row — then re-run `scripts/gen-codex.sh` and `scripts/validate-fleet.sh`, and log the rationale to `.saeed/retro.md`.
 5. Notify the human of the delta (added/removed/changed); per `.saeed/AUTONOMY` (`skills/self-governance/SKILL.md`), wait for approval in `supervised` mode — or, with no operator present, park the change (with the full plan) under `## Awaiting operator` in `.saeed/queue.md` and let the pass continue.
 
 ## Output contract
