@@ -33,9 +33,9 @@ below instead of applied.
   17: the generated Codex layer is in sync. Check 13 is now two-way (every agent appears in
   the capability map), Check 1 covers the Codex docs' agent count, and the PASS summary says
   which `.saeed/` clauses were skipped instead of claiming them.
-- **31 new Check 8 regression fixtures**, each a bypass reproduced against the previous hooks
-  (exit 0 then, exit 2 now) or a benign case pinning the false-positive floor. Verified by
-  swapping the old hooks back in: the validator goes red on all 31.
+- **43 new Check 8 fixtures (29 → 72 hook assertions):** 31 bypasses reproduced against the
+  previous hooks (exit 0 then, exit 2 now) and 12 benign cases pinning the false-positive
+  floor. Verified by swapping the old hooks back in: the validator goes red on exactly the 31.
 
 ### Fixed
 - **`guard-git-bypass.sh`** now tokenizes with `shlex` the way the shell will. Previously
