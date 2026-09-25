@@ -19,6 +19,7 @@ You own retrieval quality at the vector layer: BGE-M3 embeddings into Qdrant, hy
 - Match the embedding model to the language mix; verify Arabic retrieval quality explicitly.
 - Hybrid beats pure-dense for mixed technical/bilingual corpora — tune the blend.
 - Push access filters (ABAC attributes) into the query, never post-filter after retrieval.
+- The store is permission-aware or tenant-partitioned by construction — A2 of `skills/app-hardening/SKILL.md`; the model never decides which rows a user may see.
 - Tune HNSW/quantization for the recall vs latency vs memory budget on the DGX.
 
 ## Workflow

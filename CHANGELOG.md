@@ -75,19 +75,27 @@ below instead of applied.
 - CI runs the gate on `ubuntu-latest` and `macos-latest` (bash 3.2, BSD userland,
   case-insensitive filesystem), with a timeout and a concurrency group.
 
-### Awaiting operator (parked, not applied)
-- **MS-1, model re-tier:** doctrine reads as top tier for architecture/security/RAG design and
-  the boss. Literally applied, `the-boss`, `principal-architect`, `security-architect` and
-  `rag-architect` move opus → fable, and `ai-systems-engineer` sonnet → opus. Fable 5.1 is 2.5×
-  Opus 5.5's price; no evidence yet that these roles fail on Opus. No `model:` value changed —
-  all three aliases are valid and track Fable 5.1 / Opus 5.5 / Sonnet 5.
-- **AI-feature security canon:** no doctrine owns prompt injection, untrusted retrieved content,
-  or tool/output validation *in the product* (app-hardening excludes it; agentic-security covers
-  the team's own runs). A capability-map row now names the gap and interim owner; authoring the
-  rule is a material canon change under `skills/canon-craft/SKILL.md` and owes an eval.
-- **Roster redundancy review** for `python-engineer`, `typescript-specialist` and
-  `prompt-engineer` (overlap with backend/frontend and llm-engineer/agent-optimizer). No usage
-  data exists to justify a retirement, so they were wired in rather than cut.
+### Added (operator decision, same release)
+- **`skills/app-hardening/SKILL.md` gains A1–A7, the gate for AI features the product ships**,
+  distilled from the OWASP Top 10 for LLM Applications 2025 (LLM01, 05, 06, 07, 08, 10):
+  untrusted content is data, authorization and retrieval filtering stay outside the model,
+  least agency with confirmation on high-impact actions, model output validated and
+  context-encoded (off-allowlist links and images stripped as exfiltration channels), no
+  secrets in the system prompt, bounded consumption, and a shipped direct + indirect injection
+  eval. Plus the product-side twin of agentic-security's trifecta rule. The "seventeen-point"
+  gate is unchanged. The A-items sit beside it, the same way the legal items do. Consult lines
+  were added to `llm-engineer`, `rag-architect` and `vector-search-engineer`, and the
+  capability-map row that named the gap now names the rule. Light eval per
+  `skills/canon-craft/SKILL.md` (independent coherence pass + one cold trigger smoke on an
+  `llm-engineer` task); evidence summarized in the PR.
+
+### Operator decisions recorded
+- **MS-1 re-tier: declined.** Operator: "opus currently beats fable". No agent moves to Fable.
+  The standing re-tier question is closed until a model release changes that comparison.
+- **Roster redundancy review: delegated to the team, decided "keep and wire".**
+  `python-engineer`, `typescript-specialist` and `prompt-engineer` stay. The first two now have
+  inbound handoffs and capability-map rows. Revisit trigger: usage evidence (the retro shows one
+  of them never routed to across three cycles), not scope overlap on paper.
 
 ## 1.17.0 - 2026-09-11
 

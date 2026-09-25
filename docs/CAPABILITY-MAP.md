@@ -106,7 +106,7 @@ same commit.
 | Embeddings & vector search | `vector-search-engineer` | hybrid retrieval, index tuning |
 | Classical/deep ML | `ml-engineer` | rigorous splits & metrics |
 | Bilingual NLP (Arabic/English) | `nlp-bilingual-specialist` | dialect/MSA, normalization |
-| Security of shipped AI features (prompt injection, untrusted retrieved content, tool/output validation) | `appsec-engineer` (`llm-engineer` and `rag-architect` apply it) | **doctrine gap, parked for operator:** `skills/app-hardening/SKILL.md` excludes it and `skills/agentic-security/SKILL.md` covers only the team's own runs; until a canon rule lands, apply agentic-security's prompt-defense baseline to the product and gate via `appsec-engineer` |
+| Security of shipped AI features (prompt injection, untrusted retrieved content, tool/output validation) | `appsec-engineer` (`llm-engineer` and `rag-architect` apply it, `vector-search-engineer` for permission-aware stores) | `skills/app-hardening/SKILL.md` items A1–A7 (OWASP LLM Top 10 2025); gate: `appsec-engineer` |
 
 ## Delivery & Governance
 

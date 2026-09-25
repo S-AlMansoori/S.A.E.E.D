@@ -1,6 +1,6 @@
 ---
 name: app-hardening
-description: SAEED's absorbed product-hardening canon — the seventeen-point pre-ship gate: rate limiting, server-only secrets, RLS, input validation, deny-by-default access, route auth, generic errors, locked admin, attack logging, IDOR, real logout, safe uploads, verified webhooks, centralized authz, data-model ownership — plus the EULA/DMCA legal items and the change-level review. Defends the product; `skills/agentic-security/SKILL.md` defends the team.
+description: SAEED's product-hardening canon — the seventeen-point pre-ship gate (rate limits, server-only secrets, RLS, validated input, deny-by-default, route auth, IDOR, logout, uploads, webhooks, centralized authz), the A1–A7 gate for shipped AI features (prompt injection, model-free authz, least agency, output handling), EULA/DMCA items, and the change-level review. Defends the product; `skills/agentic-security/SKILL.md` defends the team.
 ---
 
 # SAEED App Hardening — the absorbed pre-ship gate
@@ -187,6 +187,58 @@ legal determination goes to qualified counsel.
   binds (the same activation shape as the Scope section's HTTP-listener
   clause).
 
+## Shipped AI features (A1–A7, the LLM companion gate)
+
+Binds when the product itself calls a model: a chat or assistant, RAG
+answers, summarization of user content, or an agent that uses tools on a
+user's behalf. Where no model call ships, record the N/A. The seventeen
+points still apply to every route around the model; these seven cover the
+model boundary, which they don't. Each item traces to the OWASP Top 10
+for LLM Applications 2025 (IDs in brackets).
+
+1. **(A1) Untrusted content is data, never instructions** [LLM01, LLM08].
+   Retrieved chunks, fetched pages, uploaded files, tool results and email
+   bodies enter the prompt marked as untrusted and segregated from the
+   system instructions. Recognize: user or retrieved text concatenated into
+   the system prompt. Refuse it. The team's own version of this rule is the
+   prompt-defense baseline in `skills/agentic-security/SKILL.md`; this item
+   applies the same stance to the product.
+2. **(A2) The model never decides authorization** [LLM06 complete
+   mediation, LLM07, LLM08]. Every tool call executes in the requesting
+   user's context through the same central check as item 16. Retrieval is
+   filtered by the user's permissions *before* anything reaches the model,
+   so the vector store is tenant-partitioned or permission-aware. Recognize:
+   "the prompt tells it to only show the user's own records". That is a
+   request, not a control. Refuse it.
+3. **(A3) Least agency** [LLM06, LLM01]. Give the model the fewest,
+   narrowest tools, never an open-ended one ("run SQL", "run a shell
+   command", "fetch any URL"). Tool credentials are least-privilege and held
+   in code, never in the prompt. Any action that sends, pays, deletes,
+   publishes or changes permissions needs explicit user confirmation.
+4. **(A4) Model output is untrusted input** [LLM05]. Validate structured
+   output against a schema before acting on it. Encode for the context it
+   lands in: rendered Markdown/HTML is sanitized, SQL is parameterized, and
+   output is never passed to `eval`, a shell or a template engine. Links and
+   images pointing off an allowlist are stripped, because a rendered image
+   URL is an exfiltration channel.
+5. **(A5) Assume the system prompt leaks** [LLM07]. No secret, key,
+   internal hostname or permission logic lives in it. Any behaviour that
+   matters for security is enforced outside the model.
+6. **(A6) Bounded consumption** [LLM10]. Input size caps, `max_tokens`,
+   request timeouts and a per-user or per-tenant token budget, on top of
+   item 1's rate limit. Tool calls are logged under item 10.
+7. **(A7) Injection is tested, not hoped against** [LLM01 adversarial
+   testing]. The feature ships with an injection eval: a direct attack in the
+   user turn, plus an indirect one planted in a retrieved document or tool
+   result. The eval asserts that no unauthorized tool call, cross-tenant
+   read or off-allowlist link comes out. It runs with the feature's other
+   evals.
+
+The trifecta rule in `skills/agentic-security/SKILL.md` has a product-side
+twin. A feature that combines private data, untrusted content and an
+outbound channel (links, images, email, webhooks) must break one leg by
+design, not by instructions in the prompt.
+
 ## The change-level security review
 
 The seventeen-point gate is the pre-ship snapshot; a pending diff gets a security
@@ -217,6 +269,7 @@ paragraph is the pointer, not a second copy.
 - [ ] (15) Every resource layer — routes, buckets, RPCs, flags, scopes — is deny-by-default, not only tables.
 - [ ] (16) Authorization runs through one central layer; no endpoint hand-rolls its own copy of an existing check.
 - [ ] (17) Every user-/tenant-scoped table carries its owner as a real column + FK the policies bind to.
+- [ ] (A1–A7) Model-calling features: untrusted content segregated, authz and retrieval filtering outside the model, least agency with confirmation on high-impact actions, output validated and encoded, no secrets in the system prompt, bounded consumption, and a shipped injection eval — or the N/A recorded.
 - [ ] (L1) A EULA exists and is reachable from the product before ship.
 - [ ] (L2) UGC-accepting apps publish a DMCA policy with a working claims process; no-UGC apps record the N/A.
 - [ ] N/A claims name the reason (no network/UI surface; no UGC for L2) rather than silently skipping.
@@ -236,15 +289,17 @@ gate 5, consumed by `the-boss`'s Definition of Done.
   `sre-observability-engineer` (item 10 instrumentation),
   `cloud-infra-engineer` (item 9 network lockdown),
   `compliance-privacy-engineer` (legal items L1–L2, advisory register —
-  its verdict feeds the same pre-ship gate).
+  its verdict feeds the same pre-ship gate), `llm-engineer` (A1, A3–A7),
+  `rag-architect` and `vector-search-engineer` (A1–A2 retrieval).
 - **Gate:** `appsec-engineer`'s pre-ship verdict, escalated from
   Verification Protocol gate 5 (`skills/verification-protocol/SKILL.md`);
   a red verdict blocks ship until fixed or an explicit N/A with reason.
 - **Deliberate exclusions:** work with no network or UI surface (see
-  Scope); the agent-layer threat model (prompt injection, the unattended
-  trifecta, secrets *response*) — that is
-  `skills/agentic-security/SKILL.md`'s, cross-referenced above, never
-  restated here; RLS/table-permission authoring depth — that is
+  Scope); the threat model for the *team's own* runs (prompt injection
+  against SAEED's agents, the unattended trifecta, secrets *response*) —
+  that is `skills/agentic-security/SKILL.md`'s, cross-referenced above,
+  never restated here (A1–A7 cover the model boundary *the product*
+  ships); RLS/table-permission authoring depth — that is
   `skills/supabase-craft/SKILL.md`'s.
 
 ## Attribution
@@ -258,3 +313,7 @@ Ryan Naghibzadeh), items L1–L2 (source preserved in
 `.saeed/tasks/cycle-10/sources/`). When the
 `anthropic-skills:securitymaxxing` session skill is installed, prefer
 invoking it for full depth; this file guarantees the standard when it is not.
+Items A1–A7 distill the OWASP Top 10 for LLM Applications 2025
+(genai.owasp.org/llm-top-10), specifically the prevention and mitigation
+lists of LLM01, LLM05, LLM06, LLM07, LLM08 and LLM10, as fetched on
+2026-09-25. They were added at the operator's direction in v1.18.0.
