@@ -119,3 +119,4 @@ same commit.
 | Inter-agent formats & prompt craft | `prompt-engineer` | shared brief/ticket templates |
 | Model currency | `model-scout` | `.saeed/models.md`, verified availability |
 | Self-governance without a lead | `self-eval-critic` (conscience) + doctrine | `skills/self-governance/SKILL.md` |
+| Operator directives — classification, dated supersession, project scoping | `team-orchestrator` (`product-engineer` at intake, `continuous-improvement-lead` proposes absorbed-tip rows) | `skills/operator-canon/SKILL.md`; `the-boss` DoD |

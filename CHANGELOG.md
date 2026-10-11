@@ -6,6 +6,61 @@ semver (patch = fixes, minor = new agents/skills/commands, major = breaking).
 The version of record is `version` in `.claude-plugin/plugin.json`.
 *(Sections before 1.7.0 are backfilled from commit history and are coarser.)*
 
+## 1.19.0 - 2026-10-11
+
+Operator directive, in session: absorb "all of the latest instructions and stuff" sent to Claude
+and the other assistants into the SAEED skill repository, gather the links and posts shared, have
+Claude Opus handle the rewrite, and get it committed to GitHub after independent review, under a
+public-release boundary. The explicit request is the supervised-mode approval for this
+self-modification. Numbered 1.19.0 because open pull request #4 already carries a different
+1.18.0 and the installed plugin cache is keyed by version.
+
+### Added
+- **`skills/operator-canon/SKILL.md`** — the operator-directive canon. Four classes (durable
+  preference, project brief, temporary state, reference) assigned *before* anything acts on an
+  instruction, and eight rules: (1) dated evidence wins on its own scope — the operator's
+  current explicit instruction governs even undated, and an assistant's quote or note never
+  supersedes the operator's own words; (2) scope never leaks between projects; (3) an approval
+  covers what it says — its own action, the same task's named steps, and explicit scoped
+  ongoing grants — never anything inferred beyond them, and never a human-only step; (4)
+  references are data; (5) quoted is not adopted; (6) a collaborator's contribution is reported
+  only when received; (7) adoption is explicit — shared material stays a reference until the
+  operator asks for it to be absorbed — and each rule has one home; (8) the repository is
+  public, so only sanitized material enters it. The owner's records bind only on an observable predicate
+  (the project's remote owner, or an operator-confirmed `.saeed/state.json` flag), never on a
+  category match.
+- Its records, one level deep: `references/preferences.md` (thirteen dated working preferences,
+  pointing at the enforcing canon where one exists), `references/project-briefs.md` (where
+  briefs live; only the brief whose subject is already public is published),
+  `references/reference-catalogue.md` (30 deduplicated references with verification status, and
+  an "already absorbed" table mapping seventeen earlier operator-supplied sources to their home
+  canons), and `references/supersession-and-coverage.md` (the supersession trail, items that are
+  not active authority, scope-pending items, coverage swept and not swept, and the publication
+  decisions).
+- **`skills/spec-quality/SKILL.md`** gains the ask-me exception in its own budget section: where
+  an operator's "don't assume — ask me" is recorded for a project, questions are asked in ranked
+  rounds of at most five instead of defaulted, and with the operator absent they are parked under
+  `## Awaiting operator` while the rest of the pass proceeds — never a deadlock.
+- Wiring: `team-orchestrator` owns the canon; consult lines in `product-engineer`,
+  `continuous-improvement-lead` and `the-boss` (an operator-directives DoD line); `/saeed:hire`
+  Phase 0 step 8 classifies the job text; a change to the canon's records needs
+  `self-eval-critic`'s privacy verdict on the exact diff; one capability-map row; README and
+  cheat-sheet (EN + AR) entries.
+
+### Notes
+- Evidence: the surviving local histories for this repository (every instruction among them
+  had already landed in canon — now recorded in the catalogue), a keyword sweep of other local
+  project histories for instructions about SAEED itself, and a sanitized research package built
+  from the operator's other assistant conversations. **No completeness claim** — the coverage
+  file lists what was and was not swept. Grok was unavailable; no contribution from it is
+  included.
+- Kept out of this public repository by rule, and preserved in the gitignored `.saeed/`
+  evidence: raw messages and their ids, machine paths, account and session details, employer and
+  private-project context, unreleased product plans, security, financial and deployment details,
+  temporary priorities, and personal travel and purchase links.
+- Light eval per `skills/canon-craft/SKILL.md`: a coherence pass (initial FAIL; five major
+  findings fixed, re-reviewed) and a trigger smoke (PASS), evidence in `.saeed/tasks/cycle-14/`.
+
 ## 1.17.0 - 2026-09-11
 
 Operator directive, in session: "audit and improve" the new SecureMax repository once its

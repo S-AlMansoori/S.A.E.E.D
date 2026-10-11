@@ -33,7 +33,7 @@ each tier binds *in this canon* is:
   a ticket happens to exist for it.
 
 **The budget never parks a task for an absent operator.** An unanswered clarification question
-becomes an **informed default**, recorded in the spec's Assumptions section — never a stalled spec.
+(outside the ask-me exception in the budget section) becomes an **informed default**, recorded in the spec's Assumptions section — never a stalled spec.
 Park only a true scope blocker: a decision with no reasonable default, no informed guess, and
 material impact on scope or on security/privacy — and park it under the `## Awaiting operator`
 convention (`skills/self-governance/SKILL.md`) with the exact blocking question, never by silent
@@ -79,7 +79,8 @@ is not — skip the question, note the assumption.
 ## The clarification budget (at most 5 questions)
 
 - **Hard cap: 5 questions total** for the whole spec, ranked by **Impact × Uncertainty**. When more
-  than five categories are open, keep only the top five.
+  than five categories are open, keep only the top five. (The ask-me exception below replaces the
+  total with five per round.)
 - **Priority order when ranking ties: scope > security/privacy > UX > technical.** A security
   unknown always outranks a UX preference.
 - **Every question is answerable in one of two shapes**: a multiple-choice table (2–5 mutually
@@ -90,6 +91,13 @@ is not — skip the question, note the assumption.
 - **Everything below the cut line becomes an informed default**, written into the spec's
   **Assumptions** section, never silently assumed and never left as an open question nobody
   answers.
+- **Exception — an ask-me directive is recorded.** When the project's own spec or `.saeed/`
+  record, or its brief under `skills/operator-canon/SKILL.md`, records the operator's "don't
+  assume — ask me" (or "interview me") for this project, nothing is defaulted: the questions are
+  asked in ranked rounds of at most five, further rounds allowed until the material unknowns are
+  answered. With the operator absent, they are parked under `## Awaiting operator` with their
+  exact text, nothing is defaulted in their place, and the pass proceeds on the work that does
+  not depend on them — still never a deadlock.
 
 ## Answer integration — edit in place, never append-only
 
@@ -207,7 +215,9 @@ sub-spec's path — a plain-text, grep-able, bidirectional convention, no new to
 
 - [ ] Every taxonomy category is rated Clear / Partial / Missing, and every Partial/Missing has a
       one-line reason it was or wasn't worth a clarification question.
-- [ ] At most 5 questions were asked; everything else is an informed default in **Assumptions**.
+- [ ] At most 5 questions were asked; everything else is an informed default in **Assumptions** —
+  or, where an ask-me directive is recorded, at most 5 per round with every unanswered one parked
+  under `## Awaiting operator` and none defaulted.
 - [ ] Every accepted answer is merged into its exact spec section; no contradicted text survives
       beside it.
 - [ ] The requirements checklist has zero implementation-verification-phrased items and ≥80%
