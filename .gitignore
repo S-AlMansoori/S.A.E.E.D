@@ -9,3 +9,10 @@ Thumbs.db
 node_modules/
 __pycache__/
 *.log
+# Local environment files and machine-local state (never commit)
+.env
+.env.*
+!.env.example
+.local/
+# macOS AppleDouble files (appear on exFAT / network volumes)
+._*
