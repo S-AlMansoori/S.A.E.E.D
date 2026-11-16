@@ -30,7 +30,8 @@ Keep the fleet coherent:
 3. Test locally: `/plugin marketplace add ./` then `/plugin install saeed@saeed-marketplace`,
    restart, and try the agent on a real task.
 4. Bump `version` in `.claude-plugin/plugin.json` (semver: patch for fixes, minor for new
-   agents, major for breaking changes).
+   agents, major for breaking changes) and set the version badge in `README.md` to the same
+   number (both the `alt` text and the image URL). See "Versioning" in the README.
 5. Run `scripts/validate-fleet.sh` and make sure it exits 0. This is the executable
    fleet-consistency gate: it checks roster-count agreement across the README, manifests, and
    EN+AR docs (incl. Arabic numerals and the SVG badge), agent frontmatter (`name`/`description`/

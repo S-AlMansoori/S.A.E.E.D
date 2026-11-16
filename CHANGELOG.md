@@ -5,6 +5,30 @@ All notable changes to SAEED are documented here. The format follows
 semver (patch = fixes, minor = new agents/skills/commands, major = breaking).
 The version of record is `version` in `.claude-plugin/plugin.json`.
 *(Sections before 1.7.0 are backfilled from commit history and are coarser.)*
+How versions are bumped, released and checked is in the "Versioning" section of the
+[README](README.md).
+
+## Unreleased
+
+Documentation and repository tooling only. Nothing under `.claude-plugin/`, `agents/`,
+`commands/`, `skills/`, `hooks/` or `scripts/` changed, so the plugin an installer receives
+behaves exactly as 1.17.0 and the version was not bumped.
+
+### Added
+- 2026-11-16: `AGENTS.md` and `CLAUDE.md`, instructions for coding agents working on this
+  repository (they are not part of the plugin's fleet).
+- 2026-11-16: README sections "Run the checks (works offline)" and "Versioning"; this
+  "Unreleased" section.
+
+### Changed
+- 2026-11-16: `.gitignore` also ignores `.env`, `.env.*` (except `.env.example`), `.local/`
+  and `._*`.
+- 2026-11-16: `CONTRIBUTING.md` step 4 names the README badge, which Check 12 requires to
+  follow every version bump.
+
+### Known, not on `main`
+- 1.18.0 (pull request #4) and 1.19.0 (pull request #5) exist only on unmerged branches. They
+  are not released; their changelog sections arrive with those branches.
 
 ## 1.17.0 - 2026-09-11
 
