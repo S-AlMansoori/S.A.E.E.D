@@ -5,7 +5,8 @@ for humans are in [CONTRIBUTING.md](CONTRIBUTING.md); this file is the short, ve
 
 ## What this repo is
 
-SAEED is a **Claude Code plugin** (plugin name `saeed`, marketplace name `saeed-marketplace`).
+SAEED is a **Claude Code plugin** (plugin name `saeed`, marketplace name `saeed-marketplace`):
+55 subagents, 7 slash commands, 19 skills and a set of guard hooks.
 There is no application, no package manager, no dependencies and no build. The product is the
 Markdown, JSON and shell in this tree. The repository is **public**: everything committed here is
 published.
