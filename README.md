@@ -323,7 +323,7 @@ PATH="/Volumes/Projects/_toolchain/python/cpython-3.12-macos-aarch64-none/bin:$P
 
 What to expect:
 
-- The gate takes about two seconds and prints one line per check, then `RESULT: PASS`.
+- The gate takes a few seconds and prints one line per check, then `RESULT: PASS`.
 - On a fresh clone it first prints six `NOTE:` lines saying the checks that read `.saeed/` were
   skipped. That folder is per-project runtime state and is not part of this repository.
 - If a check fails, every violation is printed with the file and the expected and found values,
@@ -348,6 +348,43 @@ this folder is the whole installation.
   fonts and stays fully readable.
 
 Notes for agents working on this repository are in [AGENTS.md](AGENTS.md).
+
+## 🔖 Versioning
+
+**Current version: 1.17.0** ([Semantic Versioning](https://semver.org/): patch for fixes, minor for
+new agents, skills or commands, major for breaking changes).
+
+- **Where it is defined.** `version` in [`.claude-plugin/plugin.json`](.claude-plugin/plugin.json).
+  That field is the version of record and the number Claude Code shows for the installed plugin.
+  `.claude-plugin/marketplace.json` carries no version.
+- **What must agree with it.** The newest `## <version> - <date>` heading in
+  [CHANGELOG.md](CHANGELOG.md); the version badge at the top of this page (its `alt` text and its
+  image URL); the "Current version" line above; and, in a project that uses SAEED, the `version`
+  in `.saeed/state.json` and a mention in `.saeed/queue.md` and `.saeed/retro.md`.
+- **The check.** `./scripts/validate-fleet.sh` — Check 12, "Version parity", fails when the
+  changelog heading, the badge or the `.saeed/` files disagree with `plugin.json`. To see the three
+  repository values side by side:
+
+  ```bash
+  grep -m1 '"version"' .claude-plugin/plugin.json; grep -m1 -E '^## [0-9]' CHANGELOG.md; grep -o 'badge/version-[0-9][0-9.]*' README.md
+  ```
+
+- **How to bump.** In one change: edit `version` in `.claude-plugin/plugin.json`; add a
+  `## <version> - <date>` section at the top of `CHANGELOG.md` (below "Unreleased", moving its
+  entries in); update the badge and the "Current version" line here; run the gate. A change to the
+  plugin itself (`.claude-plugin/`, `agents/`, `commands/`, `skills/`, `hooks/`, `scripts/`) always
+  gets a bump. A change to documentation only does not; it is listed under "Unreleased".
+- **How a release happens.** There are no release tags, no GitHub Releases and no build. The
+  plugin is installed straight from this repository's `main` branch, so a version is released the
+  moment its commit reaches `main`. CI (`.github/workflows/validate.yml`) runs the gate on pushes
+  to `main` and on pull requests; no workflow reacts to tags. The tag `pre-overhaul-2026-11-16` is
+  a maintenance marker, not a release.
+- **Released versions.** Every version in the changelog was released by its commit on `main`. The
+  newest: **1.17.0, 2026-09-11, commit `e8c520a`**. To find the commit of an older one:
+  `git log --oneline -- .claude-plugin/plugin.json`. No packaged copy is kept anywhere.
+- **Known mismatch (for the owner).** Versions 1.18.0 and 1.19.0 exist only on unmerged branches
+  (pull requests #4 and #5); `main` is 1.17.0, and that is what an installer gets. Documentation
+  added on 2026-11-16 changed no plugin file, so it did not change the version.
 
 ## 🤝 Contributing
 

@@ -84,8 +84,17 @@ top of the script). Check 6 is advisory; the others fail the run. The ones you w
   `README.md` (both the `alt` text and the image URL) must equal it, or Check 12 fails.
 - Semver as stated at the top of `CHANGELOG.md`: patch for fixes, minor for new agents, skills or
   commands, major for breaking changes.
-- A change to the shipped plugin (`agents/`, `commands/`, `skills/`, `hooks/`, manifests) gets a
-  version bump and a `CHANGELOG.md` entry in the same change.
+- A change to the shipped plugin (`agents/`, `commands/`, `skills/`, `hooks/`, `scripts/`,
+  manifests) gets a version bump and a `CHANGELOG.md` section in the same change. Documentation
+  only: no bump; list it under `## Unreleased` at the top of `CHANGELOG.md`.
+- A bump edits four places: `plugin.json`, the new `CHANGELOG.md` heading, the README badge and
+  the "Current version" line in the README's "Versioning" section.
+- One-line check: `./scripts/validate-fleet.sh` (Check 12).
+- Releases: no tags, no GitHub Releases, no build. The plugin installs from `main`, so a version is
+  released when its commit reaches `main`. Do not create `v*` tags.
+- Current version: 1.17.0 (released 2026-09-11, commit `e8c520a`). 1.18.0 and 1.19.0 exist only on
+  unmerged branches (pull requests #4 and #5); do not reuse or skip past those numbers on `main`
+  without the owner.
 
 ## Rules that are easy to break
 
