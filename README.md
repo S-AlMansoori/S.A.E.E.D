@@ -289,6 +289,66 @@ counsel for legal questions.
 - Add or edit agents in `agents/` — or ask `roster-maintainer` to do it.
 - Adjust model tiers per agent's `model:` frontmatter — or let `model-scout` manage it.
 
+## 🧪 Run the checks (works offline)
+
+This repository has nothing to install and nothing to build: it is Markdown, JSON and shell. The
+one executable check is the fleet validation gate, the same one CI runs on every push and pull
+request. It needs only `bash` and `python3` (standard library only), and no network.
+
+**Requirements:** `bash` and `python3` on `PATH`. Checked with bash 3.2 and Python 3.9 and 3.12 on
+macOS; CI runs it on Ubuntu. On macOS, `python3` comes with the Xcode Command Line Tools.
+
+**From any clone:**
+
+```bash
+cd /path/to/S.A.E.E.D
+./scripts/validate-fleet.sh                                               # must end with "RESULT: PASS" (exit 0)
+for f in scripts/*.sh hooks/*.sh; do bash -n "$f" || echo "SYNTAX ERROR: $f"; done   # prints nothing when all is well
+```
+
+**From the project drive** (the maintainers' offline copy; these are the exact steps):
+
+```bash
+. /Volumes/Projects/_tools/env.sh
+cd /Volumes/Projects/tools/S.A.E.E.D
+./scripts/validate-fleet.sh
+for f in scripts/*.sh hooks/*.sh; do bash -n "$f" || echo "SYNTAX ERROR: $f"; done
+
+# The same gate with the network switched off and an empty home folder:
+/Volumes/Projects/_tools/offline-run ./scripts/validate-fleet.sh
+
+# If the machine has no python3 of its own, use the one on the drive:
+PATH="/Volumes/Projects/_toolchain/python/cpython-3.12-macos-aarch64-none/bin:$PATH" ./scripts/validate-fleet.sh
+```
+
+What to expect:
+
+- The gate takes about two seconds and prints one line per check, then `RESULT: PASS`.
+- On a fresh clone it first prints six `NOTE:` lines saying the checks that read `.saeed/` were
+  skipped. That folder is per-project runtime state and is not part of this repository.
+- If a check fails, every violation is printed with the file and the expected and found values,
+  and the script exits 1.
+
+Do not use `scripts/saeed-loop.sh` or `scripts/saeed-steward.sh` as a check. They start Claude
+Code sessions that edit the target repository unattended (see "Truly autonomous (unattended)
+mode" above).
+
+**Configuration and services.** There are no environment variables to set, no `.env` file, no
+database and no ports. The repository itself calls no cloud service, so there is no cloud or
+mock switch. There are no dependencies, so there is nothing to reinstall from a cache: a copy of
+this folder is the whole installation.
+
+**What does not work offline.**
+
+- *Using* the plugin. Claude Code needs its model service, so `/saeed:*` commands, the agents, and
+  the loop and steward scripts cannot run without internet. Registering the plugin from a local
+  folder (`/plugin marketplace add /path/to/S.A.E.E.D`) avoids GitHub but not that requirement.
+- The badges at the top of this page are remote images; offline they show their alt text.
+- `docs/what-is-saeed.html` loads its fonts from Google Fonts. Offline it falls back to system
+  fonts and stays fully readable.
+
+Notes for agents working on this repository are in [AGENTS.md](AGENTS.md).
+
 ## 🤝 Contributing
 
 PRs welcome — new specialists, better prompts, fixes. See [CONTRIBUTING.md](CONTRIBUTING.md).
